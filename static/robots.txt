@@ -1,0 +1,29 @@
+User-agent: *
+Allow: /
+Disallow: /*?
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&from
+
+# Поисковые роботы
+User-agent: Yandex
+Allow: /
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&from
+
+User-agent: Googlebot
+Allow: /
+
+# AI-агенты. Открыты намеренно: без этого контент не попадает
+# в ответы нейросетей (см. /uslugi/prodvizhenie-v-nejrosetyah/).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# TODO: заменить домен на боевой
+Sitemap: https://vyshe.agency/sitemap.xml
