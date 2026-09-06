@@ -78,12 +78,12 @@
 		</div>
 	{:else}
 		<div class="form__grid">
-			<label>
+			<label class="full">
 				<span>Имя</span>
 				<input type="text" bind:value={name} required autocomplete="name" placeholder="Как к вам обращаться" />
 			</label>
 
-			<div class="field">
+			<div class="field full">
 				<span class="field__label">Как связаться</span>
 				<div class="seg" role="radiogroup" aria-label="Способ связи">
 					{#each channels as c}
@@ -156,14 +156,14 @@
 		gap: 7px;
 		align-content: start;
 	}
-	label > span,
+	.form__grid label > span,
 	.field__label {
 		font-size: 12px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--ink-3);
 	}
-	label > span i {
+	.form__grid label > span i {
 		font-style: normal;
 		text-transform: none;
 		letter-spacing: 0;
@@ -193,8 +193,8 @@
 	}
 	/* сегментированный выбор способа связи */
 	.seg {
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 		gap: 4px;
 		padding: 4px;
 		border: 1px solid var(--line);
@@ -202,12 +202,12 @@
 		background: var(--card);
 	}
 	.seg__i {
+		position: relative;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		flex: 1 1 auto;
 		min-width: 0;
-		padding: 9px 12px;
+		padding: 9px 10px;
 		border-radius: 100px;
 		font-size: 13px;
 		white-space: nowrap;
@@ -219,11 +219,19 @@
 		background: var(--ink);
 		color: #fff;
 	}
+	/* радио скрыто, но остаётся внутри своей плашки и фокусируемо с клавиатуры */
 	.seg__i input {
 		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
 		opacity: 0;
-		width: 0;
-		height: 0;
+		cursor: pointer;
+	}
+	.seg__i:focus-within {
+		outline: 2px solid var(--ink);
+		outline-offset: 2px;
 	}
 	.check {
 		display: flex;
@@ -264,11 +272,15 @@
 		.form__grid {
 			grid-template-columns: minmax(0, 1fr);
 		}
+		.seg {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			border-radius: 18px;
+		}
 		.seg__i {
-			flex: 1 1 45%;
+			border-radius: 12px;
 		}
 	}
-	:global(.section--dark) label > span,
+	:global(.section--dark) .form__grid label > span,
 	:global(.section--dark) .field__label {
 		color: var(--on-dark-2);
 	}
