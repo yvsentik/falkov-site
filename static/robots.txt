@@ -25,5 +25,4 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-# TODO: заменить домен на боевой
-Sitemap: https://vyshe.agency/sitemap.xml
+Sitemap: https://falkov-marketing.ru/sitemap.xml

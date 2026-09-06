@@ -12,7 +12,7 @@ export const site = {
 	tagline: 'Маркетинговое агентство в Санкт-Петербурге',
 
 	// TODO: боевой домен без слэша на конце
-	url: 'https://falkov.agency',
+	url: 'https://falkov-marketing.ru',
 
 	// TODO: телефон и почта в канале не публикуются — впишите свои
 	phone: '+7 (812) 000-00-00',
