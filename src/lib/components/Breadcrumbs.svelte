@@ -35,8 +35,10 @@
 		gap: 8px;
 		align-items: center;
 	}
-	a:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		a:hover {
+			color: var(--gold);
+		}
 	}
 	.current {
 		color: var(--ink-2);

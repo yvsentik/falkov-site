@@ -105,8 +105,10 @@
 		letter-spacing: -0.03em;
 		margin-bottom: 8px;
 	}
-	.cblock__big:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.cblock__big:hover {
+			color: var(--gold);
+		}
 	}
 	.cblock ul {
 		list-style: none;
@@ -119,9 +121,11 @@
 		border-bottom: 1px solid var(--line);
 		padding-bottom: 2px;
 	}
-	.cblock ul a:hover {
-		color: var(--gold);
-		border-color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.cblock ul a:hover {
+			color: var(--gold);
+			border-color: var(--gold);
+		}
 	}
 	.cblock p {
 		margin: 0 0 6px;

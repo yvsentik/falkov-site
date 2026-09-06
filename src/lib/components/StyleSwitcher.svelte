@@ -57,9 +57,11 @@
 		white-space: nowrap;
 		transition: background 0.2s, color 0.2s;
 	}
-	.sw a:hover {
-		color: #fff;
-		background: rgba(255, 255, 255, 0.12);
+	@media (hover: hover) and (pointer: fine) {
+		.sw a:hover {
+			color: #fff;
+			background: rgba(255, 255, 255, 0.12);
+		}
 	}
 	.sw a.active {
 		background: #fff;

@@ -413,9 +413,11 @@
 		border-radius: 22px;
 		transition: transform 0.5s var(--ease), border-color 0.4s var(--ease);
 	}
-	.projs__i:hover {
-		transform: translateY(-4px);
-		border-color: var(--ink-3);
+	@media (hover: hover) and (pointer: fine) {
+		.projs__i:hover {
+			transform: translateY(-4px);
+			border-color: var(--ink-3);
+		}
 	}
 	.projs__dom {
 		font-size: 17px;

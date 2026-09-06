@@ -328,9 +328,11 @@
 		background: var(--card);
 		transition: transform 0.5s var(--ease), border-color 0.4s var(--ease);
 	}
-	.chan__i:hover {
-		transform: translateY(-5px);
-		border-color: var(--ink-3);
+	@media (hover: hover) and (pointer: fine) {
+		.chan__i:hover {
+			transform: translateY(-5px);
+			border-color: var(--ink-3);
+		}
 	}
 	.chan__t {
 		font-size: 10.5px;

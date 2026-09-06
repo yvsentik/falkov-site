@@ -32,10 +32,12 @@
 			border-color 0.4s var(--ease),
 			box-shadow 0.4s var(--ease);
 	}
-	.scard:hover {
-		transform: translateY(-4px);
-		border-color: var(--line);
-		box-shadow: 0 20px 50px -34px rgba(16, 16, 16, 0.5);
+	@media (hover: hover) and (pointer: fine) {
+		.scard:hover {
+			transform: translateY(-4px);
+			border-color: var(--line);
+			box-shadow: 0 20px 50px -34px rgba(16, 16, 16, 0.5);
+		}
 	}
 	.scard.compact {
 		min-height: 0;
@@ -77,9 +79,11 @@
 		flex: none;
 		transition: background 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease);
 	}
-	.scard:hover .scard__arrow {
-		background: var(--ink);
-		border-color: var(--ink);
-		color: #fff;
+	@media (hover: hover) and (pointer: fine) {
+		.scard:hover .scard__arrow {
+			background: var(--ink);
+			border-color: var(--ink);
+			color: #fff;
+		}
 	}
 </style>

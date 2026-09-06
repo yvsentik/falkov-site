@@ -165,9 +165,11 @@
 		display: inline-block;
 		transition: color 0.25s var(--ease);
 	}
-	.nav__item > a:hover,
-	.nav__item > a.active {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.nav__item > a:hover,
+		.nav__item > a.active {
+			color: var(--gold);
+		}
 	}
 	.submenu {
 		position: absolute;
@@ -184,11 +186,13 @@
 		transform: translateY(6px);
 		transition: all 0.28s var(--ease);
 	}
-	.nav__item:hover .submenu,
-	.nav__item:focus-within .submenu {
-		opacity: 1;
-		visibility: visible;
-		transform: none;
+	@media (hover: hover) and (pointer: fine) {
+		.nav__item:hover .submenu,
+		.nav__item:focus-within .submenu {
+			opacity: 1;
+			visibility: visible;
+			transform: none;
+		}
 	}
 	.submenu ul {
 		list-style: none;
@@ -203,9 +207,11 @@
 		color: var(--ink-2);
 		transition: background 0.2s var(--ease), color 0.2s var(--ease);
 	}
-	.submenu a:hover {
-		background: var(--paper-2);
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.submenu a:hover {
+			background: var(--paper-2);
+			color: var(--ink);
+		}
 	}
 	.header__actions {
 		display: flex;
@@ -218,8 +224,10 @@
 		font-weight: 500;
 		white-space: nowrap;
 	}
-	.phone:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.phone:hover {
+			color: var(--gold);
+		}
 	}
 	:global(.btn--sm) {
 		padding: 12px 20px !important;

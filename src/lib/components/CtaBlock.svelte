@@ -110,8 +110,10 @@
 		border-bottom: 1px solid var(--gold);
 		padding-bottom: 3px;
 	}
-	.cta__direct a:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.cta__direct a:hover {
+			color: var(--gold);
+		}
 	}
 	.cta__form {
 		background: rgba(255, 255, 255, 0.04);

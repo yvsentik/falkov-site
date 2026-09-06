@@ -316,9 +316,11 @@ p:last-child {
 	text-align: center;
 }
 
-.btn:hover {
-	background: var(--gold);
-	transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+	.btn:hover {
+		background: var(--gold);
+		transform: translateY(-2px);
+	}
 }
 
 .btn--ghost {
@@ -327,10 +329,12 @@ p:last-child {
 	border-color: var(--line);
 }
 
-.btn--ghost:hover {
-	background: var(--ink);
-	color: #fff;
-	border-color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+	.btn--ghost:hover {
+		background: var(--ink);
+		color: #fff;
+		border-color: var(--ink);
+	}
 }
 
 .btn--light {
@@ -338,9 +342,11 @@ p:last-child {
 	color: var(--ink);
 }
 
-.btn--light:hover {
-	background: var(--gold);
-	color: #fff;
+@media (hover: hover) and (pointer: fine) {
+	.btn--light:hover {
+		background: var(--gold);
+		color: #fff;
+	}
 }
 
 .btn--wide {
@@ -363,13 +369,17 @@ p:last-child {
 	transition: transform 0.35s var(--ease);
 }
 
-.link-arrow:hover {
-	color: var(--gold);
-	border-color: var(--gold);
+@media (hover: hover) and (pointer: fine) {
+	.link-arrow:hover {
+		color: var(--gold);
+		border-color: var(--gold);
+	}
 }
 
-.link-arrow:hover svg {
-	transform: translateX(4px);
+@media (hover: hover) and (pointer: fine) {
+	.link-arrow:hover svg {
+		transform: translateX(4px);
+	}
 }
 
 /* ---------- карточки ---------- */
@@ -385,10 +395,12 @@ p:last-child {
 		box-shadow 0.4s var(--ease);
 }
 
-.card--hover:hover {
-	transform: translateY(-4px);
-	border-color: var(--line);
-	box-shadow: 0 18px 50px -30px rgba(16, 16, 16, 0.4);
+@media (hover: hover) and (pointer: fine) {
+	.card--hover:hover {
+		transform: translateY(-4px);
+		border-color: var(--line);
+		box-shadow: 0 18px 50px -30px rgba(16, 16, 16, 0.4);
+	}
 }
 
 /* ---------- анимация появления ---------- */
@@ -543,8 +555,10 @@ hr.rule {
 	border-bottom: 1px solid var(--gold);
 }
 
-.prose a:hover {
-	color: var(--gold);
+@media (hover: hover) and (pointer: fine) {
+	.prose a:hover {
+		color: var(--gold);
+	}
 }
 
 .prose strong {
@@ -560,4 +574,22 @@ hr.rule {
 	background: var(--card);
 	color: var(--ink);
 	font-size: 18px;
+}
+
+/* ---------- тач-устройства ---------- */
+/* Без синей подсветки при тапе и без задержки двойного тапа;
+   hover-состояния выше обёрнуты в @media (hover: hover) — на тач-экранах
+   первый тап сразу срабатывает как клик, а не как «наведение». */
+a,
+button,
+[role='button'],
+label,
+summary {
+	-webkit-tap-highlight-color: transparent;
+	touch-action: manipulation;
+}
+button,
+[role='button'] {
+	-webkit-user-select: none;
+	user-select: none;
 }

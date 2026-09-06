@@ -35,9 +35,11 @@
 		overflow: hidden;
 		transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 	}
-	.ccard:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 24px 60px -38px rgba(16, 16, 16, 0.55);
+	@media (hover: hover) and (pointer: fine) {
+		.ccard:hover {
+			transform: translateY(-4px);
+			box-shadow: 0 24px 60px -38px rgba(16, 16, 16, 0.55);
+		}
 	}
 	.ccard__top {
 		background: var(--cover);

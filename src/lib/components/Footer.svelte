@@ -118,8 +118,10 @@
 		padding-bottom: 3px;
 		font-size: 14px;
 	}
-	.footer__tg:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.footer__tg:hover {
+			color: var(--gold);
+		}
 	}
 	.footer__cols {
 		display: grid;
@@ -144,8 +146,10 @@
 	.footer__col a {
 		transition: color 0.25s var(--ease);
 	}
-	.footer__col a:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.footer__col a:hover {
+			color: var(--gold);
+		}
 	}
 	.footer__contacts a {
 		color: var(--on-dark);
@@ -165,8 +169,10 @@
 		display: flex;
 		gap: 22px;
 	}
-	.footer__legal a:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.footer__legal a:hover {
+			color: var(--gold);
+		}
 	}
 	@media (max-width: 980px) {
 		.footer__top {

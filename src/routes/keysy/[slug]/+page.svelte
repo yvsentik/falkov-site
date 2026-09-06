@@ -327,9 +327,11 @@
 		border-bottom: 1px solid rgba(255, 255, 255, 0.35);
 		padding-bottom: 2px;
 	}
-	.chead__site:hover {
-		color: #fff;
-		border-color: #fff;
+	@media (hover: hover) and (pointer: fine) {
+		.chead__site:hover {
+			color: #fff;
+			border-color: #fff;
+		}
 	}
 	.chead__lead {
 		margin-top: 22px;

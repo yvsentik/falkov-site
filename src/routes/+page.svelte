@@ -751,9 +751,11 @@
 		object-fit: cover;
 		object-position: top center;
 	}
-	.fk-case:hover .fk-shot img,
-	.fk-strip__item:hover .fk-shot img {
-		transform: scale(1.02);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-case:hover .fk-shot img,
+		.fk-strip__item:hover .fk-shot img {
+			transform: scale(1.02);
+		}
 	}
 
 	/* служебная строка */
@@ -780,8 +782,10 @@
 		text-underline-offset: 3px;
 		color: var(--ink);
 	}
-	.fk-util a:hover {
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-util a:hover {
+			color: var(--ink);
+		}
 	}
 
 	/* шапка — липкая, со стеклом */
@@ -851,12 +855,16 @@
 		transform-origin: right center;
 		transition: transform 0.45s var(--ease);
 	}
-	.fk-head__nav a:hover {
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-head__nav a:hover {
+			color: var(--ink);
+		}
 	}
-	.fk-head__nav a:hover::after {
-		transform: scaleX(1);
-		transform-origin: left center;
+	@media (hover: hover) and (pointer: fine) {
+		.fk-head__nav a:hover::after {
+			transform: scaleX(1);
+			transform-origin: left center;
+		}
 	}
 	.fk-head__acts {
 		display: flex;
@@ -979,14 +987,18 @@
 		position: relative;
 		z-index: 1;
 	}
-	.fk-big__i:hover {
-		transform: translateY(-6px);
-		border-color: transparent;
-		color: var(--on-dark);
-		box-shadow: 0 30px 60px -38px rgba(0, 0, 0, 0.6);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-big__i:hover {
+			transform: translateY(-6px);
+			border-color: transparent;
+			color: var(--on-dark);
+			box-shadow: 0 30px 60px -38px rgba(0, 0, 0, 0.6);
+		}
 	}
-	.fk-big__i:hover::before {
-		transform: none;
+	@media (hover: hover) and (pointer: fine) {
+		.fk-big__i:hover::before {
+			transform: none;
+		}
 	}
 	.fk-big__n {
 		font-size: 11px;
@@ -1004,9 +1016,11 @@
 		max-width: 30ch;
 		transition: color 0.45s var(--ease);
 	}
-	.fk-big__i:hover .fk-big__d,
-	.fk-big__i:hover .fk-big__n {
-		color: var(--on-dark-2);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-big__i:hover .fk-big__d,
+		.fk-big__i:hover .fk-big__n {
+			color: var(--on-dark-2);
+		}
 	}
 	.fk-big__go {
 		margin-top: auto;
@@ -1015,8 +1029,10 @@
 		font-size: 22px;
 		transition: transform 0.5s var(--ease);
 	}
-	.fk-big__i:hover .fk-big__go {
-		transform: translateX(8px);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-big__i:hover .fk-big__go {
+			transform: translateX(8px);
+		}
 	}
 	.fk-big__cta {
 		margin-top: clamp(18px, 2vw, 28px);
@@ -1132,10 +1148,12 @@
 		box-shadow: inset 0 0 0 1px var(--line);
 		transition: background 0.25s, color 0.25s, box-shadow 0.25s;
 	}
-	.fk-msg:hover {
-		background: var(--ink);
-		color: #fff;
-		box-shadow: inset 0 0 0 1px var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-msg:hover {
+			background: var(--ink);
+			color: #fff;
+			box-shadow: inset 0 0 0 1px var(--ink);
+		}
 	}
 	.fk-msg svg {
 		width: 21px;
@@ -1180,17 +1198,21 @@
 		text-transform: uppercase;
 		transition: background 0.28s, color 0.28s;
 	}
-	.fk-pill:hover {
-		background: var(--ink);
-		color: #fff;
+	@media (hover: hover) and (pointer: fine) {
+		.fk-pill:hover {
+			background: var(--ink);
+			color: #fff;
+		}
 	}
 	.fk-pill--solid {
 		background: var(--ink);
 		color: #fff;
 	}
-	.fk-pill--solid:hover {
-		background: var(--panel);
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-pill--solid:hover {
+			background: var(--panel);
+			color: var(--ink);
+		}
 	}
 	.fk-pill--light {
 		background: #fff;
@@ -1201,9 +1223,11 @@
 		color: rgba(255, 255, 255, 0.85);
 		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
 	}
-	.fk-pill--onDark:hover {
-		background: #fff;
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-pill--onDark:hover {
+			background: #fff;
+			color: var(--ink);
+		}
 	}
 	.fk-pill--wide {
 		display: block;
@@ -1327,8 +1351,10 @@
 		text-transform: uppercase;
 		color: var(--ink-2);
 	}
-	.fk-more:hover {
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-more:hover {
+			color: var(--ink);
+		}
 	}
 	.fk-subh {
 		margin: clamp(36px, 4vw, 56px) 0 18px;
@@ -1405,8 +1431,10 @@
 		width: max-content;
 		animation: fk-slide 24s linear infinite;
 	}
-	.fk-marquee:hover {
-		animation-play-state: paused;
+	@media (hover: hover) and (pointer: fine) {
+		.fk-marquee:hover {
+			animation-play-state: paused;
+		}
 	}
 	@keyframes fk-slide {
 		to {
@@ -1445,9 +1473,11 @@
 		filter: grayscale(1) contrast(1.45) brightness(0.82);
 		opacity: 0.9;
 	}
-	.fk-marquee__row li:hover img {
-		filter: grayscale(1);
-		opacity: 1;
+	@media (hover: hover) and (pointer: fine) {
+		.fk-marquee__row li:hover img {
+			filter: grayscale(1);
+			opacity: 1;
+		}
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.fk-marquee {
@@ -1620,8 +1650,10 @@
 		transition: transform 0.35s var(--ease);
 		display: inline-block;
 	}
-	.fk-tbl__dom:hover i {
-		transform: translate(2px, -2px);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-tbl__dom:hover i {
+			transform: translate(2px, -2px);
+		}
 	}
 	.fk-tbl__cli {
 		font-size: 13px;
@@ -1644,9 +1676,11 @@
 		padding-bottom: 3px;
 		transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
 	}
-	.fk-tbl__case:hover {
-		color: var(--ink);
-		border-bottom-color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-tbl__case:hover {
+			color: var(--ink);
+			border-bottom-color: var(--ink);
+		}
 	}
 
 	.fk-tbl__where {
@@ -1768,8 +1802,10 @@
 		align-content: start;
 		transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
 	}
-	.fk-main__item:hover {
-		transform: translateY(-4px);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-main__item:hover {
+			transform: translateY(-4px);
+		}
 	}
 	.fk-main__item.featured {
 		background: var(--dark);
@@ -1939,9 +1975,11 @@
 		color: var(--ink-2);
 		transition: background 0.25s, color 0.25s;
 	}
-	.fk-chip:hover {
-		background: var(--ink);
-		color: #fff;
+	@media (hover: hover) and (pointer: fine) {
+		.fk-chip:hover {
+			background: var(--ink);
+			color: #fff;
+		}
 	}
 	.fk-grid {
 		display: grid;
@@ -1957,8 +1995,10 @@
 		align-content: start;
 		transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
 	}
-	.fk-card:hover {
-		transform: translateY(-4px);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-card:hover {
+			transform: translateY(-4px);
+		}
 	}
 	.fk-card__cat {
 		font-size: 10px;
@@ -2049,9 +2089,11 @@
 		border-bottom: 1px solid var(--line);
 		transition: padding-inline 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), background 0.3s;
 	}
-	.fk-dirs a:hover {
-		padding-inline: 16px;
-		background: var(--panel);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-dirs a:hover {
+			padding-inline: 16px;
+			background: var(--panel);
+		}
 	}
 	.fk-dirs span {
 		font-size: clamp(16px, 1.7vw, 20px);
@@ -2155,8 +2197,10 @@
 		font-size: 13.5px;
 		color: var(--ink-2);
 	}
-	.fk-foot__cols a:hover {
-		color: var(--ink);
+	@media (hover: hover) and (pointer: fine) {
+		.fk-foot__cols a:hover {
+			color: var(--ink);
+		}
 	}
 	.fk-foot__mut {
 		font-size: 13px;

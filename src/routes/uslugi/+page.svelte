@@ -142,10 +142,12 @@
 		transition: transform 0.5s var(--ease), border-color 0.4s var(--ease),
 			box-shadow 0.5s var(--ease);
 	}
-	.dirs__i:hover {
-		transform: translateY(-5px);
-		border-color: var(--ink-3);
-		box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.45);
+	@media (hover: hover) and (pointer: fine) {
+		.dirs__i:hover {
+			transform: translateY(-5px);
+			border-color: var(--ink-3);
+			box-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.45);
+		}
 	}
 	.dirs__n {
 		font-size: 11px;
@@ -256,8 +258,10 @@
 		color: var(--ink-3);
 		font-size: 13px;
 	}
-	.head__nav a:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		.head__nav a:hover {
+			color: var(--gold);
+		}
 	}
 	@media (max-width: 900px) {
 		.head {

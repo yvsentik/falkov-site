@@ -64,8 +64,10 @@
 		line-height: 1.35;
 		transition: color 0.25s var(--ease);
 	}
-	button:hover {
-		color: var(--gold);
+	@media (hover: hover) and (pointer: fine) {
+		button:hover {
+			color: var(--gold);
+		}
 	}
 	.faq__sign {
 		position: relative;
