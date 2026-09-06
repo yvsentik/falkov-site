@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/state';
 	import { site, nav } from '$lib/config/site.js';
+	import { lead } from '$lib/lead.svelte.js';
 	import Arrow from './Arrow.svelte';
 
 	let open = $state(false);
@@ -24,7 +25,8 @@
 	<div class="header__inner container">
 		<a class="logo" href="/" aria-label="{site.name} — на главную">
 			<span class="logo__mark" aria-hidden="true"></span>
-			<span class="logo__text">falkov<span class="logo__dot">.</span>agency</span>
+			<span class="logo__text">falkov</span>
+			<span class="logo__sub">маркетинг</span>
 		</a>
 
 		<nav class="nav" aria-label="Основное меню">
@@ -51,7 +53,7 @@
 
 		<div class="header__actions">
 			<a class="phone" href="tel:{site.phoneHref}">{site.phone}</a>
-			<a class="btn btn--sm" href="/kontakty/">Обсудить проект <Arrow /></a>
+			<button class="btn btn--sm" type="button" onclick={() => (lead.open = true)}>Оставить заявку <Arrow /></button>
 			<button
 				class="burger"
 				aria-label={open ? 'Закрыть меню' : 'Открыть меню'}
@@ -137,7 +139,10 @@
 		font-weight: 600;
 		letter-spacing: 0.04em;
 	}
-	.logo__dot {
+	.logo__sub {
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
 		color: var(--ink-3);
 	}
 	.nav {

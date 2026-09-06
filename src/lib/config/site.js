@@ -8,16 +8,13 @@
 export const site = {
 	// Данные взяты из вашего канала @falkov_agency
 	name: 'Фальков',
-	legalName: 'Агентство Фалькова', // TODO: юрлицо для договоров и реквизитов
 	tagline: 'Маркетинговое агентство в Санкт-Петербурге',
 
 	// TODO: боевой домен без слэша на конце
 	url: 'https://falkov-marketing.ru',
 
-	// TODO: телефон и почта в канале не публикуются — впишите свои
-	phone: '+7 (812) 000-00-00',
-	phoneHref: '+78120000000',
-	email: 'hello@falkov.agency',
+	phone: '+7 993 982-32-04',
+	phoneHref: '+79939823204',
 
 	telegram: 'https://t.me/falkov_agency',
 	telegramLabel: '@falkov_agency',
@@ -67,8 +64,8 @@ export const site = {
 		count: ''
 	},
 
-	// TODO: URL обработчика формы (свой скрипт, Formspree, Getform и т. п.).
-	// Пока пусто — форма показывает контакты вместо отправки.
+	// URL обработчика формы, если появится свой бэкенд. Пока пусто —
+	// форма собирает текст заявки и открывает чат с менеджером в Telegram.
 	formEndpoint: '',
 
 	ogImage: '/og-default.png' // TODO: заменить на свою картинку 1200×630

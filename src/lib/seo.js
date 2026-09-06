@@ -8,11 +8,9 @@ export function orgSchema() {
 		'@type': 'ProfessionalService',
 		'@id': abs('/#organization'),
 		name: site.name,
-		legalName: site.legalName,
 		description: `Маркетинговое агентство ${geo.cityIn}. Ведём проекты под ключ: поиск, контекст, Telegram, разработка и аналитика.`,
 		url: abs('/'),
 		telephone: site.phone,
-		email: site.email,
 		priceRange: '₽₽',
 		areaServed: [{ '@type': 'City', name: geo.city }, { '@type': 'AdministrativeArea', name: 'Ленинградская область' }],
 		address: {

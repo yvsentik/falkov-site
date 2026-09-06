@@ -18,6 +18,7 @@
 		officePhotos
 	} from '$lib/data/channel.js';
 	import { graph, orgSchema, faqSchema, breadcrumbSchema } from '$lib/seo.js';
+	import { lead } from '$lib/lead.svelte.js';
 
 	const title = `Маркетинговое агентство в Санкт-Петербурге — продвижение сайтов, реклама, разработка | ${site.name}`;
 	const description =
@@ -160,16 +161,14 @@
 	<!-- ШАПКА -->
 	<header class="fk-head" class:is-scrolled={scrolled} class:is-open={menuOpen}>
 		<div class="fk-head__in">
-			<a class="fk-logo" href="/" aria-label="falkov.agency — на главную">
-				falkov<span class="fk-logo__d">.</span>agency
+			<a class="fk-logo" href="/" aria-label="falkov — на главную">
+				falkov<span class="fk-logo__sub">маркетинг</span>
 			</a>
 			<nav class="fk-head__nav" aria-label="Основное меню">
 				{#each menu as n}<a href={n.h}>{n.t}</a>{/each}
 			</nav>
 			<div class="fk-head__acts">
-				<a class="fk-pill fk-pill--solid fk-pill--sm" href={site.manager} target="_blank" rel="noopener">
-					Оставить заявку
-				</a>
+				<button class="fk-pill fk-pill--solid fk-pill--sm" type="button" onclick={() => (lead.open = true)}>Оставить заявку</button>
 				<button
 					class="fk-burger"
 					class:is-on={menuOpen}
@@ -193,9 +192,7 @@
 				{/each}
 			</nav>
 			<div class="fk-mob__foot" style="--i:{menu.length}">
-				<a class="fk-pill fk-pill--solid" href={site.manager} target="_blank" rel="noopener">
-					Оставить заявку
-				</a>
+				<button class="fk-pill fk-pill--solid" type="button" onclick={() => (lead.open = true)}>Оставить заявку</button>
 				<a href={site.telegramChannel} target="_blank" rel="noopener">Канал {site.telegramLabel}</a>
 				<span>{geo.city} · {site.address.street}</span>
 			</div>
@@ -217,9 +214,7 @@
 					</span>
 				</h1>
 				<div class="fk-hero__acts">
-					<a class="fk-pill fk-pill--solid" href={site.manager} target="_blank" rel="noopener">
-						Оставить заявку
-					</a>
+					<button class="fk-pill fk-pill--solid" type="button" onclick={() => (lead.open = true)}>Оставить заявку</button>
 
 					<a
 						class="fk-msg"
@@ -677,7 +672,7 @@
 			</div>
 		</div>
 		<div class="fk-foot__bottom">
-			<span>© 2026 {site.legalName} · SEO-продвижение {geo.cityIn}</span>
+			<span>© 2026 {site.name} · Маркетинговое агентство {geo.cityIn}</span>
 			<a href="/politika-konfidencialnosti/">Политика конфиденциальности</a>
 		</div>
 	</footer>
@@ -822,7 +817,12 @@
 		white-space: nowrap;
 		flex: none;
 	}
-	.fk-logo__d {
+	.fk-logo__sub {
+		margin-left: 10px;
+		font-size: 10px;
+		font-weight: 400;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
 		color: var(--ink-3);
 	}
 	.fk-head__nav {
@@ -1169,6 +1169,9 @@
 	.fk-pill {
 		display: inline-block;
 		padding: 12px 24px;
+		border: 0;
+		font: inherit;
+		cursor: pointer;
 		border-radius: 100px;
 		background: var(--panel);
 		color: var(--ink);

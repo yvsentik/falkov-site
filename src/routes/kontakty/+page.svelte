@@ -44,7 +44,6 @@
 			<div class="cblock">
 				<span class="eyebrow">Связаться</span>
 				<a class="cblock__big" href="tel:{site.phoneHref}">{site.phone}</a>
-				<a class="cblock__big" href="mailto:{site.email}">{site.email}</a>
 			</div>
 
 			<div class="cblock">
@@ -62,14 +61,6 @@
 				<p class="muted">{site.workHours}</p>
 			</div>
 
-			<div class="cblock">
-				<span class="eyebrow">Реквизиты</span>
-				<p>{site.legalName}</p>
-				<p class="muted">
-					ИНН ·········· · ОГРН ··············<br />
-					<span class="todo">Заполните реальные реквизиты в src/lib/config/site.js</span>
-				</p>
-			</div>
 		</div>
 
 		<div class="contacts__form" use:reveal={{ delay: 80 }}>
@@ -135,10 +126,6 @@
 	.cblock p {
 		margin: 0 0 6px;
 		font-size: 16px;
-	}
-	.todo {
-		font-size: 12.5px;
-		color: var(--gold);
 	}
 	.contacts__form {
 		background: var(--card);

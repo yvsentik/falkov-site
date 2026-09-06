@@ -12,7 +12,8 @@
 			<div class="footer__brand">
 				<a class="logo" href="/">
 					<span class="logo__mark" aria-hidden="true"></span>
-					<span class="logo__text">{site.name}</span>
+					<span class="logo__text">falkov</span>
+					<span class="logo__sub">маркетинг</span>
 				</a>
 				<p class="footer__tag">{site.tagline}</p>
 				<a class="footer__tg" href={site.telegram} target="_blank" rel="noopener">
@@ -51,7 +52,6 @@
 					<h3>Контакты</h3>
 					<ul class="footer__contacts">
 						<li><a href="tel:{site.phoneHref}">{site.phone}</a></li>
-						<li><a href="mailto:{site.email}">{site.email}</a></li>
 						<li>{site.address.city}, {site.address.street}</li>
 						<li class="muted">{site.workHours}</li>
 					</ul>
@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="footer__bottom">
-			<p>© {year} {site.legalName}. SEO-продвижение {geo.cityIn}.</p>
+			<p>© {year} {site.name}. Маркетинговое агентство {geo.cityIn}.</p>
 			<div class="footer__legal">
 				<a href="/politika-konfidencialnosti/">Политика конфиденциальности</a>
 				<a href="/sitemap.xml">Карта сайта</a>
@@ -95,6 +95,12 @@
 		height: 9px;
 		border-radius: 50%;
 		background: var(--gold);
+	}
+	.logo__sub {
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
 	}
 	.logo__text {
 		font-size: 20px;

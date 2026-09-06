@@ -4,26 +4,56 @@
 
 	let { compact = false, source = 'Форма на сайте' } = $props();
 
+	/* Способы связи: метка, подсказка к полю и как подписать в заявке. */
+	const channels = [
+		{ id: 'phone', label: 'Телефон', hint: '+7 ···', type: 'tel' },
+		{ id: 'telegram', label: 'Telegram', hint: '@username или номер', type: 'text' },
+		{ id: 'whatsapp', label: 'WhatsApp', hint: '+7 ···', type: 'tel' },
+		{ id: 'max', label: 'MAX', hint: 'номер или ссылка', type: 'text' }
+	];
+
 	let name = $state('');
+	let channel = $state('phone');
 	let contact = $state('');
 	let url = $state('');
 	let comment = $state('');
 	let agree = $state(false);
-	let status = $state('idle'); // idle | sending | ok | fallback | error
+	let status = $state('idle'); // idle | sending | ok | error
+
+	const cur = $derived(channels.find((c) => c.id === channel));
+
+	/* Текст заявки одинаковый для бэкенда и для чата с менеджером. */
+	function message() {
+		return [
+			`Заявка с сайта (${source})`,
+			`Имя: ${name.trim()}`,
+			`Связь: ${cur.label} — ${contact.trim()}`,
+			url.trim() && `Сайт: ${url.trim()}`,
+			comment.trim() && `Задача: ${comment.trim()}`
+		]
+			.filter(Boolean)
+			.join('\n');
+	}
 
 	async function submit(event) {
 		event.preventDefault();
 		if (!agree) return;
+
+		/* Без своего бэкенда: открываем чат с менеджером, текст уже набран —
+		   человеку остаётся нажать «отправить». */
 		if (!site.formEndpoint) {
-			status = 'fallback';
+			const href = `${site.manager}?text=${encodeURIComponent(message())}`;
+			window.open(href, '_blank', 'noopener');
+			status = 'ok';
 			return;
 		}
+
 		status = 'sending';
 		try {
 			const res = await fetch(site.formEndpoint, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name, contact, url, comment, source })
+				body: JSON.stringify({ name, channel: cur.label, contact, url, comment, source, text: message() })
 			});
 			status = res.ok ? 'ok' : 'error';
 		} catch {
@@ -35,8 +65,16 @@
 <form class="form" class:compact onsubmit={submit}>
 	{#if status === 'ok'}
 		<div class="form__done">
-			<h3>Заявка отправлена</h3>
-			<p>Свяжемся в течение рабочего дня. Если вопрос срочный — пишите в Telegram: <a href={site.telegram}>{site.telegramLabel}</a>.</p>
+			<h3>Заявка готова</h3>
+			<p>
+				{#if site.formEndpoint}
+					Свяжемся в течение рабочего дня.
+				{:else}
+					Открыли чат с менеджером {site.managerName} — текст заявки уже в поле, осталось нажать
+					«отправить». Если чат не открылся, напишите напрямую:
+					<a href={site.manager} target="_blank" rel="noopener">{site.managerLabel}</a>.
+				{/if}
+			</p>
 		</div>
 	{:else}
 		<div class="form__grid">
@@ -44,14 +82,35 @@
 				<span>Имя</span>
 				<input type="text" bind:value={name} required autocomplete="name" placeholder="Как к вам обращаться" />
 			</label>
-			<label>
-				<span>Телефон или Telegram</span>
-				<input type="text" bind:value={contact} required placeholder="+7 ··· или @username" />
-			</label>
+
+			<div class="field">
+				<span class="field__label">Как связаться</span>
+				<div class="seg" role="radiogroup" aria-label="Способ связи">
+					{#each channels as c}
+						<label class="seg__i" class:on={channel === c.id}>
+							<input type="radio" name="channel" value={c.id} bind:group={channel} />
+							{c.label}
+						</label>
+					{/each}
+				</div>
+			</div>
+
 			<label class="full">
-				<span>Сайт</span>
+				<span>{cur.label}</span>
+				<input
+					type={cur.type}
+					bind:value={contact}
+					required
+					autocomplete={channel === 'telegram' || channel === 'max' ? 'off' : 'tel'}
+					placeholder={cur.hint}
+				/>
+			</label>
+
+			<label class="full">
+				<span>Сайт <i>необязательно</i></span>
 				<input type="text" bind:value={url} placeholder="example.ru" />
 			</label>
+
 			{#if !compact}
 				<label class="full">
 					<span>Задача</span>
@@ -72,15 +131,10 @@
 			<Arrow />
 		</button>
 
-		{#if status === 'fallback'}
-			<p class="form__note">
-				Форма ещё не подключена к обработчику. Напишите нам напрямую:
-				<a href={site.telegram}>{site.telegramLabel}</a> · <a href="mailto:{site.email}">{site.email}</a>
-			</p>
-		{/if}
 		{#if status === 'error'}
 			<p class="form__note">
-				Не удалось отправить. Напишите в Telegram: <a href={site.telegram}>{site.telegramLabel}</a>
+				Не удалось отправить. Напишите менеджеру:
+				<a href={site.manager} target="_blank" rel="noopener">{site.managerLabel}</a>
 			</p>
 		{/if}
 	{/if}
@@ -96,17 +150,28 @@
 	.full {
 		grid-column: 1 / -1;
 	}
-	label {
+	label,
+	.field {
 		display: grid;
 		gap: 7px;
+		align-content: start;
 	}
-	label > span {
+	label > span,
+	.field__label {
 		font-size: 12px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--ink-3);
 	}
+	label > span i {
+		font-style: normal;
+		text-transform: none;
+		letter-spacing: 0;
+		margin-left: 6px;
+		opacity: 0.7;
+	}
 	input[type='text'],
+	input[type='tel'],
 	textarea {
 		width: 100%;
 		padding: 14px 16px;
@@ -118,13 +183,47 @@
 		color: var(--ink);
 		transition: border-color 0.25s var(--ease);
 	}
-	input[type='text']:focus,
+	input:focus,
 	textarea:focus {
 		border-color: var(--gold);
 		outline: none;
 	}
 	textarea {
 		resize: vertical;
+	}
+	/* сегментированный выбор способа связи */
+	.seg {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+		padding: 4px;
+		border: 1px solid var(--line);
+		border-radius: 100px;
+		background: var(--card);
+	}
+	.seg__i {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		flex: 1 1 auto;
+		min-width: 0;
+		padding: 9px 12px;
+		border-radius: 100px;
+		font-size: 13px;
+		white-space: nowrap;
+		cursor: pointer;
+		color: var(--ink-2);
+		transition: background 0.25s var(--ease), color 0.25s var(--ease);
+	}
+	.seg__i.on {
+		background: var(--ink);
+		color: #fff;
+	}
+	.seg__i input {
+		position: absolute;
+		opacity: 0;
+		width: 0;
+		height: 0;
 	}
 	.check {
 		display: flex;
@@ -137,7 +236,7 @@
 	}
 	.check input {
 		margin-top: 3px;
-		accent-color: var(--gold);
+		accent-color: var(--ink);
 		width: 16px;
 		height: 16px;
 		flex: none;
@@ -159,24 +258,33 @@
 	}
 	.form__done p {
 		color: var(--ink-2);
+		line-height: 1.55;
 	}
 	@media (max-width: 620px) {
 		.form__grid {
 			grid-template-columns: minmax(0, 1fr);
 		}
+		.seg__i {
+			flex: 1 1 45%;
+		}
 	}
-	:global(.section--dark) label > span {
+	:global(.section--dark) label > span,
+	:global(.section--dark) .field__label {
 		color: var(--on-dark-2);
 	}
 	:global(.section--dark) input[type='text'],
-	:global(.section--dark) textarea {
+	:global(.section--dark) input[type='tel'],
+	:global(.section--dark) textarea,
+	:global(.section--dark) .seg {
 		background: rgba(255, 255, 255, 0.05);
 		border-color: rgba(255, 255, 255, 0.18);
 		color: var(--on-dark);
 	}
-	:global(.section--dark) .check {
-		color: var(--on-dark-2);
+	:global(.section--dark) .seg__i.on {
+		background: #fff;
+		color: var(--dark);
 	}
+	:global(.section--dark) .check,
 	:global(.section--dark) .form__done p,
 	:global(.section--dark) .form__note {
 		color: var(--on-dark-2);
