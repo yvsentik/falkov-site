@@ -53,7 +53,7 @@ export const site = {
 
 	// TODO: счётчики. Пустая строка = счётчик не подключается.
 	counters: {
-		yandexMetrika: '',
+		yandexMetrika: '112339205',
 		googleAnalytics: ''
 	},
 
