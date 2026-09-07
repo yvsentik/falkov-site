@@ -1,6 +1,7 @@
 <script>
 	import { lead } from '$lib/lead.svelte.js';
 	import ContactForm from './ContactForm.svelte';
+	import { reachGoal } from '$lib/goals.js';
 
 	function close() {
 		lead.open = false;
@@ -8,6 +9,7 @@
 
 	$effect(() => {
 		if (!lead.open) return;
+		reachGoal('lead_open');
 		const onKey = (e) => e.key === 'Escape' && close();
 		window.addEventListener('keydown', onKey);
 		const prev = document.body.style.overflow;

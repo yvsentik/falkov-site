@@ -1,6 +1,7 @@
 <script>
 	import { site } from '$lib/config/site.js';
 	import Arrow from './Arrow.svelte';
+	import { reachGoal } from '$lib/goals.js';
 
 	let { compact = false, source = 'Форма на сайте' } = $props();
 
@@ -38,6 +39,7 @@
 	async function submit(event) {
 		event.preventDefault();
 		if (!agree) return;
+		reachGoal('lead_submit', { channel: cur.label, source });
 
 		/* Без своего бэкенда: открываем чат с менеджером, текст уже набран —
 		   человеку остаётся нажать «отправить». */

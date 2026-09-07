@@ -5,6 +5,7 @@
 	import LeadModal from '$lib/components/LeadModal.svelte';
 	import { page } from '$app/state';
 	import { onNavigate } from '$app/navigation';
+	import { trackContactClicks } from '$lib/goals.js';
 	import { site } from '$lib/config/site.js';
 
 	let { children } = $props();
@@ -15,6 +16,9 @@
 
 	/* Кроссфейд между страницами. Там, где View Transitions нет,
 	   навигация просто остаётся мгновенной. */
+	// цели Метрики на клики по Telegram / MAX / телефону — одна подписка на весь сайт
+	$effect(() => trackContactClicks());
+
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
 		if (navigation.to?.url.pathname === navigation.from?.url.pathname) return;
