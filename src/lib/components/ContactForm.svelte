@@ -41,9 +41,12 @@
 		if (!agree) return;
 		reachGoal('lead_submit', { channel: cur.label, source });
 
-		/* Без своего бэкенда: открываем чат с менеджером, текст уже набран —
+		const bot = site.telegramBot;
+		const auto = Boolean((bot?.token && bot?.chatId) || site.formEndpoint);
+
+		/* Ни бота, ни бэкенда: открываем чат с менеджером, текст уже набран —
 		   человеку остаётся нажать «отправить». */
-		if (!site.formEndpoint) {
+		if (!auto) {
 			const href = `${site.manager}?text=${encodeURIComponent(message())}`;
 			window.open(href, '_blank', 'noopener');
 			status = 'ok';
@@ -52,11 +55,17 @@
 
 		status = 'sending';
 		try {
-			const res = await fetch(site.formEndpoint, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name, channel: cur.label, contact, url, comment, source, text: message() })
-			});
+			const res = site.formEndpoint
+				? await fetch(site.formEndpoint, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ name, channel: cur.label, contact, url, comment, source, text: message() })
+					})
+				: await fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ chat_id: bot.chatId, text: message(), disable_web_page_preview: true })
+					});
 			status = res.ok ? 'ok' : 'error';
 		} catch {
 			status = 'error';
@@ -69,8 +78,9 @@
 		<div class="form__done">
 			<h3>Заявка готова</h3>
 			<p>
-				{#if site.formEndpoint}
-					Свяжемся в течение рабочего дня.
+				{#if site.formEndpoint || (site.telegramBot?.token && site.telegramBot?.chatId)}
+					Заявка у менеджера, свяжемся в течение рабочего дня. Если срочно — пишите напрямую:
+					<a href={site.manager} target="_blank" rel="noopener">{site.managerLabel}</a>.
 				{:else}
 					Открыли чат с менеджером {site.managerName} — текст заявки уже в поле, осталось нажать
 					«отправить». Если чат не открылся, напишите напрямую:
