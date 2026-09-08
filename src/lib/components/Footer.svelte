@@ -17,7 +17,7 @@
 				</a>
 				<p class="footer__tag">{site.tagline}</p>
 				<a class="footer__tg" href={site.telegram} target="_blank" rel="noopener">
-					Telegram-канал агентства — {site.telegramLabel}
+					Telegram-канал агентства – {site.telegramLabel}
 				</a>
 			</div>
 

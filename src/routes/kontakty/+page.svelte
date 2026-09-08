@@ -21,8 +21,8 @@
 </script>
 
 <Seo
-	title="Контакты SEO-агентства в Санкт-Петербурге — телефон, адрес, Telegram"
-	description="Контакты агентства в Санкт-Петербурге: телефон, почта, Telegram, адрес офиса и режим работы. Оставьте заявку — разберём сайт и ответим в течение рабочего дня."
+	title="Контакты SEO-агентства в Санкт-Петербурге – телефон, адрес, Telegram"
+	description="Контакты агентства в Санкт-Петербурге: телефон, почта, Telegram, адрес офиса и режим работы. Оставьте заявку – разберём сайт и ответим в течение рабочего дня."
 	path="/kontakty/"
 	{schema}
 />
@@ -32,7 +32,7 @@
 		<Breadcrumbs items={crumbs} />
 		<h1 style="margin:26px 0 24px;max-width:12em">Контакты</h1>
 		<p class="lead" style="max-width:36em">
-			Напишите или позвоните — на первом созвоне разберём вашу ситуацию и скажем, что нужно проекту.
+			Напишите или позвоните – на первом созвоне разберём вашу ситуацию и скажем, что нужно проекту.
 			Даже если это не наша услуга.
 		</p>
 	</div>
@@ -49,7 +49,7 @@
 			<div class="cblock">
 				<span class="eyebrow">Мессенджеры</span>
 				<ul>
-					<li><a href={site.telegram} target="_blank" rel="noopener">Telegram — {site.telegramLabel}</a></li>
+					<li><a href={site.telegram} target="_blank" rel="noopener">Telegram – {site.telegramLabel}</a></li>
 					<li><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
 					<li><a href={site.vk} target="_blank" rel="noopener">ВКонтакте</a></li>
 				</ul>
@@ -66,7 +66,7 @@
 		<div class="contacts__form" use:reveal={{ delay: 80 }}>
 			<h2>Оставьте заявку</h2>
 			<p class="contacts__note">
-				Ответим в течение рабочего дня. Пришлём короткий разбор сайта и вопросы по проекту — без
+				Ответим в течение рабочего дня. Пришлём короткий разбор сайта и вопросы по проекту – без
 				звонков «уточнить, актуально ли».
 			</p>
 			<ContactForm source="Страница контактов" />

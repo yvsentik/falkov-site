@@ -2,7 +2,7 @@ import { site, geo } from './config/site.js';
 
 export const abs = (path = '/') => site.url.replace(/\/$/, '') + path;
 
-/** Организация — выводится на каждой странице. */
+/** Организация – выводится на каждой странице. */
 export function orgSchema() {
 	const data = {
 		'@type': 'ProfessionalService',

@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>Страница не найдена — 404</title>
+	<title>Страница не найдена – 404</title>
 	<meta name="robots" content="noindex, follow" />
 </svelte:head>
 
@@ -14,7 +14,7 @@
 		<span class="eyebrow">Ошибка {page.status}</span>
 		<h1 style="margin:18px 0 20px">Такой страницы нет</h1>
 		<p class="lead" style="max-width:30em">
-			Возможно, адрес изменился или содержит опечатку. Загляните в каталог услуг или напишите нам —
+			Возможно, адрес изменился или содержит опечатку. Загляните в каталог услуг или напишите нам –
 			подскажем, где искать.
 		</p>
 		<div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:32px">

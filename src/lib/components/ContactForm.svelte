@@ -28,7 +28,7 @@
 		return [
 			`Заявка с сайта (${source})`,
 			`Имя: ${name.trim()}`,
-			`Связь: ${cur.label} — ${contact.trim()}`,
+			`Связь: ${cur.label} – ${contact.trim()}`,
 			url.trim() && `Сайт: ${url.trim()}`,
 			comment.trim() && `Задача: ${comment.trim()}`
 		]
@@ -44,7 +44,7 @@
 		const bot = site.telegramBot;
 		const auto = Boolean((bot?.token && bot?.chatId) || site.formEndpoint);
 
-		/* Ни бота, ни бэкенда: открываем чат с менеджером, текст уже набран —
+		/* Ни бота, ни бэкенда: открываем чат с менеджером, текст уже набран –
 		   человеку остаётся нажать «отправить». */
 		if (!auto) {
 			const href = `${site.manager}?text=${encodeURIComponent(message())}`;
@@ -79,10 +79,10 @@
 			<h3>Заявка готова</h3>
 			<p>
 				{#if site.formEndpoint || (site.telegramBot?.token && site.telegramBot?.chatId)}
-					Заявка у менеджера, свяжемся в течение рабочего дня. Если срочно — пишите напрямую:
+					Заявка у менеджера, свяжемся в течение рабочего дня. Если срочно – пишите напрямую:
 					<a href={site.manager} target="_blank" rel="noopener">{site.managerLabel}</a>.
 				{:else}
-					Открыли чат с менеджером {site.managerName} — текст заявки уже в поле, осталось нажать
+					Открыли чат с менеджером {site.managerName} – текст заявки уже в поле, осталось нажать
 					«отправить». Если чат не открылся, напишите напрямую:
 					<a href={site.manager} target="_blank" rel="noopener">{site.managerLabel}</a>.
 				{/if}

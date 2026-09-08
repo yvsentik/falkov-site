@@ -23,7 +23,7 @@
 
 <header class="header" class:scrolled class:open>
 	<div class="header__inner container">
-		<a class="logo" href="/" aria-label="{site.name} — на главную">
+		<a class="logo" href="/" aria-label="{site.name} – на главную">
 			<span class="logo__mark" aria-hidden="true"></span>
 			<span class="logo__text">falkov</span>
 			<span class="logo__sub">маркетинг</span>
