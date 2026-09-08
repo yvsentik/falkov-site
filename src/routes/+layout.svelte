@@ -15,7 +15,7 @@
 	// поэтому и общее меню ему не нужно.
 	const bare = $derived(
 		page.url.pathname === '/' ||
-			page.url.pathname === '/predlozhenie/' ||
+			page.url.pathname === '/vam-ne-podhodit-seo/' ||
 			page.url.pathname.startsWith('/style/')
 	);
 

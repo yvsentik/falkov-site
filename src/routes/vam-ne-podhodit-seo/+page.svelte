@@ -7,7 +7,7 @@
 	import { site, geo } from '$lib/config/site.js';
 	import { lead } from '$lib/lead.svelte.js';
 
-	const path = '/predlozhenie/';
+	const path = '/vam-ne-podhodit-seo/';
 
 	const steps = [
 		{
@@ -25,6 +25,19 @@
 			t: 'Только потом идём в SEO',
 			d: 'Продвигаем сайт уже по проверенным запросам, с понятной экономикой и без гадания, какой кластер окупится.'
 		}
+	];
+
+	/* Лендинги на движке Директа. Первый — наш собственный: продвигаем себя
+	   ровно тем же способом, что и клиентов. */
+	const landings = [
+		{ url: 'https://prodvizheniya-sajta-v-spb.clients.site', t: 'Продвижение сайтов', c: 'Санкт-Петербург', own: true },
+		{ url: 'https://semejnyj-yurist-kaliningrad.clients.site/', t: 'Семейный юрист', c: 'Калининград' },
+		{ url: 'https://vizoviy-centr-moskva.clients.site/', t: 'Визовый центр', c: 'Москва' },
+		{ url: 'https://likvidacziya-ooo-spb.clients.site/', t: 'Ликвидация ООО', c: 'Санкт-Петербург' },
+		{ url: 'https://medclinic24.clients.site/', t: 'Медицинская клиника', c: 'Круглосуточно' },
+		{ url: 'https://arhangelsk-vyvod-iz-zapoya.clients.site/', t: 'Вывод из запоя', c: 'Архангельск' },
+		{ url: 'https://moskva-kuznechnaya-masterskaya.clients.site/', t: 'Кузнечная мастерская', c: 'Москва' },
+		{ url: 'https://net-dolgov-kaliningrad.clients.site/', t: 'Списание долгов', c: 'Калининград' }
 	];
 
 	const pricing = [
@@ -52,8 +65,8 @@
 </script>
 
 <Seo
-	title="Предложение о сотрудничестве — Директ вместо SEO | {site.name}"
-	description="Начинаем не с SEO, а с Директа: окупаемся на минимальных вложениях, находим целевые запросы и только потом идём в поиск."
+	title="Вам не подходит SEO, что делать? | {site.name}"
+	description="Что делать, когда SEO не подходит: заходим через Директ, окупаемся на минимальных вложениях, находим целевые запросы и только потом идём в поиск."
 	{path}
 	noindex
 />
@@ -69,7 +82,7 @@
 	<!-- ЗАГОЛОВОК -->
 	<section class="of-hero">
 		<span class="of-eyebrow">Предложение о сотрудничестве · {geo.city}</span>
-		<h1>Когда начинать с SEO смысла нет</h1>
+		<h1>Вам не подходит SEO, что делать?</h1>
 		<p class="of-lead">
 			Это предложение мы присылаем, когда видим: заходить в поиск прямо сейчас — значит полгода
 			жечь деньги без заявок. Тогда мы разворачиваем порядок. Сначала окупаемся минимальными
@@ -124,11 +137,52 @@
 						<b>30 000 ₽</b>
 						<i>бонусом</i>
 					</span>
+					<span class="of-promo__plus" aria-hidden="true">=</span>
+					<span class="of-promo__math">
+						<b>×3</b>
+						<i>к каждому рублю</i>
+					</span>
 				</div>
 				<p class="of-promo__note">
 					Мы абсолютно легально используем на небольших проектах акцию Яндекса: пополняете счёт на
 					15 тысяч — получаете ещё 30 тысяч бонусом. Мы отдельно уточняли это у самого Яндекса.
 				</p>
+				<p class="of-promo__note">
+					И это не разовый трюк. Мы <b>бесконечно создаём новые аккаунты и пополняем их по этой
+					же акции</b> — поэтому стоим в топе поиска не рывками, а перманентно, и клик обходится
+					нам втрое дешевле, чем конкуренту, который платит полную цену.
+				</p>
+			</div>
+
+			<div class="of-turbo" use:reveal>
+				<div class="of-turbo__head">
+					<span class="of-promo__label">Входит в стоимость старта</span>
+					<h3>Лендинг на движке Директа</h3>
+					<p>
+						Дело не в визуале: такие сайты Яндекс скрыто бустит сам. Зайдите в любую
+						сверхконкурентную нишу — наркология, юристы, медицина — там в выдаче почти одни
+						они. Когда у людей бюджеты по 100 000 ₽ в день, игнорировать эту стратегию просто
+						нет шансов.
+					</p>
+					<p>
+						Шаблон выглядит скромно, но мы стараемся собирать такие лендинги красивыми. Свой
+						собственный продвигаем ровно в этом же формате — он первый в списке.
+					</p>
+				</div>
+				<ul class="of-turbo__list">
+					{#each landings as l}
+						<li>
+							<a href={l.url} target="_blank" rel="noopener">
+								<span class="of-turbo__t">
+									{l.t}
+									{#if l.own}<em>наш</em>{/if}
+								</span>
+								<span class="of-turbo__c">{l.c}</span>
+								<span class="of-turbo__go" aria-hidden="true">↗</span>
+							</a>
+						</li>
+					{/each}
+				</ul>
 			</div>
 		</div>
 	</section>
@@ -487,6 +541,77 @@
 		color: var(--on-dark-2);
 	}
 
+	/* лендинги на движке Директа */
+	.of-turbo {
+		margin-top: clamp(16px, 2vw, 24px);
+		padding: clamp(20px, 2.6vw, 32px);
+		border: 1px dashed rgba(255, 255, 255, 0.25);
+		border-radius: 22px;
+	}
+	.of-turbo__head h3 {
+		margin: 10px 0 12px;
+		font-size: clamp(20px, 2.4vw, 28px);
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+		color: #fff;
+	}
+	.of-turbo__head p {
+		margin: 0 0 12px;
+		max-width: 62ch;
+		font-size: clamp(14px, 1.3vw, 16px);
+		line-height: 1.6;
+		color: var(--on-dark-2);
+	}
+	.of-turbo__list {
+		list-style: none;
+		margin: clamp(16px, 2vw, 22px) 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 6px;
+	}
+	.of-turbo__list a {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+		padding: 12px 16px;
+		border-radius: 14px;
+		background: rgba(255, 255, 255, 0.06);
+		transition: background 0.3s var(--ease);
+	}
+	.of-turbo__t {
+		font-size: 15px;
+		color: var(--on-dark);
+	}
+	.of-turbo__t em {
+		font-style: normal;
+		margin-left: 8px;
+		padding: 2px 8px;
+		border-radius: 100px;
+		background: #fff;
+		color: var(--dark);
+		font-size: 10px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+	.of-turbo__c {
+		font-size: 11.5px;
+		color: var(--on-dark-2);
+	}
+	.of-turbo__go {
+		margin-left: auto;
+		color: var(--on-dark-2);
+		transition: transform 0.35s var(--ease);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.of-turbo__list a:hover {
+			background: rgba(255, 255, 255, 0.13);
+		}
+		.of-turbo__list a:hover .of-turbo__go {
+			transform: translate(2px, -2px);
+		}
+	}
+
 	/* расчёт */
 	.of-math {
 		display: flex;
@@ -641,7 +766,8 @@
 	@media (max-width: 860px) {
 		.of-grid--3,
 		.of-price,
-		.of-share {
+		.of-share,
+		.of-turbo__list {
 			grid-template-columns: minmax(0, 1fr);
 		}
 		.of-math__op {
