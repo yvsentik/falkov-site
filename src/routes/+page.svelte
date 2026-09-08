@@ -267,6 +267,33 @@
 		</div>
 	</section>
 
+	<!-- АНОНС КАНАЛА -->
+	<section class="fk-anons-wrap">
+		<a
+			class="fk-anons"
+			href={site.telegramChannel}
+			target="_blank"
+			rel="noopener"
+			use:reveal
+		>
+			<span class="fk-anons__ico" aria-hidden="true">
+				<svg viewBox="0 0 24 24">
+					<path
+						fill="currentColor"
+						d="M21.94 4.3 18.9 19.06c-.23 1.02-.84 1.27-1.7.79l-4.7-3.46-2.27 2.18c-.25.25-.46.46-.94.46l.34-4.78 8.7-7.86c.38-.34-.08-.53-.59-.19l-10.75 6.77-4.63-1.45c-1-.31-1.02-1 .21-1.48L20.64 3.1c.84-.31 1.57.2 1.3 1.2Z"
+					/>
+				</svg>
+			</span>
+			<span class="fk-anons__txt">
+				<b>40+ кейсов</b> в канале, <b>1000+ подписчиков</b> и жизнь агентства
+			</span>
+			<span class="fk-anons__go">
+				{site.telegramLabel}
+				<i aria-hidden="true">→</i>
+			</span>
+		</a>
+	</section>
+
 	<!-- ЛОГОТИПЫ КЛИЕНТОВ -->
 	<section class="fk-clients" aria-label="Клиенты агентства">
 		<div class="fk-marquee">
@@ -1042,6 +1069,79 @@
 	.fk-pill--sm {
 		padding: 11px 20px;
 		font-size: 13px;
+	}
+
+	/* анонс канала */
+	.fk-anons-wrap {
+		max-width: var(--wide);
+		margin-inline: auto;
+		padding: 0 var(--pad) clamp(10px, 1.6vw, 20px);
+	}
+	.fk-anons {
+		display: flex;
+		align-items: center;
+		gap: clamp(14px, 2vw, 22px);
+		padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2.2vw, 26px);
+		border-radius: 100px;
+		background: var(--dark);
+		color: var(--on-dark);
+		transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+	}
+	.fk-anons__ico {
+		flex: none;
+		display: grid;
+		place-items: center;
+		width: clamp(38px, 4vw, 46px);
+		height: clamp(38px, 4vw, 46px);
+		border-radius: 100px;
+		background: rgba(255, 255, 255, 0.12);
+		transition: background 0.4s var(--ease), color 0.4s var(--ease);
+	}
+	.fk-anons__ico svg {
+		width: 55%;
+		height: 55%;
+	}
+	.fk-anons__txt {
+		font-size: clamp(14px, 1.5vw, 19px);
+		line-height: 1.35;
+		letter-spacing: -0.01em;
+	}
+	.fk-anons__txt b {
+		font-weight: 500;
+		color: #fff;
+	}
+	.fk-anons__go {
+		margin-left: auto;
+		flex: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
+		transition: color 0.4s var(--ease);
+	}
+	.fk-anons__go i {
+		font-style: normal;
+		font-size: 15px;
+		transition: transform 0.45s var(--ease);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.fk-anons:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 26px 50px -34px rgba(0, 0, 0, 0.7);
+		}
+		.fk-anons:hover .fk-anons__ico {
+			background: #fff;
+			color: var(--dark);
+		}
+		.fk-anons:hover .fk-anons__go {
+			color: #fff;
+		}
+		.fk-anons:hover .fk-anons__go i {
+			transform: translateX(5px);
+		}
 	}
 
 	/* хиро */
@@ -2279,6 +2379,21 @@
 		}
 	}
 	@media (max-width: 860px) {
+		.fk-anons {
+			flex-wrap: wrap;
+			border-radius: 26px;
+			row-gap: 12px;
+		}
+		.fk-anons__txt {
+			flex: 1 1 200px;
+		}
+		.fk-anons__go {
+			margin-left: 0;
+			flex-basis: 100%;
+			padding-top: 12px;
+			border-top: 1px solid rgba(255, 255, 255, 0.15);
+			justify-content: space-between;
+		}
 		.fk-head__nav {
 			display: none;
 		}
