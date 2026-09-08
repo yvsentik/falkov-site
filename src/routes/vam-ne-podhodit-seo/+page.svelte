@@ -180,22 +180,20 @@
 				<a class="of-own" href={landings[0].url} target="_blank" rel="noopener">
 					<span class="of-own__label">Мы сами работаем по этой методике</span>
 					<span class="of-own__t">
-						Агентство продвигает себя тем же способом: те же аккаунты с акцией и такой же
-						лендинг на движке Директа. Вот он, можно открыть и посмотреть.
+						Продвигаем себя тем же способом: те же аккаунты с акцией и такой же лендинг на
+						движке Директа. Вот он, можно открыть и посмотреть.
 					</span>
 					<span class="of-own__link">
 						prodvizheniya-sajta-v-spb.clients.site
 						<i aria-hidden="true">↗</i>
 					</span>
 				</a>
+				<span class="of-turbo__cap">Посмотрите примеры наших других проектов</span>
 				<ul class="of-turbo__list">
-					{#each landings as l}
+					{#each landings.slice(1) as l}
 						<li>
 							<a href={l.url} target="_blank" rel="noopener">
-								<span class="of-turbo__t">
-									{l.t}
-									{#if l.own}<em>наш</em>{/if}
-								</span>
+								<span class="of-turbo__t">{l.t}</span>
 								<span class="of-turbo__c">{l.c}</span>
 								<span class="of-turbo__go" aria-hidden="true">↗</span>
 							</a>
@@ -226,7 +224,7 @@
 			<span class="of-math__op" aria-hidden="true">=</span>
 			<div class="of-math__i of-math__i--hi">
 				<b>90 000 ₽</b>
-				<span>рабочего рекламного бюджета на руках</span>
+				<span>рабочего рекламного бюджета за 30 тысяч реальных денег</span>
 			</div>
 		</div>
 
@@ -619,9 +617,17 @@
 		line-height: 1.6;
 		color: var(--on-dark-2);
 	}
+	.of-turbo__cap {
+		display: block;
+		margin-top: clamp(18px, 2.2vw, 26px);
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
+	}
 	.of-turbo__list {
 		list-style: none;
-		margin: clamp(16px, 2vw, 22px) 0 0;
+		margin: clamp(10px, 1.2vw, 14px) 0 0;
 		padding: 0;
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
