@@ -284,8 +284,11 @@
 					/>
 				</svg>
 			</span>
-			<span class="fk-anons__txt">
-				<b>40+ кейсов</b> в канале, <b>1000+ подписчиков</b> и жизнь агентства
+			<span class="fk-anons__body">
+				<span class="fk-anons__label">Канал агентства</span>
+				<span class="fk-anons__txt">
+					<b>40+ кейсов</b> в канале, <b>1000+ подписчиков</b> и жизнь агентства
+				</span>
 			</span>
 			<span class="fk-anons__go">
 				{site.telegramLabel}
@@ -1083,9 +1086,43 @@
 		gap: clamp(14px, 2vw, 22px);
 		padding: clamp(14px, 1.8vw, 20px) clamp(16px, 2.2vw, 26px);
 		border-radius: 100px;
-		background: var(--dark);
 		color: var(--on-dark);
+		/* переливающийся фон: чёрный с серыми бликами, медленно едет вбок */
+		background: linear-gradient(
+			100deg,
+			#101010 0%,
+			#1c1c1c 18%,
+			#4a4a4a 32%,
+			#1c1c1c 46%,
+			#101010 62%,
+			#333333 78%,
+			#101010 100%
+		);
+		background-size: 260% 100%;
+		animation: fk-anons-flow 12s linear infinite;
 		transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+	}
+	@keyframes fk-anons-flow {
+		to {
+			background-position: -260% 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.fk-anons {
+			animation: none;
+			background: var(--dark);
+		}
+	}
+	.fk-anons__body {
+		display: grid;
+		gap: 3px;
+		min-width: 0;
+	}
+	.fk-anons__label {
+		font-size: 10px;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
 	}
 	.fk-anons__ico {
 		flex: none;
@@ -2384,7 +2421,7 @@
 			border-radius: 26px;
 			row-gap: 12px;
 		}
-		.fk-anons__txt {
+		.fk-anons__body {
 			flex: 1 1 200px;
 		}
 		.fk-anons__go {
