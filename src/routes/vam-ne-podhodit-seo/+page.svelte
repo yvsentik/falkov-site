@@ -43,13 +43,13 @@
 	const pricing = [
 		{
 			n: '01',
-			t: 'Первый месяц – 50 000 ₽',
+			t: 'Первый месяц – 50 000 ₽',
 			d: 'Единственный обязательный платёж. Абсолютно рыночная цена за настройку и ведение контекста.'
 		},
 		{
 			n: '02',
 			t: 'Откручиваем 2–3 аккаунта',
-			d: 'Иногда за эти же 50 000 ₽ откручиваем и пять. Суть не в объёме работы, а в поиске рабочей стратегии.'
+			d: 'Иногда за эти же 50 000 ₽ откручиваем и пять. Суть не в объёме работы, а в поиске рабочей стратегии.'
 		},
 		{
 			n: '03',
@@ -59,7 +59,7 @@
 		{
 			n: '04',
 			t: 'Дальше – на выбор',
-			d: 'Либо абонентка 50 000 ₽ в месяц. Либо, если за первый месяц окупаемость выше трёх раз по чистой прибыли, садимся на процент от продаж.'
+			d: 'Либо абонентка 50 000 ₽ в месяц. Либо, если за первый месяц окупаемость выше трёх раз по чистой прибыли, садимся на процент от продаж.'
 		}
 	];
 </script>
@@ -83,12 +83,17 @@
 	<section class="of-hero">
 		<span class="of-eyebrow">Предложение о сотрудничестве · {geo.city}</span>
 		<h1>Вам не подходит SEO, что делать?</h1>
-		<p class="of-lead">
-			Это предложение мы присылаем, когда видим: заходить в поиск прямо сейчас – значит полгода
-			жечь деньги без заявок. Тогда мы разворачиваем порядок. Сначала окупаемся минимальными
-			вложениями в Директе, находим стабильный поток заявок и самые целевые запросы – и только
-			потом продвигаем сайт в поиске.
-		</p>
+		<div class="of-note">
+			<p class="of-note__big">
+				Мы прислали вам эту страницу, потому что видим: <b>прямо сейчас SEO-сотрудничество
+				принесёт деньги только нам</b>. Полгода вы платите за ожидание, а заявок нет.
+			</p>
+			<p class="of-note__sub">
+				Поэтому предлагаем развернуть порядок. Сначала окупаемся минимальными вложениями в
+				Директе, находим стабильный поток заявок и самые целевые запросы – и только потом
+				продвигаем сайт в поиске.
+			</p>
+		</div>
 		<div class="of-hero__acts">
 			<button class="of-btn of-btn--solid" type="button" onclick={() => (lead.open = true)}>
 				Обсудить проект
@@ -129,12 +134,12 @@
 				<div class="of-promo__l">
 					<span class="of-promo__label">Акция Яндекса</span>
 					<span class="of-promo__math">
-						<b>15 000 ₽</b>
+						<b>15 000 ₽</b>
 						<i>пополнение</i>
 					</span>
 					<span class="of-promo__plus" aria-hidden="true">+</span>
 					<span class="of-promo__math">
-						<b>30 000 ₽</b>
+						<b>30 000 ₽</b>
 						<i>бонусом</i>
 					</span>
 					<span class="of-promo__plus" aria-hidden="true">=</span>
@@ -163,13 +168,24 @@
 					<p>
 						Такие сайты Яндекс скрыто бустит сам. Зайдите в наркологию, одну из самых
 						конкурентных ниш – там в выдаче почти одни они. Когда у людей бюджеты по
-						100 000 ₽ в день, игнорировать эту стратегию просто нет шансов.
+						100 000 ₽ в день, игнорировать эту стратегию просто нет шансов.
 					</p>
 					<p>
-						Шаблон выглядит скромно, но мы стараемся собирать такие лендинги красивыми. Свой
-						собственный продвигаем ровно в этом же формате – он первый в списке.
+						Шаблон выглядит скромно, но мы стараемся собирать такие лендинги красивыми.
 					</p>
 				</div>
+
+				<a class="of-own" href={landings[0].url} target="_blank" rel="noopener">
+					<span class="of-own__label">Мы сами работаем по этой методике</span>
+					<span class="of-own__t">
+						Агентство продвигает себя тем же способом: те же аккаунты с акцией и такой же
+						лендинг на движке Директа. Вот он, можно открыть и посмотреть.
+					</span>
+					<span class="of-own__link">
+						prodvizheniya-sajta-v-spb.clients.site
+						<i aria-hidden="true">↗</i>
+					</span>
+				</a>
 				<ul class="of-turbo__list">
 					{#each landings as l}
 						<li>
@@ -202,19 +218,20 @@
 			</div>
 			<span class="of-math__op" aria-hidden="true">→</span>
 			<div class="of-math__i">
-				<b>30 000 ₽</b>
+				<b>30 000 ₽</b>
 				<span>вы пополняете – по 15 тысяч на каждый</span>
 			</div>
 			<span class="of-math__op" aria-hidden="true">=</span>
 			<div class="of-math__i of-math__i--hi">
-				<b>90 000 ₽</b>
+				<b>90 000 ₽</b>
 				<span>рабочего рекламного бюджета на руках</span>
 			</div>
 		</div>
 
 		<p class="of-claim" use:reveal>
 			Слить такие деньги в ноль невозможно: трафик у нас банально стоит <b>в три раза дешевле</b>,
-			чем у конкурента, который платит за клики по полной.
+			чем у конкурента, который платит за клики по полной. А если проект не окупается даже с таким
+			преимуществом, это лучше понять сразу, <b>не слив сотни тысяч на ожидание SEO</b>.
 		</p>
 	</section>
 
@@ -271,6 +288,7 @@
 					<button class="of-btn of-btn--light" type="button" onclick={() => (lead.open = true)}>
 						Оставить заявку
 					</button>
+					<a class="of-btn of-btn--ghost" href="/keysy/">Посмотреть кейсы</a>
 					<a class="of-btn of-btn--ghost" href={site.manager} target="_blank" rel="noopener">
 						Написать Роману в Telegram
 					</a>
@@ -400,6 +418,30 @@
 		letter-spacing: -0.04em;
 		margin: 0 0 clamp(18px, 2.4vw, 28px);
 		max-width: 14em;
+	}
+	.of-note {
+		max-width: 60ch;
+		padding: clamp(20px, 2.6vw, 30px) clamp(20px, 2.6vw, 32px);
+		border-radius: 24px;
+		background: var(--paper-2);
+	}
+	.of-note__big {
+		margin: 0;
+		font-size: clamp(18px, 2.2vw, 27px);
+		line-height: 1.35;
+		letter-spacing: -0.02em;
+	}
+	.of-note__big b {
+		font-weight: 500;
+		box-shadow: inset 0 -0.4em 0 rgba(0, 0, 0, 0.08);
+	}
+	.of-note__sub {
+		margin: clamp(12px, 1.6vw, 18px) 0 0;
+		padding-top: clamp(12px, 1.6vw, 18px);
+		border-top: 1px solid var(--line);
+		font-size: clamp(14px, 1.4vw, 17px);
+		line-height: 1.6;
+		color: var(--ink-2);
 	}
 	.of-lead {
 		margin: 0;
@@ -613,6 +655,50 @@
 		}
 	}
 
+	/* «мы сами по этой методике» */
+	.of-own {
+		display: grid;
+		gap: 8px;
+		margin: clamp(16px, 2vw, 22px) 0 0;
+		padding: clamp(18px, 2.2vw, 26px);
+		border-radius: 18px;
+		background: #fff;
+		color: var(--dark);
+		transition: transform 0.4s var(--ease);
+	}
+	.of-own__label {
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+	.of-own__t {
+		font-size: clamp(15px, 1.6vw, 19px);
+		line-height: 1.45;
+		letter-spacing: -0.015em;
+		max-width: 52ch;
+	}
+	.of-own__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		margin-top: 4px;
+		font-size: 13px;
+		color: var(--ink-2);
+	}
+	.of-own__link i {
+		font-style: normal;
+		transition: transform 0.35s var(--ease);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.of-own:hover {
+			transform: translateY(-3px);
+		}
+		.of-own:hover .of-own__link i {
+			transform: translate(2px, -2px);
+		}
+	}
+
 	/* расчёт */
 	.of-math {
 		display: flex;
@@ -621,7 +707,7 @@
 		gap: clamp(10px, 1.4vw, 16px);
 	}
 	.of-math__i {
-		flex: 1 1 200px;
+		flex: 1 1 200px;
 		display: grid;
 		align-content: start;
 		gap: 6px;
