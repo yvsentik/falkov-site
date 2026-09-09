@@ -47,7 +47,7 @@ export const site = {
 
 	// TODO: коды подтверждения прав в вебмастерах
 	verification: {
-		yandex: '',
+		yandex: '4d7bc6fbdefd9d5c',
 		google: ''
 	},
 
