@@ -277,6 +277,31 @@
 		</div>
 	</section>
 
+	<!-- ВАРИАНТЫ СОТРУДНИЧЕСТВА -->
+	<section class="of-sec">
+		<div class="of-sec__head" use:reveal>
+			<h2>Варианты сотрудничества</h2>
+			<p>Старт у всех один: первый месяц 50 000 ₽. Дальше выбираете формат под свой результат.</p>
+		</div>
+		<div class="of-grid of-grid--3">
+			<div class="of-card" use:reveal>
+				<span class="of-n">Вариант 1</span>
+				<h3>Абонентка 50 000 ₽ в месяц</h3>
+				<p>Фиксированная оплата за ведение. Подходит, если хотите понятный бюджет без подсчёта процентов.</p>
+			</div>
+			<div class="of-card" use:reveal={{ delay: 70 }}>
+				<span class="of-n">Вариант 2</span>
+				<h3>Процент от продаж</h3>
+				<p>Если за первый месяц окупаемость больше трёх раз по чистой прибыли. Обычно 10% от выручки или 20% от чистой прибыли, плюс берём на себя аналитику и помогаем в продажах.</p>
+			</div>
+			<div class="of-card of-card--hi" use:reveal={{ delay: 140 }}>
+				<span class="of-n">Вариант 3</span>
+				<h3>Весь маркетинг на нас</h3>
+				<p>Когда результаты сверх плана: берём весь маркетинговый расход на себя за 50% от стоимости клиентов, которых приносим.</p>
+			</div>
+		</div>
+	</section>
+
 	<!-- P.S. -->
 	<section class="of-sec of-sec--dark">
 		<div class="of-inner">
@@ -526,6 +551,15 @@
 		letter-spacing: 0.18em;
 		color: var(--ink-3);
 		margin-bottom: 10px;
+	}
+	.of-card--hi {
+		background: var(--dark);
+		border-color: var(--dark);
+		color: var(--on-dark);
+	}
+	.of-card--hi p,
+	.of-card--hi .of-n {
+		color: var(--on-dark-2) !important;
 	}
 	.of-card h3,
 	.of-price h3 {

@@ -21,6 +21,11 @@
 	let agree = $state(false);
 	let status = $state('idle'); // idle | sending | ok | error
 
+	/* Антиспам без внешних сервисов: скрытое поле-ловушка (люди его не видят,
+	   боты заполняют) и слишком быстрая отправка. t0 ставится при гидрации в браузере. */
+	let hp = $state('');
+	const t0 = Date.now();
+
 	const cur = $derived(channels.find((c) => c.id === channel));
 
 	/* Текст заявки одинаковый для бэкенда и для чата с менеджером. */
@@ -39,6 +44,11 @@
 	async function submit(event) {
 		event.preventDefault();
 		if (!agree) return;
+		// бот: показываем «успех», ничего не отправляем и цель не считаем
+		if (hp || Date.now() - t0 < 2500) {
+			status = 'ok';
+			return;
+		}
 		reachGoal('lead_submit', { channel: cur.label, source });
 
 		const bot = site.telegramBot;
@@ -130,6 +140,11 @@
 				</label>
 			{/if}
 		</div>
+
+		<label class="hp" aria-hidden="true">
+			Не заполняйте это поле
+			<input type="text" name="company_site" tabindex="-1" autocomplete="off" bind:value={hp} />
+		</label>
 
 		<label class="check">
 			<input type="checkbox" bind:checked={agree} required />
@@ -244,6 +259,13 @@
 	.seg__i:focus-within {
 		outline: 2px solid var(--ink);
 		outline-offset: 2px;
+	}
+	.hp {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
 	}
 	.check {
 		display: flex;
