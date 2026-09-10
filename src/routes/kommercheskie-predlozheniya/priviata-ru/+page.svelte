@@ -89,6 +89,23 @@
 		}
 	];
 
+	/* Выгрузка Директа 10 авг – 10 сен: куда уходил бюджет прошлой команды.
+	   st: bad – нецелевые, mid – спорные, ok – целевые. */
+	const directReport = [
+		{ g: 'Госшколы с номерами и гимназии', ex: 'ломоносовская гимназия, школа 613 московский район', st: 'bad', clicks: 715, spend: '74 275', share: 18.9 },
+		{ g: 'Онлайн-школы и платформы', ex: 'фоксфорд онлайн школа, цифриум', st: 'bad', clicks: 112, spend: '14 620', share: 3.7 },
+		{ g: 'Другие услуги, не общеобразовательная школа', ex: 'школа по волейболу, школа йоги спб', st: 'bad', clicks: 95, spend: '13 478', share: 3.4 },
+		{ g: 'Учебный контент и информационные', ex: 'русский язык 7 класс, таблица умножения', st: 'bad', clicks: 167, spend: '12 114', share: 3.1 },
+		{ g: 'Другие города и регионы', ex: 'частная школа калининград, школа в краснодаре', st: 'bad', clicks: 70, spend: '8 487', share: 2.2 },
+		{ g: 'Конкуренты вне кампании «Конкуренты»', ex: 'школа шамир спб, хексли школа стоимость', st: 'mid', clicks: 420, spend: '64 622', share: 16.4 },
+		{ g: 'Конкуренты в кампании «Конкуренты»', ex: 'школа аспект, школа взмах', st: 'mid', clicks: 110, spend: '22 722', share: 5.8 },
+		{ g: 'Особые категории: ОВЗ, мигранты, иностранцы', ex: 'частная школа для мигрантов спб', st: 'mid', clicks: 17, spend: '5 064', share: 1.3 },
+		{ g: 'Скрытые запросы', ex: 'запросы скрыты Яндексом', st: 'mid', clicks: 16, spend: '1 747', share: 0.4 },
+		{ g: 'Бренд', ex: 'привиата частная школа, priviata школа спб', st: 'ok', clicks: 189, spend: '27 673', share: 7.0 },
+		{ g: 'Целевые', ex: 'частные школы спб, частная школа красногвардейский район', st: 'ok', clicks: 939, spend: '148 567', share: 37.8 }
+	];
+	const stLabel = { bad: 'нецелевые', mid: 'спорные', ok: 'целевые' };
+
 	const bonuses = [
 		{
 			t: 'Партнёрства с крупным бизнесом',
@@ -134,9 +151,8 @@
 			Комплексный маркетинг для частной школы: что делаем, в каком порядке и почему именно так.
 		</p>
 		<div class="cp-hero__acts">
-			<button class="cp-btn cp-btn--solid" type="button" onclick={() => (lead.open = true)}>
-				Обсудить план
-			</button>
+			<a class="cp-btn cp-btn--solid" href="#kp">Посмотреть КП <i aria-hidden="true">↓</i></a>
+			<button class="cp-btn" type="button" onclick={() => (lead.open = true)}>Обсудить план</button>
 			<a class="cp-btn" href={site.manager} target="_blank" rel="noopener">Написать Роману</a>
 		</div>
 	</section>
@@ -403,6 +419,212 @@
 		</div>
 	</section>
 
+	<!-- КП: СЕНТЯБРЬ – ДЕКАБРЬ -->
+	<section class="cp-sec cp-kp" id="kp">
+		<div class="cp-sec__head" use:reveal>
+			<span class="cp-n">07</span>
+			<h2>Коммерческое предложение на сентябрь – декабрь</h2>
+		</div>
+
+		<!-- Фаза 1 -->
+		<div class="cp-phase" use:reveal>
+			<div class="cp-phase__head">
+				<span class="cp-phase__months">Сентябрь и октябрь</span>
+				<span class="cp-phase__note">Запускаем каналы и делаем сайт</span>
+			</div>
+
+			<!-- Директ -->
+			<article class="cp-line">
+				<div class="cp-line__l">
+					<h3>Контекст</h3>
+					<ul class="cp-price">
+						<li><b>50 000 ₽</b><span>в месяц, ведение</span></li>
+						<li><b>+20 000 ₽</b><span>за метод экономии бюджета: смена аккаунтов, перенастройка кабинета</span></li>
+					</ul>
+				</div>
+				<div class="cp-line__r">
+					<span class="cp-why">Почему мы выделяемся</span>
+					<p>
+						Работаем по акции Директа:
+						<a href="https://direct.yandex.ru/base/articles/programma-podderzhki-predprinimatelej" target="_blank" rel="noopener">программа поддержки предпринимателей</a>
+						или start30. Мы или вы создаёте аккаунты, пополняете на 15 тысяч и бонусом получаете 30.
+					</p>
+					<div class="cp-save">
+						<div>
+							<b>150 000 ₽</b>
+							<span>целевой бюджет в месяц</span>
+						</div>
+						<i aria-hidden="true">→</i>
+						<div class="is-hi">
+							<b>≈ 45 000 ₽</b>
+							<span>реальных денег нашим методом</span>
+						</div>
+					</div>
+					<p>
+						Плюс ежедневно чистим весь мусор, за который платила деньги прошлая команда. Ниже отчёт
+						по группам запросов за 10 августа – 10 сентября.
+					</p>
+				</div>
+			</article>
+
+			<div class="cp-rep">
+				<div class="cp-rep__sum">
+					<div>
+						<b>393 368 ₽</b>
+						<span>откручено за месяц</span>
+					</div>
+					<div class="is-bad">
+						<b>122 974 ₽</b>
+						<span>31% ушло на нецелевые запросы</span>
+					</div>
+					<div class="is-mid">
+						<b>94 155 ₽</b>
+						<span>ещё 24% на спорные</span>
+					</div>
+				</div>
+				<div class="cp-rep__tbl" role="table" aria-label="Расход Директа по группам запросов">
+					<div class="cp-rep__h" role="row">
+						<span role="columnheader">Группа запросов</span>
+						<span role="columnheader">Клики</span>
+						<span role="columnheader">Расход, ₽</span>
+						<span role="columnheader">Доля</span>
+					</div>
+					{#each directReport as r}
+						<div class="cp-rep__r is-{r.st}" role="row">
+							<span class="cp-rep__g">
+								<span class="cp-rep__name">{r.g} <em>{stLabel[r.st]}</em></span>
+								<span class="cp-rep__ex">{r.ex}</span>
+							</span>
+							<span class="cp-rep__n">{r.clicks}</span>
+							<span class="cp-rep__n">{r.spend}</span>
+							<span class="cp-rep__share">
+								<span class="cp-rep__bar" style="--w:{r.share}%"></span>
+								{r.share}%
+							</span>
+						</div>
+					{/each}
+				</div>
+			</div>
+
+			<!-- Telegram Ads -->
+			<article class="cp-line">
+				<div class="cp-line__l">
+					<h3>Telegram Ads</h3>
+					<ul class="cp-price">
+						<li><b>20 000 ₽</b><span>в месяц, ведение канала</span></li>
+						<li><b>35 000 ₽</b><span>в месяц, настройка рекламного кабинета</span></li>
+						<li class="is-muted"><b>≈ 600 €</b><span>в месяц, рекламный бюджет</span></li>
+					</ul>
+				</div>
+				<div class="cp-line__r">
+					<p>
+						Переделываем воронку продаж в канале, придумываем медиаплан, ведём канал и закупаем
+						трафик. Посты дублируем в MAX и ВК.
+					</p>
+					<span class="cp-why">Почему мы выделяемся</span>
+					<p>Уже есть проверенные связки с продвижения московских школ.</p>
+				</div>
+			</article>
+
+			<!-- Сайт -->
+			<article class="cp-line">
+				<div class="cp-line__l">
+					<h3>Сайт</h3>
+					<ul class="cp-price">
+						<li><b>230 000 ₽</b><span>разово, бюджет на Петербург</span></li>
+						<li class="is-muted"><b>2 месяца</b><span>срок разработки</span></li>
+					</ul>
+				</div>
+				<div class="cp-line__r">
+					<p>
+						Большая строчка расходов. Но нормальный сайт поднимет продажи, и его можно качать на
+						SEO. Делаем сайт, готовый к продвижению, с удобными админками для ведения блога и
+						всего остального. Рыночная вилка на такую работу 150–300 тысяч.
+					</p>
+					<p>
+						Московский <a href="https://oneischool.com/" target="_blank" rel="noopener">oneischool.com</a>
+						стоил 330 тысяч, но это Москва, и он в топе Google и Яндекса по запросам вроде «частная
+						школа москва». Проверяйте Google, там стабильная выдача.
+					</p>
+					<p>
+						За первые два месяца разработаем сайт и прямо в процессе будем пускать Директ на
+						новые страницы.
+					</p>
+				</div>
+			</article>
+		</div>
+
+		<!-- Фаза 2 -->
+		<div class="cp-phase" use:reveal>
+			<div class="cp-phase__head">
+				<span class="cp-phase__months">Ноябрь и декабрь</span>
+				<span class="cp-phase__note">Сбавляем обороты, подключаем SEO</span>
+			</div>
+
+			<article class="cp-line">
+				<div class="cp-line__l">
+					<h3>Контекст</h3>
+					<ul class="cp-price">
+						<li><b>30 000 ₽</b><span>в месяц, ведение <s>50 000</s></span></li>
+						<li><b>+10 000 ₽</b><span>метод экономии <s>20 000</s></span></li>
+					</ul>
+				</div>
+				<div class="cp-line__r">
+					<p>Сбавляем обороты по Директу, стоимость ведения падает вместе с ними.</p>
+				</div>
+			</article>
+
+			<article class="cp-line">
+				<div class="cp-line__l">
+					<h3>Telegram Ads</h3>
+					<ul class="cp-price">
+						<li><b>20 000 ₽</b><span>в месяц, ведение канала</span></li>
+						<li><b>15 000 ₽</b><span>в месяц, рекламный кабинет <s>35 000</s></span></li>
+					</ul>
+				</div>
+				<div class="cp-line__r">
+					<p>
+						В зависимости от результатов стопорим Telegram Ads или продолжаем на минимальных
+						оборотах. Наш абонентский платёж тоже падает.
+					</p>
+				</div>
+			</article>
+
+			<article class="cp-line">
+				<div class="cp-line__l">
+					<h3>SEO</h3>
+					<ul class="cp-price">
+						<li><b>50–60 000 ₽</b><span>в месяц под ключ, доработки сайта входят в стоимость</span></li>
+					</ul>
+				</div>
+				<div class="cp-line__r">
+					<p>
+						Подключаем работы по SEO-оптимизации нового сайта. Разработка новых страниц и
+						правки уже включены, отдельно платить за программиста не нужно.
+					</p>
+				</div>
+			</article>
+		</div>
+
+		<!-- Итог -->
+		<div class="cp-result" use:reveal>
+			<span class="cp-why">Результат сотрудничества</span>
+			<p class="cp-result__big">
+				К концу года бизнес получает <b>сайт</b>, новый стабильный канал трафика
+				<b>Telegram Ads</b> и новый канал получения заявок <b>SEO</b>.
+			</p>
+			<p>
+				Мы как подрядчики максимально мотивированы сразу показать положительный результат, чтобы
+				удержать как можно больше каналов трафика, которые дают зарабатывать вашему бизнесу.
+				Зарабатываете вы, зарабатываем мы.
+			</p>
+			<p>
+				Глубоко погружаться в работу отдела продаж не будем, но возьмём на себя все
+				маркетингово-аналитические системы: телефонию, JivoSite и остальное.
+			</p>
+		</div>
+	</section>
+
 	<!-- ФИНАЛ -->
 	<section class="cp-sec cp-sec--dark">
 		<div class="cp-inner">
@@ -413,7 +635,8 @@
 					будет вести руководитель агентства Константин.
 				</p>
 				<p>
-					Точные сроки и основные идеи с радостью раскроем на личной встрече.
+					Точные сроки и основные идеи с радостью раскроем на личной встрече. Будем рады
+					посотрудничать и обсудить стратегию продвижения в нашем или вашем офисе.
 					<b>Приглашайте в гости.</b>
 				</p>
 			</div>
@@ -1034,6 +1257,290 @@
 		}
 	}
 
+	/* КП */
+	.cp-kp {
+		scroll-margin-top: 20px;
+	}
+	.cp-phase {
+		margin-top: clamp(18px, 2.4vw, 30px);
+		padding: clamp(20px, 2.6vw, 34px);
+		border: 1px solid var(--line);
+		border-radius: 26px;
+		background: var(--card);
+	}
+	.cp-phase__head {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 6px 16px;
+		padding-bottom: clamp(14px, 1.8vw, 20px);
+		border-bottom: 1px solid var(--line);
+	}
+	.cp-phase__months {
+		font-size: clamp(22px, 2.8vw, 36px);
+		letter-spacing: -0.035em;
+		line-height: 1.05;
+	}
+	.cp-phase__note {
+		font-size: 13.5px;
+		color: var(--ink-3);
+	}
+	.cp-line {
+		display: grid;
+		grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+		gap: clamp(16px, 3vw, 44px);
+		padding: clamp(18px, 2.4vw, 28px) 0;
+		border-bottom: 1px solid var(--line-soft);
+	}
+	.cp-line:last-child {
+		border-bottom: 0;
+		padding-bottom: 0;
+	}
+	.cp-line__l h3 {
+		margin: 0 0 12px;
+		font-size: clamp(20px, 2.2vw, 28px);
+		letter-spacing: -0.03em;
+	}
+	.cp-price {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 8px;
+	}
+	.cp-price li {
+		display: grid;
+		gap: 1px;
+	}
+	.cp-price b {
+		font-size: clamp(20px, 2.2vw, 28px);
+		font-weight: 400;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+	}
+	.cp-price span {
+		font-size: 13px;
+		line-height: 1.45;
+		color: var(--ink-3);
+	}
+	.cp-price s {
+		margin-left: 4px;
+		color: var(--ink-3);
+		opacity: 0.7;
+	}
+	.cp-price .is-muted b {
+		color: var(--ink-3);
+	}
+	.cp-line__r p {
+		margin: 0 0 12px;
+		font-size: clamp(14.5px, 1.4vw, 16.5px);
+		line-height: 1.65;
+		color: var(--ink-2);
+	}
+	.cp-line__r p:last-child {
+		margin-bottom: 0;
+	}
+	.cp-line__r a,
+	.cp-result a {
+		color: var(--ink);
+		border-bottom: 1px solid var(--line);
+	}
+	.cp-why {
+		display: block;
+		margin: 4px 0 8px;
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+	.cp-save {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 12px;
+		margin: 4px 0 14px;
+	}
+	.cp-save > div {
+		display: grid;
+		gap: 2px;
+		padding: 12px 16px;
+		border-radius: 16px;
+		background: var(--paper-2);
+	}
+	.cp-save > div.is-hi {
+		background: var(--dark);
+		color: var(--on-dark);
+	}
+	.cp-save b {
+		font-size: clamp(19px, 2vw, 24px);
+		font-weight: 400;
+		letter-spacing: -0.03em;
+	}
+	.cp-save span {
+		font-size: 12px;
+		color: var(--ink-3);
+	}
+	.cp-save .is-hi span {
+		color: var(--on-dark-2);
+	}
+	.cp-save i {
+		font-style: normal;
+		color: var(--ink-3);
+	}
+
+	/* отчёт по Директу */
+	.cp-rep {
+		margin: clamp(4px, 1vw, 10px) 0 clamp(8px, 1.4vw, 16px);
+		padding: clamp(18px, 2.2vw, 26px);
+		border-radius: 22px;
+		background: var(--paper);
+	}
+	.cp-rep__sum {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 10px;
+		margin-bottom: clamp(14px, 1.8vw, 20px);
+	}
+	.cp-rep__sum > div {
+		display: grid;
+		gap: 2px;
+		padding: 14px 16px;
+		border-radius: 16px;
+		background: var(--card);
+		border: 1px solid var(--line-soft);
+	}
+	.cp-rep__sum > div.is-bad {
+		background: var(--dark);
+		border-color: var(--dark);
+		color: var(--on-dark);
+	}
+	.cp-rep__sum b {
+		font-size: clamp(20px, 2.4vw, 30px);
+		font-weight: 400;
+		letter-spacing: -0.03em;
+	}
+	.cp-rep__sum span {
+		font-size: 12.5px;
+		color: var(--ink-3);
+	}
+	.cp-rep__sum .is-bad span {
+		color: var(--on-dark-2);
+	}
+	.cp-rep__h,
+	.cp-rep__r {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 64px 92px 120px;
+		gap: 12px;
+		align-items: center;
+		padding: 10px 0;
+		border-bottom: 1px solid var(--line-soft);
+	}
+	.cp-rep__h {
+		font-size: 10px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+	.cp-rep__g {
+		display: grid;
+		gap: 2px;
+		min-width: 0;
+	}
+	.cp-rep__name {
+		font-size: 14px;
+	}
+	.cp-rep__name em {
+		font-style: normal;
+		margin-left: 6px;
+		padding: 1px 7px;
+		border-radius: 100px;
+		font-size: 9.5px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+	.is-bad .cp-rep__name em {
+		background: var(--dark);
+		color: #fff;
+	}
+	.is-mid .cp-rep__name em {
+		background: var(--paper-2);
+		color: var(--ink-2);
+		box-shadow: inset 0 0 0 1px var(--line);
+	}
+	.is-ok .cp-rep__name em {
+		background: transparent;
+		color: var(--ink-3);
+		box-shadow: inset 0 0 0 1px var(--line);
+	}
+	.cp-rep__ex {
+		font-size: 12px;
+		color: var(--ink-3);
+		overflow-wrap: anywhere;
+	}
+	.cp-rep__n {
+		font-size: 13px;
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+		color: var(--ink-2);
+	}
+	.cp-rep__share {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 8px;
+		font-size: 12.5px;
+		font-variant-numeric: tabular-nums;
+		color: var(--ink-2);
+	}
+	.cp-rep__bar {
+		position: relative;
+		height: 6px;
+		border-radius: 10px;
+		background: var(--paper-2);
+		overflow: hidden;
+	}
+	.cp-rep__bar::after {
+		content: '';
+		position: absolute;
+		inset: 0 auto 0 0;
+		width: calc(var(--w) * 2.2);
+		max-width: 100%;
+		border-radius: inherit;
+		background: var(--ink-3);
+	}
+	.is-bad .cp-rep__bar::after {
+		background: var(--dark);
+	}
+	.is-ok .cp-rep__bar::after {
+		background: var(--line);
+	}
+
+	/* итог */
+	.cp-result {
+		margin-top: clamp(18px, 2.4vw, 30px);
+		padding: clamp(22px, 2.8vw, 36px);
+		border-radius: 26px;
+		background: var(--paper-2);
+	}
+	.cp-result__big {
+		margin: 0 0 14px;
+		max-width: 44ch;
+		font-size: clamp(18px, 2.2vw, 27px);
+		line-height: 1.35;
+		letter-spacing: -0.02em;
+	}
+	.cp-result__big b {
+		font-weight: 500;
+	}
+	.cp-result p:not(.cp-result__big) {
+		margin: 0 0 10px;
+		max-width: 62ch;
+		font-size: 15px;
+		line-height: 1.6;
+		color: var(--ink-2);
+	}
+
 	.cp-more {
 		margin: clamp(18px, 2.2vw, 26px) 0 0;
 		padding-top: clamp(18px, 2.2vw, 26px);
@@ -1154,13 +1661,32 @@
 			grid-template-columns: minmax(0, 1fr);
 		}
 	}
+	@media (max-width: 900px) {
+		.cp-line {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
 	@media (max-width: 760px) {
 		.cp-grid--3,
 		.cp-grid--4,
 		.cp-out__list,
 		.cp-ba__grid,
-		.cp-blog__grid {
+		.cp-blog__grid,
+		.cp-rep__sum {
 			grid-template-columns: minmax(0, 1fr);
+		}
+		.cp-rep__h {
+			display: none;
+		}
+		.cp-rep__r {
+			grid-template-columns: minmax(0, 1fr) auto;
+			row-gap: 6px;
+		}
+		.cp-rep__g {
+			grid-column: 1 / -1;
+		}
+		.cp-rep__share {
+			grid-column: 1 / -1;
 		}
 		.cp-sec__head {
 			flex-direction: column;
