@@ -151,7 +151,13 @@
 			Комплексный маркетинг для частной школы: что делаем, в каком порядке и почему именно так.
 		</p>
 		<div class="cp-hero__acts">
-			<a class="cp-btn cp-btn--solid" href="#kp">Посмотреть КП <i aria-hidden="true">↓</i></a>
+			<button
+				class="cp-btn cp-btn--solid"
+				type="button"
+				onclick={() => document.getElementById('kp')?.scrollIntoView({ behavior: 'smooth' })}
+			>
+				Посмотреть КП <i aria-hidden="true">↓</i>
+			</button>
 			<button class="cp-btn" type="button" onclick={() => (lead.open = true)}>Обсудить план</button>
 			<a class="cp-btn" href={site.manager} target="_blank" rel="noopener">Написать Роману</a>
 		</div>
