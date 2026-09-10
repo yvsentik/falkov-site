@@ -51,9 +51,9 @@
 			t: 'Telegram Ads и ВК',
 			sub: 'Длинный цикл сделки',
 			body: [
-				'Мама выбирает школу долго. У современной мамы в телефоне все соцсети, она смотрит блогеров и читает новости. Инфлюенс-маркетингом сразу заниматься не будем, сначала надо обуздать Telegram, потом ВК.',
+				'Чаще всего нам звонит мама нашего будущего ученика. У современной матери в телефоне все соцсети, она смотрит блогеров и читает новости. Инфлюенс-маркетингом сразу заниматься не будем, сначала надо обуздать Telegram, потом ВК.',
 				'Главное преимущество Telegram: через официальный кабинет TG Ads свою рекламу можно засунуть в канал любого конкурента и в любой канал по школьному обучению и образованию.',
-				'Как это выглядит: переупаковываем канал, создаём в нём понятную воронку продаж, раскрываем преимущества, отвечаем на основные боли других частных школ и бюджетных учреждений. Контент преимущественно не видео, а живые фотографии из жизни школы и анонсы. В идеале делаем лицо бренда, чтобы канал вёлся от лица конкретного человека. Это не принуждает к блогерству, но раз в две недели нужно будет сфотографировать что-то в школе под новость.'
+				'Как это выглядит: текущий канал никуда не годится, в нём нет понятной линии продаж, контент-плана и одинаковой структуры ведения постов. Создаём в нём понятную воронку продаж, раскрываем преимущества, отвечаем на основные боли других частных школ и бюджетных учреждений. Контент преимущественно не видео, а живые фотографии из жизни школы и анонсы. В идеале делаем лицо бренда, чтобы канал вёлся от лица конкретного человека. Это не принуждает к блогерству, но раз в две недели нужно будет сфотографировать что-то в школе под новость.'
 			],
 			tags: ['Аудитории конкурентов', 'Каналы по образованию', 'Родители дошкольников']
 		},
@@ -250,8 +250,11 @@
 				<div class="cp-step__r">
 					{#each p.body as par}<p>{par}</p>{/each}
 
-					{#if p.n === '02'}
-						<!-- Съём видимости и сравнение дизайна показываем прямо внутри блока про SEO -->
+				</div>
+
+				{#if p.n === '02'}
+					<!-- Во всю ширину: в узкой колонке скриншоты и таблицу не разглядеть -->
+					<div class="cp-wide">
 						<div class="cp-vis">
 							<div class="cp-vis__head">
 								<span class="cp-vis__label">Текущая видимость priviata.ru</span>
@@ -323,9 +326,11 @@
 								</a>
 							</div>
 						</div>
-					{/if}
+					</div>
+				{/if}
 
-					{#if p.n === '04'}
+				{#if p.n === '04'}
+					<div class="cp-wide">
 						<div class="cp-blog">
 							<span class="cp-blog__label">Тот самый блогер по визам и ВНЖ</span>
 							<div class="cp-blog__grid">
@@ -343,8 +348,8 @@
 								Цифры на 10 сентября 2026. Оба канала открыты, можно зайти и посмотреть.
 							</span>
 						</div>
-					{/if}
-				</div>
+					</div>
+				{/if}
 			</article>
 		{/each}
 
@@ -428,7 +433,7 @@
 <style>
 	.cp {
 		--pad: clamp(16px, 3vw, 40px);
-		--wide: 1180px;
+		--wide: 1320px;
 		background: var(--paper);
 		color: var(--ink);
 		padding-bottom: clamp(30px, 4vw, 60px);
@@ -724,6 +729,10 @@
 	}
 
 	/* шаги плана */
+	.cp-wide {
+		grid-column: 1 / -1;
+		margin-top: clamp(18px, 2.2vw, 28px);
+	}
 	.cp-step {
 		display: grid;
 		grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.38fr);
@@ -776,7 +785,6 @@
 
 	/* съём видимости */
 	.cp-vis {
-		margin-top: clamp(20px, 2.4vw, 30px);
 		padding: clamp(18px, 2.2vw, 26px);
 		border: 1px dashed var(--line);
 		border-radius: 22px;
@@ -847,7 +855,7 @@
 	/* было / стало */
 	/* было / стало */
 	.cp-ba {
-		margin-top: clamp(20px, 2.4vw, 30px);
+		margin-top: clamp(14px, 1.8vw, 22px);
 		padding: clamp(20px, 2.4vw, 30px);
 		border-radius: 24px;
 		background: var(--dark);
@@ -862,8 +870,8 @@
 	}
 	.cp-ba__t {
 		margin: 10px 0 8px;
-		max-width: 30ch;
-		font-size: clamp(19px, 2.2vw, 28px);
+		max-width: 34ch;
+		font-size: clamp(20px, 2.5vw, 33px);
 		line-height: 1.2;
 		letter-spacing: -0.025em;
 		color: #fff;
@@ -904,13 +912,13 @@
 		display: flex;
 		align-items: baseline;
 		gap: 10px;
-		padding: 12px 16px;
-		font-size: 12.5px;
+		padding: 14px 20px;
+		font-size: 13.5px;
 		color: var(--on-dark-2);
 	}
 	.cp-ba__cap b {
 		font-weight: 500;
-		font-size: 14px;
+		font-size: 16px;
 		color: #fff;
 	}
 	.cp-ba__cap i {
@@ -928,6 +936,85 @@
 			transform: scale(1.015);
 		}
 		.cp-ba__i:hover .cp-ba__cap i {
+			transform: translate(2px, -2px);
+		}
+	}
+
+	/* блогер: цифры по подписчикам */
+	.cp-blog {
+		padding: clamp(18px, 2.2vw, 26px);
+		border: 1px dashed var(--line);
+		border-radius: 22px;
+	}
+	.cp-blog__label {
+		display: block;
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-bottom: 14px;
+	}
+	.cp-blog__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(10px, 1.4vw, 16px);
+	}
+	.cp-blog__i {
+		display: grid;
+		align-content: start;
+		gap: 2px;
+		padding: clamp(18px, 2.2vw, 26px);
+		border-radius: 18px;
+		background: var(--dark);
+		color: var(--on-dark);
+		transition: transform 0.4s var(--ease);
+	}
+	.cp-blog__net {
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
+		margin-bottom: 6px;
+	}
+	.cp-blog__num {
+		font-size: clamp(30px, 3.8vw, 48px);
+		letter-spacing: -0.04em;
+		line-height: 1;
+		color: #fff;
+	}
+	.cp-blog__unit {
+		font-size: 13px;
+		color: var(--on-dark-2);
+	}
+	.cp-blog__name {
+		margin-top: 12px;
+		font-size: 14px;
+		line-height: 1.45;
+		color: var(--on-dark);
+	}
+	.cp-blog__link {
+		margin-top: 10px;
+		font-size: 12.5px;
+		color: var(--on-dark-2);
+		overflow-wrap: anywhere;
+	}
+	.cp-blog__link i {
+		font-style: normal;
+		display: inline-block;
+		margin-left: 4px;
+		transition: transform 0.35s var(--ease);
+	}
+	.cp-blog__note {
+		display: block;
+		margin-top: 12px;
+		font-size: 12.5px;
+		color: var(--ink-3);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.cp-blog__i:hover {
+			transform: translateY(-3px);
+		}
+		.cp-blog__i:hover .cp-blog__link i {
 			transform: translate(2px, -2px);
 		}
 	}
