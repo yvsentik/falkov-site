@@ -1,0 +1,4 @@
+name = "falkov-leads"
+main = "lead-proxy.js"
+compatibility_date = "2026-09-01"
+# секреты задаются командой: npx wrangler secret put SMARTCAPTCHA_SECRET (и TG_TOKEN, TG_CHAT_ID)

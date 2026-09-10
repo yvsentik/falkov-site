@@ -26,6 +26,34 @@
 	let hp = $state('');
 	const t0 = Date.now();
 
+	/* SmartCaptcha включается, только когда есть ключ и серверный обработчик:
+	   без сервера проверить её токен некому. */
+	const useCaptcha = Boolean(site.captcha?.sitekey && site.formEndpoint);
+	let captchaEl = $state();
+	let captchaToken = $state('');
+	let widgetId = null;
+
+	$effect(() => {
+		if (!useCaptcha || !captchaEl) return;
+		const mount = () => {
+			widgetId = window.smartCaptcha.render(captchaEl, {
+				sitekey: site.captcha.sitekey,
+				hl: 'ru',
+				callback: (t) => (captchaToken = t)
+			});
+		};
+		if (window.smartCaptcha) return mount();
+		let s = document.querySelector('script[data-smartcaptcha]');
+		if (!s) {
+			s = document.createElement('script');
+			s.src = 'https://smartcaptcha.yandexcloud.net/captcha.js';
+			s.defer = true;
+			s.dataset.smartcaptcha = '1';
+			document.head.appendChild(s);
+		}
+		s.addEventListener('load', mount, { once: true });
+	});
+
 	const cur = $derived(channels.find((c) => c.id === channel));
 
 	/* Текст заявки одинаковый для бэкенда и для чата с менеджером. */
@@ -49,6 +77,10 @@
 			status = 'ok';
 			return;
 		}
+		if (useCaptcha && !captchaToken) {
+			status = 'captcha';
+			return;
+		}
 		reachGoal('lead_submit', { channel: cur.label, source });
 
 		const bot = site.telegramBot;
@@ -69,7 +101,7 @@
 				? await fetch(site.formEndpoint, {
 						method: 'POST',
 						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ name, channel: cur.label, contact, url, comment, source, text: message() })
+						body: JSON.stringify({ token: captchaToken, text: message() })
 					})
 				: await fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
 						method: 'POST',
@@ -79,6 +111,10 @@
 			status = res.ok ? 'ok' : 'error';
 		} catch {
 			status = 'error';
+		}
+		if (status === 'error' && useCaptcha && widgetId !== null) {
+			window.smartCaptcha?.reset(widgetId);
+			captchaToken = '';
 		}
 	}
 </script>
@@ -152,6 +188,13 @@
 				Согласен с <a href="/politika-konfidencialnosti/">политикой обработки персональных данных</a>
 			</span>
 		</label>
+
+		{#if useCaptcha}
+			<div class="captcha" bind:this={captchaEl}></div>
+		{/if}
+		{#if status === 'captcha'}
+			<p class="form__note">Подтвердите, что вы не робот.</p>
+		{/if}
 
 		<button class="btn btn--wide" type="submit" disabled={status === 'sending'}>
 			{status === 'sending' ? 'Отправляем…' : 'Отправить заявку'}
@@ -259,6 +302,10 @@
 	.seg__i:focus-within {
 		outline: 2px solid var(--ink);
 		outline-offset: 2px;
+	}
+	.captcha {
+		min-height: 100px;
+		margin-bottom: 16px;
 	}
 	.hp {
 		position: absolute;
