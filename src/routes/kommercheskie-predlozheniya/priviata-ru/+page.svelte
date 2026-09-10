@@ -62,7 +62,7 @@
 			t: 'Вертикальный контент',
 			sub: 'Рилс, подкасты. Но не первым',
 			body: [
-				'Снимать мы умеем, ведём одного из самых крупных блогеров по визам и ВНЖ в РФ. Подкасты, рилсы, вертикалка: никаких проблем.',
+				'Снимать мы умеем, ведём канал dmitrii.visa.news, один из самых крупных по визам и ВНЖ в РФ. Подкасты, рилсы, вертикалка: никаких проблем.',
 				'Единственное, это направление вообще не будем ставить в первую очередь. Здесь результат не гарантирован в ближайшем будущем. Да и трафик вести некуда, пока сайт слабый и соцсети пустые.'
 			],
 			tags: ['Рилсы', 'Подкасты', 'Позже по очереди']
@@ -333,7 +333,7 @@
 				{#if p.n === '04'}
 					<div class="cp-wide">
 						<div class="cp-blog">
-							<span class="cp-blog__label">Тот самый блогер по визам и ВНЖ</span>
+							<span class="cp-blog__label">Канал dmitrii.visa.news, который мы ведём</span>
 							<div class="cp-blog__grid">
 								{#each blogger as b}
 									<a class="cp-blog__i" href={b.href} target="_blank" rel="noopener">
@@ -406,6 +406,18 @@
 	<!-- ФИНАЛ -->
 	<section class="cp-sec cp-sec--dark">
 		<div class="cp-inner">
+			<div class="cp-personal" use:reveal>
+				<span class="cp-personal__label">От руководителя</span>
+				<p>
+					Мы находимся в Санкт-Петербурге. Образование сложная ниша, поэтому на старте проект
+					будет вести руководитель агентства Константин.
+				</p>
+				<p>
+					Точные сроки и основные идеи с радостью раскроем на личной встрече.
+					<b>Приглашайте в гости.</b>
+				</p>
+			</div>
+
 			<div class="cp-cta" use:reveal>
 				<h2>Обсудим план?</h2>
 				<p>
@@ -1070,6 +1082,34 @@
 	}
 
 	/* финал */
+	.cp-personal {
+		margin-bottom: clamp(26px, 3.2vw, 42px);
+		padding-bottom: clamp(24px, 3vw, 36px);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	}
+	.cp-personal__label {
+		display: block;
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
+		margin-bottom: 14px;
+	}
+	.cp-personal p {
+		margin: 0 0 12px;
+		max-width: 58ch;
+		font-size: clamp(16px, 1.8vw, 22px);
+		line-height: 1.45;
+		letter-spacing: -0.015em;
+		color: var(--on-dark);
+	}
+	.cp-personal p:last-child {
+		margin-bottom: 0;
+	}
+	.cp-personal b {
+		font-weight: 500;
+		color: #fff;
+	}
 	.cp-cta h2 {
 		margin: 0 0 12px;
 		font-size: clamp(24px, 3vw, 38px);

@@ -205,9 +205,11 @@
 			<div class="fk-hero__panel" use:reveal>
 				<span class="fk-badge">
 					<span class="fk-badge__dot" aria-hidden="true"></span>
-					Маркетинговое агентство {geo.cityIn}
-					<i aria-hidden="true"></i>
-					<b>офис на Энергетиков, 10</b>
+					<span class="fk-badge__txt">
+						Маркетинговое агентство {geo.cityIn}
+						<i aria-hidden="true"></i>
+						<b>офис на Энергетиков, 10</b>
+					</span>
 				</span>
 				<h1>
 					Приводим клиентов малому и среднему бизнесу из
@@ -747,8 +749,7 @@
 	/* плашка над заголовком: кто мы и где сидим */
 	.fk-badge {
 		display: inline-flex;
-		align-items: center;
-		flex-wrap: wrap;
+		align-items: baseline;
 		gap: 10px;
 		margin-bottom: clamp(16px, 1.8vw, 22px);
 		padding: 9px 16px 9px 13px;
@@ -765,6 +766,16 @@
 		border-radius: 50%;
 		background: var(--ink);
 		flex: none;
+		transform: translateY(-1px);
+	}
+	/* текст отдельной колонкой: на переносе вторая строка встаёт под первой,
+	   а не под точкой */
+	.fk-badge__txt {
+		display: inline-flex;
+		align-items: baseline;
+		flex-wrap: wrap;
+		gap: 10px;
+		min-width: 0;
 	}
 	.fk-badge i {
 		width: 1px;
@@ -774,6 +785,27 @@
 	.fk-badge b {
 		font-weight: 500;
 		color: var(--ink);
+	}
+	@media (max-width: 640px) {
+		/* на узком экране пилюля рвётся по строкам: разделитель убираем,
+		   углы делаем мягкими, чтобы вторая строка не выпадала из формы */
+		.fk-badge {
+			display: flex;
+			padding: 12px 16px;
+			border-radius: 18px;
+			line-height: 1.5;
+		}
+		.fk-badge__txt {
+			display: block;
+			gap: 0;
+		}
+		.fk-badge i {
+			display: none;
+		}
+		.fk-badge b {
+			display: block;
+			margin-top: 2px;
+		}
 	}
 	.fk-eyebrow {
 		display: block;
