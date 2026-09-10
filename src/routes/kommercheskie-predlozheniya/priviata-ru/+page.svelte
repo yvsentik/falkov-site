@@ -651,6 +651,16 @@
 	<section class="cp-sec cp-sec--dark">
 		<div class="cp-inner">
 			<div class="cp-personal" use:reveal>
+				<img
+					class="cp-personal__ph"
+					src="/cp/priviata/konstantin.jpg"
+					width="600"
+					height="650"
+					alt="Константин, руководитель агентства"
+					loading="lazy"
+					decoding="async"
+				/>
+				<div class="cp-personal__txt">
 				<span class="cp-personal__label">От руководителя</span>
 				<p>
 					Мы находимся в Санкт-Петербурге. Образование сложная ниша, поэтому на старте проект
@@ -661,6 +671,8 @@
 					посотрудничать и обсудить стратегию продвижения в нашем или вашем офисе.
 					<b>Приглашайте в гости.</b>
 				</p>
+				<span class="cp-personal__sign">Константин, руководитель агентства</span>
+				</div>
 			</div>
 
 			<div class="cp-cta" use:reveal>
@@ -1711,9 +1723,26 @@
 
 	/* финал */
 	.cp-personal {
+		display: grid;
+		grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+		gap: clamp(20px, 3vw, 44px);
+		align-items: center;
 		margin-bottom: clamp(26px, 3.2vw, 42px);
 		padding-bottom: clamp(24px, 3vw, 36px);
 		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	}
+	.cp-personal__ph {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: 22px;
+		background: #e9e9e9;
+	}
+	.cp-personal__sign {
+		display: block;
+		margin-top: 14px;
+		font-size: 13px;
+		color: var(--on-dark-2);
 	}
 	.cp-personal__label {
 		display: block;
@@ -1796,6 +1825,12 @@
 		.cp-rep__sum,
 		.cp-pitch__opts {
 			grid-template-columns: minmax(0, 1fr);
+		}
+		.cp-personal {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.cp-personal__ph {
+			max-width: 240px;
 		}
 		.cp-rep__h {
 			display: none;
