@@ -203,7 +203,12 @@
 	<section class="fk-hero">
 		<div class="fk-hero__grid">
 			<div class="fk-hero__panel" use:reveal>
-				<span class="fk-eyebrow">Маркетинговое агентство · {geo.city}</span>
+				<span class="fk-badge">
+					<span class="fk-badge__dot" aria-hidden="true"></span>
+					Маркетинговое агентство {geo.cityIn}
+					<i aria-hidden="true"></i>
+					<b>офис на Энергетиков, 10</b>
+				</span>
 				<h1>
 					Приводим клиентов малому и среднему бизнесу из
 					<span class="fk-rot">
@@ -739,6 +744,37 @@
 		text-decoration: none;
 	}
 
+	/* плашка над заголовком: кто мы и где сидим */
+	.fk-badge {
+		display: inline-flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-bottom: clamp(16px, 1.8vw, 22px);
+		padding: 9px 16px 9px 13px;
+		border-radius: 100px;
+		background: var(--panel);
+		box-shadow: inset 0 0 0 1px var(--line);
+		font-size: clamp(11px, 1.05vw, 13px);
+		letter-spacing: 0.02em;
+		color: var(--ink-2);
+	}
+	.fk-badge__dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--ink);
+		flex: none;
+	}
+	.fk-badge i {
+		width: 1px;
+		height: 13px;
+		background: var(--line);
+	}
+	.fk-badge b {
+		font-weight: 500;
+		color: var(--ink);
+	}
 	.fk-eyebrow {
 		display: block;
 		font-size: 10.5px;
