@@ -284,9 +284,10 @@
 						</div>
 
 						<div class="cp-ba">
-							<span class="cp-ba__label">Редизайн</span>
+							<span class="cp-ba__label">Почему нам можно доверить дизайн и создание нового сайта</span>
 							<h4 class="cp-ba__t">
-								Как мы сделали редизайн двум частным школам и трём частным детсадам в Москве
+								Как мы подняли продажи за счёт редизайна двум частным школам и трём частным
+								детсадам в Москве
 							</h4>
 							<p class="cp-ba__sub">Разницу сравните сами, обе версии открыты.</p>
 							<div class="cp-ba__grid">
@@ -863,8 +864,10 @@
 	}
 	.cp-ba__label {
 		display: block;
-		font-size: 10.5px;
-		letter-spacing: 0.16em;
+		max-width: 44ch;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		line-height: 1.5;
 		text-transform: uppercase;
 		color: var(--on-dark-2);
 	}
