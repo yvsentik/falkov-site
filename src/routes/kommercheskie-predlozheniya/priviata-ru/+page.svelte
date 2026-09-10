@@ -69,6 +69,26 @@
 		}
 	];
 
+	/* Блогер, которого ведём. Цифры сняты 10 сентября 2026, оба канала открыты. */
+	const blogger = [
+		{
+			net: 'Telegram',
+			num: '76 299',
+			unit: 'подписчиков',
+			name: 'Dmitrii_visa.news ✈️ Europe',
+			href: 'https://t.me/+ONvYBircl11iOTJi',
+			label: 't.me/+ONvYBircl11iOTJi'
+		},
+		{
+			net: 'Instagram',
+			num: '59 900',
+			unit: 'подписчиков',
+			name: 'Dmitrii Volkov, аккаунт с галочкой',
+			href: 'https://www.instagram.com/dmitrii.visa.news/',
+			label: '@dmitrii.visa.news'
+		}
+	];
+
 	const bonuses = [
 		{
 			t: 'Партнёрства с крупным бизнесом',
@@ -286,6 +306,26 @@
 									<figcaption><b>Стало</b> oneischool.com</figcaption>
 								</figure>
 							</div>
+						</div>
+					{/if}
+
+					{#if p.n === '04'}
+						<div class="cp-blog">
+							<span class="cp-blog__label">Тот самый блогер по визам и ВНЖ</span>
+							<div class="cp-blog__grid">
+								{#each blogger as b}
+									<a class="cp-blog__i" href={b.href} target="_blank" rel="noopener">
+										<span class="cp-blog__net">{b.net}</span>
+										<span class="cp-blog__num">{b.num}</span>
+										<span class="cp-blog__unit">{b.unit}</span>
+										<span class="cp-blog__name">{b.name}</span>
+										<span class="cp-blog__link">{b.label} <i aria-hidden="true">↗</i></span>
+									</a>
+								{/each}
+							</div>
+							<span class="cp-blog__note">
+								Цифры на 10 сентября 2026. Оба канала открыты, можно зайти и посмотреть.
+							</span>
 						</div>
 					{/if}
 				</div>
@@ -828,6 +868,85 @@
 		margin-right: 8px;
 	}
 
+	/* блогер: пруфы по подписчикам */
+	.cp-blog {
+		margin-top: clamp(20px, 2.4vw, 30px);
+		padding: clamp(18px, 2.2vw, 26px);
+		border: 1px dashed var(--line);
+		border-radius: 22px;
+	}
+	.cp-blog__label {
+		display: block;
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-bottom: 14px;
+	}
+	.cp-blog__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(10px, 1.4vw, 16px);
+	}
+	.cp-blog__i {
+		display: grid;
+		gap: 2px;
+		padding: clamp(16px, 2vw, 22px);
+		border-radius: 18px;
+		background: var(--dark);
+		color: var(--on-dark);
+		transition: transform 0.4s var(--ease);
+	}
+	.cp-blog__net {
+		font-size: 10.5px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
+		margin-bottom: 6px;
+	}
+	.cp-blog__num {
+		font-size: clamp(28px, 3.4vw, 42px);
+		letter-spacing: -0.04em;
+		line-height: 1;
+		color: #fff;
+	}
+	.cp-blog__unit {
+		font-size: 13px;
+		color: var(--on-dark-2);
+	}
+	.cp-blog__name {
+		margin-top: 10px;
+		font-size: 13.5px;
+		line-height: 1.45;
+		color: var(--on-dark);
+	}
+	.cp-blog__link {
+		margin-top: 10px;
+		font-size: 12px;
+		color: var(--on-dark-2);
+		overflow-wrap: anywhere;
+	}
+	.cp-blog__link i {
+		font-style: normal;
+		display: inline-block;
+		margin-left: 4px;
+		transition: transform 0.35s var(--ease);
+	}
+	.cp-blog__note {
+		display: block;
+		margin-top: 12px;
+		font-size: 12.5px;
+		color: var(--ink-3);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.cp-blog__i:hover {
+			transform: translateY(-3px);
+		}
+		.cp-blog__i:hover .cp-blog__link i {
+			transform: translate(2px, -2px);
+		}
+	}
+
 	.cp-more {
 		margin: clamp(18px, 2.2vw, 26px) 0 0;
 		padding-top: clamp(18px, 2.2vw, 26px);
@@ -924,7 +1043,8 @@
 		.cp-grid--3,
 		.cp-grid--4,
 		.cp-out__list,
-		.cp-ba__grid {
+		.cp-ba__grid,
+		.cp-blog__grid {
 			grid-template-columns: minmax(0, 1fr);
 		}
 		.cp-sec__head {
