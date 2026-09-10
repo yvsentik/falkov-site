@@ -47,7 +47,7 @@ export const site = {
 
 	// TODO: коды подтверждения прав в вебмастерах
 	verification: {
-		yandex: 'a4ede68461e3de29',
+		yandex: '924a68f7156d909c', // аккаунт revomarketing
 		google: ''
 	},
 
