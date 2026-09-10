@@ -430,8 +430,11 @@
 		<div class="cp-phase" use:reveal>
 			<div class="cp-phase__head">
 				<span class="cp-phase__months">Сентябрь и октябрь</span>
-				<span class="cp-phase__note">Запускаем каналы и делаем сайт</span>
 			</div>
+			<p class="cp-phase__lead">
+				Стремительно погружаемся в бизнес и быстро оптимизируем новые каналы трафика, чтобы
+				зацепить побольше.
+			</p>
 
 			<!-- Директ -->
 			<article class="cp-line">
@@ -460,9 +463,28 @@
 							<span>реальных денег нашим методом</span>
 						</div>
 					</div>
-					<p>
-						Плюс ежедневно чистим весь мусор, за который платила деньги прошлая команда. Ниже отчёт
-						по группам запросов за 10 августа – 10 сентября.
+					<div class="cp-pitch">
+						<p class="cp-pitch__big">
+							С нашим подходом Директ обойдётся вам <b>минимум вдвое дешевле</b> при том же
+							результате.
+						</p>
+						<div class="cp-pitch__opts">
+							<div>
+								<span>Вариант 1</span>
+								<b>Платите в 2 раза меньше</b>
+								<i>те же заявки за половину нынешнего бюджета</i>
+							</div>
+							<div class="is-hi">
+								<span>Вариант 2</span>
+								<b>Кратно больше лидов</b>
+								<i>бюджет оставляем прежним и выжимаем из него максимум</i>
+							</div>
+						</div>
+					</div>
+					<p class="cp-clean">
+						<b>Плюс ежедневно чистим весь мусор, за который платила деньги прошлая команда.</b>
+						Ниже отчёт по группам запросов за 10 августа – 10 сентября.
+						<i aria-hidden="true">↓</i>
 					</p>
 				</div>
 			</article>
@@ -1396,6 +1418,97 @@
 		color: var(--ink-3);
 	}
 
+	.cp-phase__lead {
+		margin: clamp(14px, 1.8vw, 20px) 0 0;
+		max-width: 56ch;
+		font-size: clamp(16px, 1.8vw, 21px);
+		line-height: 1.45;
+		letter-spacing: -0.015em;
+		color: var(--ink);
+	}
+
+	/* питч по Директу */
+	.cp-pitch {
+		margin: 4px 0 14px;
+		padding: clamp(18px, 2.2vw, 24px);
+		border-radius: 20px;
+		background: var(--dark);
+		color: var(--on-dark);
+	}
+	.cp-line__r .cp-pitch__big {
+		margin: 0 0 14px;
+		font-size: clamp(17px, 1.9vw, 23px);
+		line-height: 1.35;
+		letter-spacing: -0.02em;
+		color: #fff;
+	}
+	.cp-pitch__big b {
+		font-weight: 500;
+		box-shadow: inset 0 -0.4em 0 rgba(255, 255, 255, 0.2);
+	}
+	.cp-pitch__opts {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 8px;
+	}
+	.cp-pitch__opts > div {
+		display: grid;
+		align-content: start;
+		gap: 3px;
+		padding: 14px 16px;
+		border-radius: 14px;
+		background: rgba(255, 255, 255, 0.08);
+	}
+	.cp-pitch__opts span {
+		font-size: 10px;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--on-dark-2);
+	}
+	.cp-pitch__opts b {
+		font-weight: 400;
+		font-size: clamp(17px, 1.8vw, 21px);
+		letter-spacing: -0.02em;
+		color: #fff;
+	}
+	.cp-pitch__opts i {
+		font-style: normal;
+		font-size: 13px;
+		line-height: 1.4;
+		color: var(--on-dark-2);
+	}
+	.cp-pitch__opts .is-hi {
+		background: #fff;
+	}
+	.cp-pitch__opts .is-hi span,
+	.cp-pitch__opts .is-hi i {
+		color: var(--ink-3);
+	}
+	.cp-pitch__opts .is-hi b {
+		color: var(--dark);
+	}
+
+	/* чистка мусора */
+	.cp-line__r .cp-clean {
+		margin: 0;
+		padding: 16px 18px;
+		border-radius: 16px;
+		border-left: 3px solid var(--ink);
+		background: var(--paper-2);
+		font-size: clamp(15px, 1.5vw, 17px);
+		line-height: 1.55;
+		color: var(--ink-2);
+	}
+	.cp-clean b {
+		font-weight: 500;
+		color: var(--ink);
+	}
+	.cp-clean i {
+		font-style: normal;
+		margin-left: 4px;
+		color: var(--ink);
+	}
+
 	/* отчёт по Директу */
 	.cp-rep {
 		margin: clamp(4px, 1vw, 10px) 0 clamp(8px, 1.4vw, 16px);
@@ -1680,7 +1793,8 @@
 		.cp-out__list,
 		.cp-ba__grid,
 		.cp-blog__grid,
-		.cp-rep__sum {
+		.cp-rep__sum,
+		.cp-pitch__opts {
 			grid-template-columns: minmax(0, 1fr);
 		}
 		.cp-rep__h {
