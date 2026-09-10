@@ -281,30 +281,46 @@
 						</div>
 
 						<div class="cp-ba">
-							<span class="cp-ba__label">Дизайн будет передовым. Сравните сами</span>
+							<span class="cp-ba__label">Редизайн</span>
+							<h4 class="cp-ba__t">
+								Как мы сделали редизайн двум частным школам и трём частным детсадам в Москве
+							</h4>
+							<p class="cp-ba__sub">Разницу сравните сами, обе версии открыты.</p>
 							<div class="cp-ba__grid">
-								<figure>
-									<img
-										src="/cp/priviata/oneischool-before.jpg"
-										width="1280"
-										height="760"
-										alt="Сайт ONE! International School до работы с нами"
-										loading="lazy"
-										decoding="async"
-									/>
-									<figcaption><b>Было</b> old.oneischool.com</figcaption>
-								</figure>
-								<figure>
-									<img
-										src="/cp/priviata/oneischool-after.jpg"
-										width="1280"
-										height="760"
-										alt="Сайт ONE! International School после работы с нами"
-										loading="lazy"
-										decoding="async"
-									/>
-									<figcaption><b>Стало</b> oneischool.com</figcaption>
-								</figure>
+								<a class="cp-ba__i" href="https://old.oneischool.com/" target="_blank" rel="noopener">
+									<span class="cp-ba__pic">
+										<img
+											src="/cp/priviata/oneischool-before.jpg"
+											width="1280"
+											height="760"
+											alt="Сайт ONE! International School до работы с нами"
+											loading="lazy"
+											decoding="async"
+										/>
+									</span>
+									<span class="cp-ba__cap">
+										<b>Было</b>
+										<span>old.oneischool.com</span>
+										<i aria-hidden="true">↗</i>
+									</span>
+								</a>
+								<a class="cp-ba__i is-new" href="https://oneischool.com/" target="_blank" rel="noopener">
+									<span class="cp-ba__pic">
+										<img
+											src="/cp/priviata/oneischool-after.jpg"
+											width="1280"
+											height="760"
+											alt="Сайт ONE! International School после работы с нами"
+											loading="lazy"
+											decoding="async"
+										/>
+									</span>
+									<span class="cp-ba__cap">
+										<b>Стало</b>
+										<span>oneischool.com</span>
+										<i aria-hidden="true">↗</i>
+									</span>
+								</a>
 							</div>
 						</div>
 					{/if}
@@ -829,120 +845,89 @@
 	}
 
 	/* было / стало */
+	/* было / стало */
 	.cp-ba {
 		margin-top: clamp(20px, 2.4vw, 30px);
+		padding: clamp(20px, 2.4vw, 30px);
+		border-radius: 24px;
+		background: var(--dark);
+		color: var(--on-dark);
 	}
 	.cp-ba__label {
 		display: block;
 		font-size: 10.5px;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--ink-3);
-		margin-bottom: 12px;
+		color: var(--on-dark-2);
+	}
+	.cp-ba__t {
+		margin: 10px 0 8px;
+		max-width: 30ch;
+		font-size: clamp(19px, 2.2vw, 28px);
+		line-height: 1.2;
+		letter-spacing: -0.025em;
+		color: #fff;
+	}
+	.cp-ba__sub {
+		margin: 0 0 clamp(16px, 2vw, 22px);
+		font-size: 14px;
+		color: var(--on-dark-2);
 	}
 	.cp-ba__grid {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: clamp(10px, 1.4vw, 16px);
 	}
-	.cp-ba figure {
-		margin: 0;
+	.cp-ba__i {
+		display: block;
 		border-radius: 16px;
 		overflow: hidden;
-		background: var(--card);
-		border: 1px solid var(--line);
+		background: rgba(255, 255, 255, 0.06);
+		transition: transform 0.45s var(--ease), background 0.35s var(--ease);
+	}
+	.cp-ba__pic {
+		display: block;
+		position: relative;
+		overflow: hidden;
 	}
 	.cp-ba img {
 		display: block;
 		width: 100%;
 		height: auto;
+		filter: grayscale(0.35);
+		transition: filter 0.45s var(--ease), transform 0.6s var(--ease);
 	}
-	.cp-ba figcaption {
-		padding: 10px 14px;
-		font-size: 12px;
-		color: var(--ink-3);
+	.cp-ba__i.is-new img {
+		filter: none;
 	}
-	.cp-ba figcaption b {
-		font-weight: 500;
-		color: var(--ink);
-		margin-right: 8px;
-	}
-
-	/* блогер: пруфы по подписчикам */
-	.cp-blog {
-		margin-top: clamp(20px, 2.4vw, 30px);
-		padding: clamp(18px, 2.2vw, 26px);
-		border: 1px dashed var(--line);
-		border-radius: 22px;
-	}
-	.cp-blog__label {
-		display: block;
-		font-size: 10.5px;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--ink-3);
-		margin-bottom: 14px;
-	}
-	.cp-blog__grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: clamp(10px, 1.4vw, 16px);
-	}
-	.cp-blog__i {
-		display: grid;
-		gap: 2px;
-		padding: clamp(16px, 2vw, 22px);
-		border-radius: 18px;
-		background: var(--dark);
-		color: var(--on-dark);
-		transition: transform 0.4s var(--ease);
-	}
-	.cp-blog__net {
-		font-size: 10.5px;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
+	.cp-ba__cap {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+		padding: 12px 16px;
+		font-size: 12.5px;
 		color: var(--on-dark-2);
-		margin-bottom: 6px;
 	}
-	.cp-blog__num {
-		font-size: clamp(28px, 3.4vw, 42px);
-		letter-spacing: -0.04em;
-		line-height: 1;
+	.cp-ba__cap b {
+		font-weight: 500;
+		font-size: 14px;
 		color: #fff;
 	}
-	.cp-blog__unit {
-		font-size: 13px;
-		color: var(--on-dark-2);
-	}
-	.cp-blog__name {
-		margin-top: 10px;
-		font-size: 13.5px;
-		line-height: 1.45;
-		color: var(--on-dark);
-	}
-	.cp-blog__link {
-		margin-top: 10px;
-		font-size: 12px;
-		color: var(--on-dark-2);
-		overflow-wrap: anywhere;
-	}
-	.cp-blog__link i {
+	.cp-ba__cap i {
+		margin-left: auto;
 		font-style: normal;
-		display: inline-block;
-		margin-left: 4px;
 		transition: transform 0.35s var(--ease);
 	}
-	.cp-blog__note {
-		display: block;
-		margin-top: 12px;
-		font-size: 12.5px;
-		color: var(--ink-3);
-	}
 	@media (hover: hover) and (pointer: fine) {
-		.cp-blog__i:hover {
-			transform: translateY(-3px);
+		.cp-ba__i:hover {
+			transform: translateY(-4px);
+			background: rgba(255, 255, 255, 0.12);
 		}
-		.cp-blog__i:hover .cp-blog__link i {
+		.cp-ba__i:hover img {
+			filter: none;
+			transform: scale(1.015);
+		}
+		.cp-ba__i:hover .cp-ba__cap i {
 			transform: translate(2px, -2px);
 		}
 	}
