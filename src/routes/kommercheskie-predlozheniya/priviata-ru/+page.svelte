@@ -218,7 +218,7 @@
 		</div>
 		<div class="cp-grid cp-grid--3">
 			<div class="cp-card" use:reveal>
-				<h3>Лезем в отдел продаж</h3>
+				<h3>Лезем в отдел продаж <small>(передумали по итогам второй встречи)</small></h3>
 				<p>
 					Отвечаем не только за трафик. Настраиваем аналитику, связываем маркетинг с продажами и
 					смотрим, что происходит с заявкой после клика.
@@ -883,6 +883,14 @@
 		border: 1px solid var(--line);
 		border-radius: 22px;
 		background: var(--card);
+	}
+	.cp-card h3 small {
+		display: block;
+		margin-top: 4px;
+		font-size: 12px;
+		font-weight: 400;
+		letter-spacing: 0;
+		color: var(--ink-3);
 	}
 	.cp-card h3 {
 		margin: 0 0 8px;
