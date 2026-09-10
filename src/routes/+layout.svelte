@@ -16,6 +16,7 @@
 	const bare = $derived(
 		page.url.pathname === '/' ||
 			page.url.pathname === '/vam-ne-podhodit-seo/' ||
+			page.url.pathname.startsWith('/kommercheskie-predlozheniya/') ||
 			page.url.pathname.startsWith('/style/')
 	);
 
