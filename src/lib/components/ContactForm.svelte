@@ -26,22 +26,21 @@
 	let hp = $state('');
 	const t0 = Date.now();
 
-	/* SmartCaptcha, невидимый режим: проверка появляется после нажатия «Отправить»,
-	   после неё заявка уходит сама. Без formEndpoint токен на сервере не проверяется –
+	/* SmartCaptcha: галочка «Я не робот» появляется после первого нажатия «Отправить»,
+	   после проверки заявка уходит сама. Без formEndpoint токен на сервере не проверяется –
 	   капча только отсекает простых ботов в браузере. */
 	const useCaptcha = Boolean(site.captcha?.sitekey);
+	let showCaptcha = $state(false);
 	let captchaEl = $state();
 	let captchaToken = $state('');
 	let widgetId = null;
 
 	$effect(() => {
-		if (!useCaptcha || !captchaEl) return;
+		if (!useCaptcha || !showCaptcha || !captchaEl) return;
 		const mount = () => {
 			widgetId = window.smartCaptcha.render(captchaEl, {
 				sitekey: site.captcha.sitekey,
 				hl: 'ru',
-				invisible: true,
-				hideShield: true,
 				callback: (t) => {
 					captchaToken = t;
 					send();
@@ -84,9 +83,9 @@
 			return;
 		}
 		if (useCaptcha && !captchaToken) {
-			// показываем проверку; после неё callback сам вызовет send()
-			if (window.smartCaptcha && widgetId !== null) window.smartCaptcha.execute(widgetId);
-			else status = 'captcha';
+			// показываем галочку; после проверки callback сам вызовет send()
+			showCaptcha = true;
+			status = 'captcha';
 			return;
 		}
 		send();
@@ -201,11 +200,11 @@
 			</span>
 		</label>
 
-		{#if useCaptcha}
-			<div class="captcha" bind:this={captchaEl}></div>
-		{/if}
 		{#if status === 'captcha'}
-			<p class="form__note">Проверка не загрузилась, обновите страницу или напишите менеджеру.</p>
+			<p class="form__note">Подтвердите, что вы не робот, и заявка уйдёт сама.</p>
+		{/if}
+		{#if useCaptcha && showCaptcha}
+			<div class="captcha" bind:this={captchaEl}></div>
 		{/if}
 
 		<button class="btn btn--wide" type="submit" disabled={status === 'sending'}>
@@ -315,10 +314,10 @@
 		outline: 2px solid var(--ink);
 		outline-offset: 2px;
 	}
-	/* невидимая капча: контейнер места не занимает, проверка всплывает поверх */
+	/* появляется после первого «Отправить» */
 	.captcha {
-		height: 0;
-		overflow: hidden;
+		min-height: 102px;
+		margin-bottom: 16px;
 	}
 	.hp {
 		position: absolute;
