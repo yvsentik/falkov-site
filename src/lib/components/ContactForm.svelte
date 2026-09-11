@@ -7,9 +7,9 @@
 
 	/* Способы связи: метка, подсказка к полю и как подписать в заявке. */
 	const channels = [
-		{ id: 'phone', label: 'Телефон', hint: '+7 ···', type: 'tel' },
+		{ id: 'phone', label: 'Телефон', hint: '+7 (999) 123-45-67', type: 'tel' },
 		{ id: 'telegram', label: 'Telegram', hint: '@username или номер', type: 'text' },
-		{ id: 'whatsapp', label: 'WhatsApp', hint: '+7 ···', type: 'tel' },
+		{ id: 'whatsapp', label: 'WhatsApp', hint: '+7 (999) 123-45-67', type: 'tel' },
 		{ id: 'max', label: 'MAX', hint: 'номер или ссылка', type: 'text' }
 	];
 
@@ -31,9 +31,20 @@
 	   капча только отсекает простых ботов в браузере. */
 	const useCaptcha = Boolean(site.captcha?.sitekey);
 	let showCaptcha = $state(false);
+	let captchaReady = $state(false); // iframe виджета загрузился – прячем крутилку
 	let captchaEl = $state();
 	let captchaToken = $state('');
 	let widgetId = null;
+
+	/* скрипт капчи грузим сразу при открытии формы, чтобы галочка после «Отправить» появлялась без паузы */
+	$effect(() => {
+		if (!useCaptcha || document.querySelector('script[data-smartcaptcha]')) return;
+		const s = document.createElement('script');
+		s.src = 'https://smartcaptcha.yandexcloud.net/captcha.js';
+		s.defer = true;
+		s.dataset.smartcaptcha = '1';
+		document.head.appendChild(s);
+	});
 
 	$effect(() => {
 		if (!useCaptcha || !showCaptcha || !captchaEl) return;
@@ -46,6 +57,10 @@
 					send();
 				}
 			});
+			const ready = () => (captchaReady = true);
+			const frame = captchaEl.querySelector('iframe');
+			if (frame) frame.addEventListener('load', ready, { once: true });
+			setTimeout(ready, 4000); // запасной вариант, если load не пришёл
 		};
 		if (window.smartCaptcha) return mount();
 		let s = document.querySelector('script[data-smartcaptcha]');
@@ -60,6 +75,29 @@
 	});
 
 	const cur = $derived(channels.find((c) => c.id === channel));
+
+	/* Маска телефона: +7 (999) 123-45-67. Префикс «+7» отрезаем как код страны,
+	   ведущую 8/7 убираем, только если цифр набралось 11 (8 999 …), – так 812 для СПб
+	   не ломается. Скобку ставим только после 4-й цифры, чтобы Backspace не застревал. */
+	function formatPhone(v) {
+		const raw = v.trim();
+		let d = (raw.startsWith('+7') ? raw.slice(2) : raw).replace(/\D/g, '');
+		if (d.length > 10 && /^[78]/.test(d)) d = d.slice(1);
+		d = d.slice(0, 10);
+		if (!d) return '+7 (';
+		let out = '+7 (' + d.slice(0, 3);
+		if (d.length > 3) out += ') ' + d.slice(3, 6);
+		if (d.length > 6) out += '-' + d.slice(6, 8);
+		if (d.length > 8) out += '-' + d.slice(8, 10);
+		return out;
+	}
+	function onContactInput(e) {
+		if (cur.type !== 'tel') return;
+		contact = formatPhone(e.currentTarget.value);
+	}
+	function onContactFocus() {
+		if (cur.type === 'tel' && !contact) contact = '+7 (';
+	}
 
 	/* Текст заявки одинаковый для бэкенда и для чата с менеджером. */
 	function message() {
@@ -169,7 +207,12 @@
 				<input
 					type={cur.type}
 					bind:value={contact}
+					oninput={onContactInput}
+					onfocus={onContactFocus}
 					required
+					inputmode={cur.type === 'tel' ? 'tel' : 'text'}
+					pattern={cur.type === 'tel' ? '\\+7 \\(\\d{3}\\) \\d{3}-\\d{2}-\\d{2}' : undefined}
+					title={cur.type === 'tel' ? 'Номер из 10 цифр после +7' : undefined}
 					autocomplete={channel === 'telegram' || channel === 'max' ? 'off' : 'tel'}
 					placeholder={cur.hint}
 				/>
@@ -204,7 +247,12 @@
 			<p class="form__note">Подтвердите, что вы не робот, и заявка уйдёт сама.</p>
 		{/if}
 		{#if useCaptcha && showCaptcha}
-			<div class="captcha" bind:this={captchaEl}></div>
+			<div class="captcha-wrap">
+				{#if !captchaReady}
+					<div class="captcha-load" aria-hidden="true"><span class="captcha-spin"></span>Загружаем проверку…</div>
+				{/if}
+				<div class="captcha" bind:this={captchaEl}></div>
+			</div>
 		{/if}
 
 		<button class="btn btn--wide" type="submit" disabled={status === 'sending'}>
@@ -315,9 +363,40 @@
 		outline-offset: 2px;
 	}
 	/* появляется после первого «Отправить» */
-	.captcha {
+	.captcha-wrap {
+		position: relative;
 		min-height: 102px;
 		margin-bottom: 16px;
+	}
+	.captcha-load {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 12px;
+		font-size: 13px;
+		color: rgba(0, 0, 0, 0.55);
+	}
+	.captcha-spin {
+		width: 18px;
+		height: 18px;
+		border: 2px solid rgba(0, 0, 0, 0.15);
+		border-top-color: rgba(0, 0, 0, 0.7);
+		border-radius: 50%;
+		animation: captcha-spin 0.8s linear infinite;
+	}
+	@keyframes captcha-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	.captcha {
+		position: relative;
+		z-index: 1;
+		min-height: 102px;
 	}
 	.hp {
 		position: absolute;
