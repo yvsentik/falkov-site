@@ -69,8 +69,9 @@ export const site = {
 	//    token – от @BotFather, chatId – id чата, куда писать (Роман должен нажать Start у бота).
 	// 2) formEndpoint – свой обработчик (POST JSON), если появится.
 	// Если пусто и то и другое – форма открывает чат с менеджером с готовым текстом.
-	telegramBot: { token: '', chatId: '' }, // токен бота теперь только в секретах воркера
-	formEndpoint: 'https://falkov-leads.sleepykostya-pm.workers.dev', // Cloudflare Worker (worker/lead-proxy.js) → @falkov_leads_bot → Роман
+	telegramBot: { token: '8656918564:AAEvu3FvxW0v1EKrt3fcIrRSpy6C2Uc7MUo', chatId: '7315203539' }, // @falkov_leads_bot → Роман
+	// workers.dev из России не открывается (11.09.2026), поэтому пусто, пока нет обработчика на доступном адресе
+	formEndpoint: '',
 	// Yandex SmartCaptcha: клиентский ключ. Работает только вместе с formEndpoint,
 	// секретный ключ живёт в воркере. После включения токен бота отсюда убрать.
 	captcha: { sitekey: 'ysc1_TlaMeoeaBrYnXHfzrvV2FvdUCJCzMjjK617ckm2V0e51ca89' }, // Yandex Cloud, капча falkov-site
