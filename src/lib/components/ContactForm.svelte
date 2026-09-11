@@ -315,9 +315,10 @@
 		outline: 2px solid var(--ink);
 		outline-offset: 2px;
 	}
+	/* невидимая капча: контейнер места не занимает, проверка всплывает поверх */
 	.captcha {
-		min-height: 100px;
-		margin-bottom: 16px;
+		height: 0;
+		overflow: hidden;
 	}
 	.hp {
 		position: absolute;
