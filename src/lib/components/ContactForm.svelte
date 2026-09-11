@@ -27,7 +27,8 @@
 	const t0 = Date.now();
 
 	/* SmartCaptcha включается, только когда есть ключ и серверный обработчик:
-	   без сервера проверить её токен некому. */
+	   без сервера проверить её токен некому. Режим невидимый: проверка
+	   появляется после нажатия «Отправить», по токену заявка уходит сама. */
 	const useCaptcha = Boolean(site.captcha?.sitekey && site.formEndpoint);
 	let captchaEl = $state();
 	let captchaToken = $state('');
@@ -39,7 +40,12 @@
 			widgetId = window.smartCaptcha.render(captchaEl, {
 				sitekey: site.captcha.sitekey,
 				hl: 'ru',
-				callback: (t) => (captchaToken = t)
+				invisible: true,
+				hideShield: true,
+				callback: (t) => {
+					captchaToken = t;
+					send();
+				}
 			});
 		};
 		if (window.smartCaptcha) return mount();
@@ -78,9 +84,15 @@
 			return;
 		}
 		if (useCaptcha && !captchaToken) {
-			status = 'captcha';
+			// показываем проверку; после неё callback сам вызовет send()
+			if (window.smartCaptcha && widgetId !== null) window.smartCaptcha.execute(widgetId);
+			else status = 'captcha';
 			return;
 		}
+		send();
+	}
+
+	async function send() {
 		reachGoal('lead_submit', { channel: cur.label, source });
 
 		const bot = site.telegramBot;
@@ -193,7 +205,7 @@
 			<div class="captcha" bind:this={captchaEl}></div>
 		{/if}
 		{#if status === 'captcha'}
-			<p class="form__note">Подтвердите, что вы не робот.</p>
+			<p class="form__note">Проверка не загрузилась, обновите страницу или напишите менеджеру.</p>
 		{/if}
 
 		<button class="btn btn--wide" type="submit" disabled={status === 'sending'}>
