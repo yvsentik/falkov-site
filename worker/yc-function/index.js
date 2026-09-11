@@ -1,8 +1,8 @@
-/* Yandex Cloud Function: приём заявок с falkov-marketing.ru (замена Cloudflare Worker –
-   workers.dev из России не открывается).
+/* Yandex Cloud Function: приём заявок с falkov-marketing.ru.
    1) проверяет токен Yandex SmartCaptcha на стороне сервера;
-   2) отправляет заявку в Telegram – токен бота живёт только в переменных функции.
-   Переменные окружения: SMARTCAPTCHA_SECRET, TG_TOKEN, TG_CHAT_ID. Среда: Node.js 18+, точка входа index.handler. */
+   2) передаёт заявку в Cloudflare Worker (worker/lead-proxy.js), он отправляет в Telegram:
+      из Yandex Cloud api.telegram.org не открывается.
+   Переменные окружения: SMARTCAPTCHA_SECRET, RELAY_URL, RELAY_KEY. Node.js 22, точка входа index.handler. */
 
 const ALLOWED = ['https://falkov-marketing.ru', 'https://www.falkov-marketing.ru', 'http://localhost:5177'];
 
@@ -22,6 +22,15 @@ module.exports.handler = async (event) => {
 	const h = event.headers || {};
 	const origin = h.Origin || h.origin || '';
 	if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: cors(origin), body: '' };
+
+	// проверка связи с ретранслятором: GET ?ping=1
+	if (event.httpMethod === 'GET' && event.queryStringParameters?.ping) {
+		const r = await fetch(process.env.RELAY_URL, { signal: AbortSignal.timeout(5000) })
+			.then((x) => x.status)
+			.catch((e) => 'ERR ' + e.message);
+		return reply(200, { relay: r }, origin);
+	}
+
 	if (event.httpMethod !== 'POST') return reply(405, { ok: false, error: 'method' }, origin);
 	if (!ALLOWED.includes(origin)) return reply(403, { ok: false, error: 'origin' }, origin);
 
@@ -40,17 +49,20 @@ module.exports.handler = async (event) => {
 	const check = await fetch('https://smartcaptcha.yandexcloud.net/validate', {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-		body: new URLSearchParams({ secret: process.env.SMARTCAPTCHA_SECRET, token, ip })
+		body: new URLSearchParams({ secret: process.env.SMARTCAPTCHA_SECRET, token, ip }),
+		signal: AbortSignal.timeout(4000)
 	})
 		.then((r) => r.json())
 		.catch(() => ({ status: 'error' }));
 	if (check.status !== 'ok') return reply(403, { ok: false, error: 'captcha' }, origin);
 
-	// отправка в Telegram
-	const tg = await fetch(`https://api.telegram.org/bot${process.env.TG_TOKEN}/sendMessage`, {
+	// передача в ретранслятор → Telegram
+	const relay = await fetch(process.env.RELAY_URL, {
 		method: 'POST',
-		headers: { 'Content-Type': 'application/json' },
-		body: JSON.stringify({ chat_id: process.env.TG_CHAT_ID, text: String(text), disable_web_page_preview: true })
-	});
-	return reply(tg.ok ? 200 : 502, { ok: tg.ok }, origin);
+		headers: { 'Content-Type': 'application/json', 'X-Relay-Key': process.env.RELAY_KEY },
+		body: JSON.stringify({ text: String(text) }),
+		signal: AbortSignal.timeout(6000)
+	}).catch(() => null);
+	const ok = Boolean(relay?.ok);
+	return reply(ok ? 200 : 502, { ok }, origin);
 };

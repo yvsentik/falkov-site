@@ -26,10 +26,10 @@
 	let hp = $state('');
 	const t0 = Date.now();
 
-	/* SmartCaptcha включается, только когда есть ключ и серверный обработчик:
-	   без сервера проверить её токен некому. Режим невидимый: проверка
-	   появляется после нажатия «Отправить», по токену заявка уходит сама. */
-	const useCaptcha = Boolean(site.captcha?.sitekey && site.formEndpoint);
+	/* SmartCaptcha, невидимый режим: проверка появляется после нажатия «Отправить»,
+	   после неё заявка уходит сама. Без formEndpoint токен на сервере не проверяется –
+	   капча только отсекает простых ботов в браузере. */
+	const useCaptcha = Boolean(site.captcha?.sitekey);
 	let captchaEl = $state();
 	let captchaToken = $state('');
 	let widgetId = null;
