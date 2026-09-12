@@ -677,6 +677,42 @@
 		</div>
 	</section>
 
+	<!-- СКОЛЬКО СТОИТ -->
+	<section class="fk-sec fk-sec--tight" id="ceny">
+		<span class="fk-eyebrow">Деньги</span>
+		<h2>Сколько стоит работа с нами</h2>
+		<div class="fk-price">
+			<div class="fk-price__main">
+				<b>от 50 000 ₽</b>
+				<span>в месяц, ведение проекта</span>
+				<p>
+					Это нижняя граница, с которой мы берём проект в работу. Столько стоит месяц, в котором
+					над сайтом реально работают: семантика, техника, тексты, внедрение правок и отчётность.
+				</p>
+				<p class="fk-price__alt">
+					Второй вариант – процент с прибыли. Тогда мы зарабатываем только тогда, когда канал
+					принёс вам деньги. Формат обсуждаем после бесплатного разбора: он подходит там, где
+					видно сквозную аналитику и маржинальность.
+				</p>
+				<button class="fk-pill fk-pill--solid" type="button" onclick={() => (lead.open = true)}>
+					Получить расчёт по своему проекту
+				</button>
+			</div>
+			<div class="fk-price__from">
+				<span class="fk-price__h">Из чего складывается сумма</span>
+				<ul>
+					<li><b>Конкуренция в нише.</b> В стоматологии и ремонте квартир по Петербургу нужно сделать заметно больше, чем в узком b2b.</li>
+					<li><b>Объём семантики и страниц.</b> Сайт услуг на 30 страниц и магазин на 20 000 товаров – разный объём работ на порядок.</li>
+					<li><b>Состояние сайта.</b> Если движок старый и правки приходится внедрять руками, часть месяца уходит на технику.</li>
+					<li><b>Нужен ли контент и разработка.</b> Тексты, посадочные и доработки шаблона считаются отдельно или входят в абонентку.</li>
+				</ul>
+				<p class="fk-price__note">
+					Точную цифру называем после разбора сайта: он бесплатный и ни к чему не обязывает.
+				</p>
+			</div>
+		</div>
+	</section>
+
 	<!-- ЧАСТЫЕ ВОПРОСЫ -->
 	<section class="fk-sec fk-sec--tight" id="voprosy">
 		<span class="fk-eyebrow">Вопросы</span>
@@ -2399,6 +2435,89 @@
 	}
 
 	/* подвал */
+	.fk-price {
+		display: grid;
+		gap: 16px;
+		grid-template-columns: 1fr 1fr;
+		margin-top: 22px;
+	}
+	.fk-price__main,
+	.fk-price__from {
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		background: var(--panel);
+		padding: clamp(20px, 2.2vw, 30px);
+	}
+	.fk-price__main b {
+		display: block;
+		font-size: clamp(30px, 4vw, 48px);
+		font-weight: 400;
+		line-height: 1;
+	}
+	.fk-price__main > span {
+		display: block;
+		margin-top: 8px;
+		color: var(--ink-2);
+		font-size: 14px;
+	}
+	.fk-price__main p {
+		margin: 16px 0 0;
+		line-height: 1.6;
+		font-size: 15px;
+		color: var(--ink-2);
+	}
+	.fk-price__alt {
+		padding-top: 14px;
+		border-top: 1px solid var(--line);
+	}
+	.fk-price__main button {
+		margin-top: 20px;
+	}
+	.fk-price__h {
+		display: block;
+		font-size: 12px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-2);
+		margin-bottom: 14px;
+	}
+	.fk-price__from ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 12px;
+	}
+	.fk-price__from li {
+		font-size: 15px;
+		line-height: 1.55;
+		color: var(--ink-2);
+		padding-left: 16px;
+		position: relative;
+	}
+	.fk-price__from li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 9px;
+		width: 6px;
+		height: 1px;
+		background: currentColor;
+	}
+	.fk-price__from li b {
+		color: var(--ink);
+		font-weight: 500;
+	}
+	.fk-price__note {
+		margin: 16px 0 0;
+		font-size: 14px;
+		color: var(--ink-2);
+	}
+	@media (max-width: 860px) {
+		.fk-price {
+			grid-template-columns: 1fr;
+		}
+	}
 	.fk-faq {
 		display: grid;
 		gap: 10px;
