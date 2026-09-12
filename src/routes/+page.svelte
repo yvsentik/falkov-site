@@ -205,13 +205,13 @@
 			<div class="fk-hero__panel" use:reveal>
 				<span class="fk-badge">
 					<span class="fk-badge__dot" aria-hidden="true"></span>
-					<span class="fk-badge__txt">
+					<h1 class="fk-badge__txt">
 						Маркетинговое агентство {geo.cityIn}
 						<i aria-hidden="true"></i>
 						<b>офис на Энергетиков, 10</b>
-					</span>
+					</h1>
 				</span>
-				<h1>
+				<p class="fk-claim">
 					Приводим клиентов малому и среднему бизнесу из
 					<span class="fk-rot">
 						{#each heroWords as w, i}
@@ -219,7 +219,7 @@
 							<span class="fk-rot__w" class:is-on={i === wordIndex}>{w}</span>
 						{/each}
 					</span>
-				</h1>
+				</p>
 				<div class="fk-hero__acts">
 					<button class="fk-pill fk-pill--solid" type="button" onclick={() => (lead.open = true)}>Оставить заявку</button>
 
@@ -677,6 +677,20 @@
 		</div>
 	</section>
 
+	<!-- ЧАСТЫЕ ВОПРОСЫ -->
+	<section class="fk-sec fk-sec--tight" id="voprosy">
+		<span class="fk-eyebrow">Вопросы</span>
+		<h2>Частые вопросы о работе агентства</h2>
+		<div class="fk-faq">
+			{#each generalFaq as item}
+				<details class="fk-faq__i">
+					<summary>{item.q}</summary>
+					<p>{item.a}</p>
+				</details>
+			{/each}
+		</div>
+	</section>
+
 	<!-- ПОДВАЛ -->
 	<footer class="fk-foot">
 		<div class="fk-foot__cols">
@@ -697,6 +711,7 @@
 				<span class="fk-foot__h">Агентство</span>
 				<a href="/o-nas/">О нас</a>
 				<a href="/keysy/">Кейсы</a>
+				<a href="/blog/">Блог</a>
 				<a href="/kontakty/">Контакты</a>
 			</div>
 			<div>
@@ -1269,7 +1284,17 @@
 		flex-direction: column;
 		justify-content: center;
 	}
-	.fk h1 {
+	/* в плашке h1 остаётся мелким: специфичнее, чем общее правило .fk h1 */
+	.fk-badge h1.fk-badge__txt {
+		margin: 0;
+		font-size: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+		letter-spacing: inherit;
+		text-transform: none;
+	}
+	.fk h1,
+	.fk p.fk-claim {
 		margin: 0 0 18px;
 		font-size: clamp(19px, 3.4vw, 46px);
 		font-weight: 400;
@@ -2374,6 +2399,44 @@
 	}
 
 	/* подвал */
+	.fk-faq {
+		display: grid;
+		gap: 10px;
+		margin-top: 22px;
+	}
+	.fk-faq__i {
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		background: var(--panel);
+		padding: 16px 18px;
+	}
+	.fk-faq__i summary {
+		cursor: pointer;
+		list-style: none;
+		font-size: clamp(15px, 1.4vw, 17px);
+		line-height: 1.4;
+		display: flex;
+		justify-content: space-between;
+		gap: 16px;
+	}
+	.fk-faq__i summary::-webkit-details-marker {
+		display: none;
+	}
+	.fk-faq__i summary::after {
+		content: '+';
+		color: var(--ink-2);
+		font-size: 20px;
+		line-height: 1;
+	}
+	.fk-faq__i[open] summary::after {
+		content: '–';
+	}
+	.fk-faq__i p {
+		margin: 12px 0 0;
+		color: var(--ink-2);
+		line-height: 1.6;
+		font-size: 15px;
+	}
 	.fk-foot {
 		max-width: var(--wide);
 		margin: clamp(48px, 6vw, 88px) auto 0;
@@ -2554,7 +2617,8 @@
 	}
 	/* очень узкие экраны и сжатая панель предпросмотра */
 	@media (max-width: 400px) {
-		.fk h1 {
+		.fk h1,
+		.fk p.fk-claim {
 			font-size: 17px;
 			letter-spacing: 0;
 		}

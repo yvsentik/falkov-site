@@ -1,5 +1,6 @@
 import { services } from '$lib/data/services/index.js';
 import { cases } from '$lib/data/cases.js';
+import { posts } from '$lib/data/posts.js';
 import { site } from '$lib/config/site.js';
 
 export const prerender = true;
@@ -27,6 +28,8 @@ export function GET() {
 		url('/o-nas/', '0.6', 'monthly'),
 		url('/otzyvy/', '0.6', 'monthly'),
 		url('/kontakty/', '0.7', 'monthly'),
+		url('/blog/', '0.7', 'weekly'),
+		...posts.map((p) => url(`/blog/${p.slug}/`, '0.6', 'monthly', p.date)),
 		...services.map((s) => url(`/uslugi/${s.slug}/`, s.featured ? '0.9' : '0.8', 'monthly')),
 		...cases.map((c) => url(`/keysy/${c.slug}/`, '0.6', 'monthly')),
 		url('/politika-konfidencialnosti/', '0.1', 'yearly')

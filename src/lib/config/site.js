@@ -126,5 +126,6 @@ export const nav = [
 			{ title: 'Контакты', href: '/kontakty/' }
 		]
 	},
+	{ title: 'Блог', href: '/blog/' },
 	{ title: 'Контакты', href: '/kontakty/' }
 ];
