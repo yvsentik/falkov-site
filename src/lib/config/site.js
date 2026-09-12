@@ -69,7 +69,9 @@ export const site = {
 	//    token – от @BotFather, chatId – id чата, куда писать (Роман должен нажать Start у бота).
 	// 2) formEndpoint – свой обработчик (POST JSON), если появится.
 	// Если пусто и то и другое – форма открывает чат с менеджером с готовым текстом.
-	telegramBot: { token: '8656918564:AAEvu3FvxW0v1EKrt3fcIrRSpy6C2Uc7MUo', chatId: '7315203539' }, // @falkov_leads_bot → Роман
+	// Токен бота в коде клиента держать нельзя: спамеры выгребают такие токены и шлют через бота мусор
+	// (случилось 12.09.2026). Пока нет своего сервера – форма открывает чат с менеджером с готовым текстом.
+	telegramBot: { token: '', chatId: '' },
 	// Yandex Cloud Function (worker/yc-function) капчу проверяет, но до api.telegram.org не достаёт (504, 11.09.2026).
 	// Пока пусто – форма шлёт напрямую в бота. Адрес функции: https://functions.yandexcloud.net/d4eru9jekgkhaalqp0kc
 	formEndpoint: '',

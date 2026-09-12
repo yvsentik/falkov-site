@@ -29,7 +29,7 @@
 	/* SmartCaptcha: галочка «Я не робот» появляется после первого нажатия «Отправить»,
 	   после проверки заявка уходит сама. Без formEndpoint токен на сервере не проверяется –
 	   капча только отсекает простых ботов в браузере. */
-	const useCaptcha = Boolean(site.captcha?.sitekey);
+	const useCaptcha = Boolean(site.captcha?.sitekey && (site.formEndpoint || site.telegramBot?.token));
 	let showCaptcha = $state(false);
 	let captchaReady = $state(false); // iframe виджета загрузился – прячем крутилку
 	let captchaEl = $state();
