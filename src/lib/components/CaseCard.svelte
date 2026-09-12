@@ -7,11 +7,11 @@
 	<div class="ccard__top" style="--cover: {item.cover}">
 		<span class="ccard__industry">{item.industry}</span>
 		<span class="ccard__big">{item.metrics[0].v}</span>
-		<span class="ccard__biglabel">{item.metrics[0].l}</span>
+		<span class="ccard__biglabel">{item.region ?? item.metrics[0].l}</span>
 	</div>
 	<div class="ccard__body">
-		{#if item.site}<span class="ccard__client">{item.client}</span>{/if}
-		<h3>{item.site ?? item.client}</h3>
+		<span class="ccard__client">{item.site ?? item.client}</span>
+		<h3>{item.metrics[0].v} – {item.metrics[0].l}</h3>
 		<p>{item.short}</p>
 		<div class="ccard__metrics">
 			{#each item.metrics.slice(1) as m}

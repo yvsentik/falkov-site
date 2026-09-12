@@ -9,6 +9,7 @@
 	import { mainServices } from '$lib/data/main-services.js';
 	import { rankings } from '$lib/data/rankings.js';
 	import { generalFaq } from '$lib/data/faq.js';
+	import { scope, timing, guarantees, spb, compare } from '$lib/data/agency.js';
 	import {
 		testSteps,
 		principles,
@@ -674,6 +675,97 @@
 					</figure>
 				{/each}
 			</div>
+		</div>
+	</section>
+
+	<!-- ЧТО ДЕЛАЕТ АГЕНТСТВО -->
+	<section class="fk-sec fk-sec--tight" id="chto-delaem">
+		<span class="fk-eyebrow">Полный цикл</span>
+		<h2>Что делает маркетинговое агентство полного цикла</h2>
+		<p class="fk-sec__lead">
+			Полный цикл означает, что канал ведём целиком: от сбора спроса и настройки рекламы до
+			посадочных страниц и аналитики. Вам не нужно собирать команду из четырёх подрядчиков и
+			сводить их между собой.
+		</p>
+		<div class="fk-scope">
+			{#each scope as b}
+				<article class="fk-scope__i" use:reveal>
+					<h3>{b.t}</h3>
+					<p>{b.p}</p>
+					<a href={b.href}>{b.link} <span aria-hidden="true">→</span></a>
+				</article>
+			{/each}
+		</div>
+	</section>
+
+	<!-- СРОКИ -->
+	<section class="fk-sec fk-sec--tight" id="sroki">
+		<span class="fk-eyebrow">Сроки</span>
+		<h2>Когда ждать результат</h2>
+		<p class="fk-sec__lead">
+			Сроки зависят от канала. Контекст даёт заявки сразу, поиск разгоняется месяцами. Вот
+			ориентиры, которые мы называем клиентам до договора.
+		</p>
+		<div class="fk-timing">
+			{#each timing as t}
+				<div class="fk-timing__i" use:reveal>
+					<b>{t.v}</b>
+					<span class="fk-timing__k">{t.k}</span>
+					<p>{t.p}</p>
+				</div>
+			{/each}
+		</div>
+	</section>
+
+	<!-- ГАРАНТИИ -->
+	<section class="fk-sec fk-sec--tight" id="garantii">
+		<span class="fk-eyebrow">Обязательства</span>
+		<h2>Что фиксируем в договоре</h2>
+		<div class="fk-guar">
+			{#each guarantees as g}
+				<div class="fk-guar__i" use:reveal>
+					<h3>{g.t}</h3>
+					<p>{g.p}</p>
+				</div>
+			{/each}
+		</div>
+	</section>
+
+	<!-- ПЕТЕРБУРГ -->
+	<section class="fk-sec fk-sec--tight" id="spb">
+		<span class="fk-eyebrow">Петербург</span>
+		<h2>Что учитываем в продвижении по Санкт-Петербургу</h2>
+		<div class="fk-guar">
+			{#each spb as g}
+				<div class="fk-guar__i" use:reveal>
+					<h3>{g.t}</h3>
+					<p>{g.p}</p>
+				</div>
+			{/each}
+		</div>
+	</section>
+
+	<!-- СРАВНЕНИЕ -->
+	<section class="fk-sec fk-sec--tight" id="sravnenie">
+		<span class="fk-eyebrow">Выбор</span>
+		<h2>Агентство, фрилансер или штатный специалист</h2>
+		<div class="fk-cmp">
+			<table>
+				<thead>
+					<tr>
+						{#each compare.head as h}<th>{h}</th>{/each}
+					</tr>
+				</thead>
+				<tbody>
+					{#each compare.rows as row}
+						<tr>
+							{#each row as cell, i}
+								{#if i === 0}<th scope="row">{cell}</th>{:else}<td>{cell}</td>{/if}
+							{/each}
+						</tr>
+					{/each}
+				</tbody>
+			</table>
 		</div>
 	</section>
 
@@ -2435,6 +2527,137 @@
 	}
 
 	/* подвал */
+	.fk-sec__lead {
+		max-width: 46em;
+		margin: 12px 0 0;
+		color: var(--ink-2);
+		line-height: 1.6;
+	}
+	.fk-scope {
+		display: grid;
+		gap: 16px;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		margin-top: 24px;
+	}
+	.fk-scope__i {
+		border: 1px solid var(--line);
+		border-radius: 20px;
+		background: var(--panel);
+		padding: clamp(20px, 2vw, 26px);
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+	.fk-scope__i h3 {
+		margin: 0;
+		font-size: 19px;
+		line-height: 1.25;
+		font-weight: 500;
+	}
+	.fk-scope__i p {
+		margin: 0;
+		color: var(--ink-2);
+		font-size: 15px;
+		line-height: 1.6;
+	}
+	.fk-scope__i a {
+		margin-top: auto;
+		padding-top: 6px;
+		font-size: 14px;
+	}
+	.fk-timing {
+		display: grid;
+		gap: 12px;
+		margin-top: 24px;
+	}
+	.fk-timing__i {
+		display: grid;
+		grid-template-columns: 160px 220px 1fr;
+		gap: 16px;
+		align-items: baseline;
+		border-top: 1px solid var(--line);
+		padding-top: 14px;
+	}
+	.fk-timing__i b {
+		font-size: clamp(20px, 2.2vw, 26px);
+		font-weight: 400;
+	}
+	.fk-timing__k {
+		color: var(--ink);
+		font-size: 15px;
+	}
+	.fk-timing__i p {
+		margin: 0;
+		color: var(--ink-2);
+		font-size: 15px;
+		line-height: 1.55;
+	}
+	.fk-guar {
+		display: grid;
+		gap: 16px;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		margin-top: 24px;
+	}
+	.fk-guar__i {
+		border: 1px solid var(--line);
+		border-radius: 18px;
+		padding: 20px;
+		background: var(--panel);
+	}
+	.fk-guar__i h3 {
+		margin: 0 0 8px;
+		font-size: 17px;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.fk-guar__i p {
+		margin: 0;
+		color: var(--ink-2);
+		font-size: 15px;
+		line-height: 1.55;
+	}
+	.fk-cmp {
+		margin-top: 24px;
+		overflow-x: auto;
+	}
+	.fk-cmp table {
+		width: 100%;
+		min-width: 640px;
+		border-collapse: collapse;
+		font-size: 15px;
+	}
+	.fk-cmp th,
+	.fk-cmp td {
+		text-align: left;
+		padding: 14px 16px;
+		border-bottom: 1px solid var(--line);
+		vertical-align: top;
+		line-height: 1.5;
+	}
+	.fk-cmp thead th {
+		font-weight: 500;
+		color: var(--ink-2);
+		font-size: 13px;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+	.fk-cmp tbody th {
+		font-weight: 500;
+		width: 190px;
+	}
+	.fk-cmp td {
+		color: var(--ink-2);
+	}
+	.fk-cmp thead th:last-child,
+	.fk-cmp td:last-child {
+		color: var(--ink);
+	}
+	@media (max-width: 760px) {
+		.fk-timing__i {
+			grid-template-columns: 1fr;
+			gap: 4px;
+		}
+	}
 	.fk-price {
 		display: grid;
 		gap: 16px;
