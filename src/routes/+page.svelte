@@ -1478,6 +1478,10 @@
 		}
 	}
 
+	/* крупная строка героя раньше была h1 – возвращаем ей основной цвет */
+	.fk-hero__panel p.fk-claim {
+		color: inherit;
+	}
 	.fk-hero__panel p {
 		margin: 0;
 		font-size: clamp(14px, 1.15vw, 17px);
