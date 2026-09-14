@@ -212,7 +212,7 @@
 						<b>офис на Энергетиков, 10</b>
 					</h1>
 				</span>
-				<p class="fk-claim">
+				<p class="fk-hero__claim">
 					Приводим клиентов малому и среднему бизнесу из
 					<span class="fk-rot">
 						{#each heroWords as w, i}
@@ -1422,7 +1422,7 @@
 		text-transform: none;
 	}
 	.fk h1,
-	.fk p.fk-claim {
+	.fk p.fk-hero__claim {
 		margin: 0 0 18px;
 		font-size: clamp(19px, 3.4vw, 46px);
 		font-weight: 400;
@@ -1479,7 +1479,7 @@
 	}
 
 	/* крупная строка героя раньше была h1 – возвращаем ей основной цвет */
-	.fk-hero__panel p.fk-claim {
+	.fk-hero__panel p.fk-hero__claim {
 		color: inherit;
 	}
 	.fk-hero__panel p {
@@ -2964,7 +2964,7 @@
 	/* очень узкие экраны и сжатая панель предпросмотра */
 	@media (max-width: 400px) {
 		.fk h1,
-		.fk p.fk-claim {
+		.fk p.fk-hero__claim {
 			font-size: 17px;
 			letter-spacing: 0;
 		}
