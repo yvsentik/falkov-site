@@ -1,713 +1,719 @@
 <script>
 	import Seo from '$lib/components/Seo.svelte';
-	import { project, strategy, events } from '$lib/data/reports/oneischool/timeline.js';
-	import auditSadiki from '$lib/data/reports/oneischool/audit-sadiki.html?raw';
-	import auditShkoly from '$lib/data/reports/oneischool/audit-shkoly.html?raw';
-	import analysisHtml from '$lib/data/reports/oneischool/analysis.html?raw';
-	import { metrics } from '$lib/data/reports/oneischool/metrics.js';
-	const nf = new Intl.NumberFormat('ru-RU');
+	import { payload } from '$lib/data/reports/oneischool/deck.enc.js';
 
-	const reports = {
-		'audit-sadiki': { title: 'Аудит раздела детских садов, июнь 2026', html: auditSadiki },
-		'audit-shkoly': { title: 'Аудит сайта и раздела школ, сентябрь 2026', html: auditShkoly }
-	};
+	let pass = $state('');
+	let error = $state('');
+	let busy = $state(false);
+	let deck = $state(null);
 
+	const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+
+	async function unlock(e) {
+		e?.preventDefault();
+		if (!pass) return;
+		busy = true;
+		error = '';
+		try {
+			const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+			const key = await crypto.subtle.deriveKey(
+				{ name: 'PBKDF2', salt: b64(payload.salt), iterations: 150000, hash: 'SHA-256' },
+				base,
+				{ name: 'AES-GCM', length: 256 },
+				false,
+				['decrypt']
+			);
+			const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(payload.iv) }, key, b64(payload.data));
+			deck = JSON.parse(new TextDecoder().decode(plain));
+			sessionStorage.setItem('oneischool-pass', pass);
+		} catch {
+			error = 'Пароль не подошёл';
+		}
+		busy = false;
+	}
+
+	$effect(() => {
+		const saved = sessionStorage.getItem('oneischool-pass');
+		if (saved && !deck) {
+			pass = saved;
+			unlock();
+		}
+	});
+
+	/* ---------- презентация ---------- */
 	let rail = $state();
-	let progress = $state(0);
-	let active = $state(0);
-
-	/* Горизонтальная лента: тачпад двумя пальцами работает сам, вертикальное
-	   колесо тоже листает вбок, пока лента не упёрлась в край. */
-	function onWheel(e) {
-		if (!rail) return;
-		const horizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-		if (horizontal) return;
-		const max = rail.scrollWidth - rail.clientWidth;
-		const next = rail.scrollLeft + e.deltaY;
-		if ((e.deltaY < 0 && rail.scrollLeft <= 0) || (e.deltaY > 0 && rail.scrollLeft >= max - 1)) return;
-		e.preventDefault();
-		rail.scrollLeft = next;
-	}
-
-	/* Перетаскивание мышью, как на доске. */
-	let drag = null;
-	function down(e) {
-		if (e.target.closest('details, a, button, table')) return;
-		drag = { x: e.clientX, left: rail.scrollLeft };
-		rail.setPointerCapture?.(e.pointerId);
-	}
-	function move(e) {
-		if (!drag) return;
-		rail.scrollLeft = drag.left - (e.clientX - drag.x);
-	}
-	function up() {
-		drag = null;
-	}
-
-	function onScroll() {
-		if (!rail) return;
-		const max = rail.scrollWidth - rail.clientWidth;
-		progress = max > 0 ? rail.scrollLeft / max : 0;
-		const cards = [...rail.querySelectorAll('.card')];
-		const mid = rail.scrollLeft + rail.clientWidth / 2;
-		let best = 0;
-		cards.forEach((c, i) => {
-			if (c.offsetLeft <= mid) best = i;
-		});
-		active = best;
-	}
+	let idx = $state(0);
 
 	function go(i) {
-		const card = rail?.querySelectorAll('.card')[i];
-		if (card) rail.scrollTo({ left: card.offsetLeft - 24, behavior: 'smooth' });
+		const n = deck?.slides.length ?? 0;
+		const t = Math.max(0, Math.min(i, n - 1));
+		const el = rail?.children[t];
+		if (el) rail.scrollTo({ left: el.offsetLeft, behavior: 'smooth' });
+	}
+	function onScroll() {
+		if (!rail) return;
+		idx = Math.round(rail.scrollLeft / rail.clientWidth);
+	}
+	function onWheel(e) {
+		if (!rail) return;
+		if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
+		e.preventDefault();
+		rail.scrollLeft += e.deltaY;
+	}
+	function onKey(e) {
+		if (!deck) return;
+		if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+			e.preventDefault();
+			go(idx + 1);
+		}
+		if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+			e.preventDefault();
+			go(idx - 1);
+		}
 	}
 
-	function key(e) {
-		if (e.key === 'ArrowRight') go(Math.min(active + 1, events.length - 1));
-		if (e.key === 'ArrowLeft') go(Math.max(active - 1, 0));
+	/* ---------- графики ---------- */
+	const W = 1000;
+	const H = 320;
+	const PAD = 26;
+
+	function path(series, keyName) {
+		const vals = series.map((p) => p[keyName]);
+		const max = Math.max(...vals) * 1.15;
+		const step = (W - PAD * 2) / (series.length - 1);
+		return series
+			.map((p, i) => `${i ? 'L' : 'M'}${(PAD + i * step).toFixed(1)},${(H - PAD - (p[keyName] / max) * (H - PAD * 2)).toFixed(1)}`)
+			.join(' ');
+	}
+	function area(series, keyName) {
+		const d = path(series, keyName);
+		return `${d} L${W - PAD},${H - PAD} L${PAD},${H - PAD} Z`;
+	}
+	function xLabels(series) {
+		const months = { '06': 'июнь', '07': 'июль', '08': 'август', '09': 'сентябрь' };
+		const step = (W - PAD * 2) / (series.length - 1);
+		const seen = new Set();
+		const out = [];
+		series.forEach((p, i) => {
+			const m = p.w.slice(5, 7);
+			if (seen.has(m)) return;
+			seen.add(m);
+			out.push({ x: PAD + i * step, t: months[m] ?? m });
+		});
+		return out;
 	}
 </script>
 
 <Seo
-	title="Отчёт по продвижению oneischool.com, июнь – сентябрь 2026 | Фальков"
-	description="Рабочая хронология проекта ONE! International School: аудиты, редизайн, переезд и динамика позиций."
+	title="Отчёт по продвижению oneischool.com | Фальков"
+	description="Закрытая презентация по проекту."
 	path="/otchety/oneischool-com/"
 	noindex
 />
 
-<div class="rep-page">
-	<header class="top">
-		<a class="back" href="/">falkov <span>маркетинг</span></a>
-		<span class="top__label">Отчёт для клиента</span>
-	</header>
+<svelte:window onkeydown={onKey} />
 
-	<section class="hero">
-		<span class="eyebrow">{project.period}</span>
-		<h1>{project.client}</h1>
-		<p class="site">{project.site}</p>
-		<p class="lead">
-			Хронология работ по проекту: что делали, в каком порядке, что из этого получилось. Лента
-			листается вбок двумя пальцами по тачпаду, колесом мыши или перетаскиванием. Под каждой датой
-			лежит короткое описание, а развёрнутые отчёты открываются по клику.
-		</p>
-	</section>
+{#if !deck}
+	<div class="gate">
+		<form onsubmit={unlock}>
+			<span class="gate__kicker">Отчёт для клиента</span>
+			<h1>Презентация закрыта паролем</h1>
+			<input
+				type="password"
+				bind:value={pass}
+				placeholder="Пароль"
+				autocomplete="current-password"
+				aria-label="Пароль"
+			/>
+			<button type="submit" disabled={busy}>{busy ? 'Проверяем…' : 'Открыть'}</button>
+			{#if error}<p class="gate__err">{error}</p>{/if}
+		</form>
+	</div>
+{:else}
+	<div class="deck">
+		<header class="bar">
+			<span class="bar__client">{deck.meta.client}</span>
+			<span class="bar__mid">{deck.meta.period}</span>
+			<span class="bar__num">{idx + 1} / {deck.slides.length}</span>
+		</header>
 
-	<section class="strategy">
-		<div class="col">
-			<h2>Почему всё просело</h2>
-			{#each strategy.problem as p}<p>{p}</p>{/each}
-		</div>
-		<div class="col">
-			<h2>На что давим</h2>
-			{#each strategy.bet as p}<p>{p}</p>{/each}
-		</div>
-		<div class="col col--note">
-			<h2>Важное уточнение</h2>
-			<p>{strategy.note}</p>
-			<a class="tv" href={project.topvisor} target="_blank" rel="noopener">Позиции в Топвизоре</a>
-		</div>
-	</section>
+		<div class="rail" bind:this={rail} onscroll={onScroll} onwheel={onWheel}>
+			{#each deck.slides as s, i}
+				<section class="slide" class:on={i === idx}>
+					<div class="inner">
+						{#if s.type === 'title'}
+							<span class="kicker">{s.kicker}</span>
+							<h1 class="big">{s.title}</h1>
+							<p class="sub">{s.sub}</p>
+							<p class="hint">{s.hint}</p>
+						{:else if s.type === 'end'}
+							<h1 class="big">{s.title}</h1>
+							<p class="sub">{s.sub}</p>
+						{:else}
+							<span class="kicker">{s.kicker}</span>
+							<h2>{s.title}</h2>
 
-	<section class="nums">
-		<h2>Цифры за период</h2>
-		<div class="hl">
-			{#each metrics.highlights as h}
-				<div class="hl__i">
-					<b>{h.v}</b>
-					<span>{h.l}</span>
-				</div>
-			{/each}
-		</div>
+							{#if s.type === 'stats'}
+								<div class="stats">
+									{#each s.stats as st}
+										<div><b>{st.v}</b><span>{st.l}</span></div>
+									{/each}
+								</div>
+							{/if}
 
-		<div class="ntab">
-			<table>
-				<thead>
-					<tr>
-						<th>Месяц</th>
-						<th>Визиты</th>
-						<th>В день</th>
-						<th>Google</th>
-						<th>Яндекс</th>
-						<th>Клики GSC</th>
-						<th>CTR</th>
-						<th>ТОП-10</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each metrics.months as m}
-						<tr>
-							<th scope="row">{m.m}</th>
-							<td>{nf.format(m.visits)}</td>
-							<td>{String(m.perDay).replace('.', ',')}</td>
-							<td>{nf.format(m.google)}</td>
-							<td>{nf.format(m.yandex)}</td>
-							<td>{nf.format(m.clicks)}</td>
-							<td>{m.ctr}</td>
-							<td>{m.top10}</td>
-						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
+							{#if s.type === 'tiles'}
+								<div class="tiles">
+									{#each s.tiles as t}
+										<article><h3>{t.h}</h3><p>{t.p}</p></article>
+									{/each}
+								</div>
+							{/if}
 
-		<p class="nums__sum">
-			Трафик прошёл цикл «спад каникул, дно в августе, отскок в сентябре», и всё это время
-			видимость в Яндексе росла: доля запросов в ТОП-10 поднялась с 70% в июне до 78,5% на
-			последнем съёме, а внутри коммерческого ядра до 84,5%. Сильнее всего вырос кластер садов,
-			который в июне был самым слабым.
-		</p>
+							{#if s.type === 'chart'}
+								<div class="chart">
+									<svg viewBox="0 0 {W} {H}" preserveAspectRatio="none" role="img" aria-label={s.title}>
+										{#if s.chart === 'metrika'}
+											<path class="area area--g" d={area(s.series, 'g')} />
+											<path class="line line--g" d={path(s.series, 'g')} />
+											<path class="line line--y" d={path(s.series, 'y')} />
+										{:else}
+											<path class="area area--c" d={area(s.series, 'c')} />
+											<path class="line line--c" d={path(s.series, 'c')} />
+										{/if}
+									</svg>
+									<div class="chart__x">
+										{#each xLabels(s.series) as l}
+											<span style="left: {(l.x / W) * 100}%">{l.t}</span>
+										{/each}
+									</div>
+									<div class="legend">
+										{#each s.legend as l}
+											<span class="dot dot--{l.k}"></span>{l.n}
+										{/each}
+									</div>
+								</div>
+							{/if}
 
-		<div class="wins">
-			<span class="wins__h">Заметные движения по позициям</span>
-			<ul>
-				{#each metrics.wins as w}
-					<li><b>{w[0]}</b><span>{w[1]} → {w[2]}</span></li>
-				{/each}
-			</ul>
-		</div>
+							{#if s.type === 'bars'}
+								<div class="bars">
+									{#each s.bars as b}
+										<div class="bars__i">
+											<span class="bars__v">{String(b.v).replace('.', ',')}%</span>
+											<span class="bars__bar" style="height: {b.v}%"></span>
+											<span class="bars__l">{b.l}</span>
+										</div>
+									{/each}
+								</div>
+							{/if}
 
-		<details class="rep rep--wide">
-			<summary>Развернуть полный разбор по месяцам</summary>
-			<div class="rep__body">{@html analysisHtml}</div>
-		</details>
-	</section>
+							{#if s.type === 'split'}
+								<div class="split">
+									<div class="stats stats--sm">
+										{#each s.stats as st}
+											<div><b>{st.v}</b><span>{st.l}</span></div>
+										{/each}
+									</div>
+									<div class="jump">
+										<span class="jump__from">{s.big.from}</span>
+										<span class="jump__arr">→</span>
+										<span class="jump__to">{s.big.to}</span>
+										<span class="jump__l">{s.big.l}</span>
+									</div>
+								</div>
+							{/if}
 
-	<section class="tl" aria-label="Хронология работ">
-		<div class="tl__head">
-			<h2>Хронология</h2>
-			<div class="tl__nav">
-				{#each events as e, i}
-					<button class:on={i === active} type="button" onclick={() => go(i)}>{e.label}</button>
-				{/each}
-			</div>
-		</div>
+							{#if s.type === 'steps'}
+								<ol class="steps">
+									{#each s.steps as st}
+										<li><b>{st.d}</b><span>{st.t}</span></li>
+									{/each}
+								</ol>
+								<p class="result">{s.result}</p>
+							{/if}
 
-		<div class="tl__bar"><span style="transform: scaleX({progress})"></span></div>
+							{#if s.type === 'table'}
+								<table class="tbl">
+									<thead>
+										<tr>{#each s.head as h}<th>{h}</th>{/each}</tr>
+									</thead>
+									<tbody>
+										{#each s.rows as r}
+											<tr>{#each r as c, ci}<td class:num={ci > 0}>{c}</td>{/each}</tr>
+										{/each}
+									</tbody>
+								</table>
+							{/if}
 
-		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-		<div
-			class="rail"
-			bind:this={rail}
-			onwheel={onWheel}
-			onscroll={onScroll}
-			onpointerdown={down}
-			onpointermove={move}
-			onpointerup={up}
-			onpointercancel={up}
-			onkeydown={key}
-			tabindex="0"
-			role="list"
-		>
-			{#each events as e, i}
-				<article class="card" class:on={i === active} role="listitem">
-					<div class="card__date">
-						<b>{e.label}</b>
-						<span>{e.tag}</span>
+							{#if s.points}
+								<div class="points">
+									{#each s.points as p}
+										<div><b>{p.v}</b><span>{p.l}</span></div>
+									{/each}
+								</div>
+							{/if}
+
+							{#if s.note}<p class="note">{s.note}</p>{/if}
+						{/if}
 					</div>
-					<h3>{e.title}</h3>
-					{#each e.text as p}<p>{p}</p>{/each}
-
-					{#if e.shots?.length}
-						<div class="shots">
-							{#each e.shots as s}
-								<figure>
-									<a href={s.src} target="_blank" rel="noopener" title="Открыть в полном размере">
-										<img src={s.src} alt={s.cap} loading="lazy" onerror={(ev) => (ev.currentTarget.closest('figure').hidden = true)} />
-									</a>
-									<figcaption>{s.cap}</figcaption>
-								</figure>
-							{/each}
-						</div>
-					{/if}
-
-					{#if e.links?.length}
-						<p class="links">
-							{#each e.links as l}
-								<a href={l.href} target="_blank" rel="noopener">{l.label}</a>
-							{/each}
-						</p>
-					{/if}
-
-					{#if e.report}
-						<details class="rep">
-							<summary>Развернуть отчёт: {reports[e.report].title}</summary>
-							<div class="rep__body">{@html reports[e.report].html}</div>
-						</details>
-					{/if}
-				</article>
+				</section>
 			{/each}
-			<div class="tail" aria-hidden="true"></div>
 		</div>
-		<p class="hint">Листайте вбок: двумя пальцами по тачпаду, колесом или перетаскиванием</p>
-	</section>
-</div>
+
+		<nav class="dots" aria-label="Слайды">
+			<button class="nav" type="button" onclick={() => go(idx - 1)} aria-label="Назад">←</button>
+			{#each deck.slides as _, i}
+				<button class="dot-btn" class:on={i === idx} type="button" onclick={() => go(i)} aria-label="Слайд {i + 1}"></button>
+			{/each}
+			<button class="nav" type="button" onclick={() => go(idx + 1)} aria-label="Вперёд">→</button>
+		</nav>
+	</div>
+{/if}
 
 <style>
-	.rep-page {
-		--ink: #111;
-		--ink-2: #565656;
-		--ink-3: #949494;
-		--line: rgba(0, 0, 0, 0.12);
-		--panel: #fff;
-		background: #f5f5f5;
-		color: var(--ink);
-		min-height: 100vh;
-		padding-bottom: 80px;
-		font-size: 16px;
+	:global(body) {
+		margin: 0;
 	}
-	.top {
+	.gate {
+		min-height: 100vh;
+		display: grid;
+		place-items: center;
+		background: #0f0f0f;
+		color: #f4f4f4;
+		padding: 24px;
+	}
+	.gate form {
+		width: min(420px, 100%);
+		display: grid;
+		gap: 12px;
+	}
+	.gate__kicker {
+		font-size: 11px;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.45);
+	}
+	.gate h1 {
+		margin: 0 0 8px;
+		font-size: 26px;
+		font-weight: 400;
+	}
+	.gate input {
+		background: #1b1b1b;
+		border: 1px solid #2c2c2c;
+		border-radius: 12px;
+		padding: 14px 16px;
+		color: #fff;
+		font: inherit;
+	}
+	.gate button {
+		background: #fff;
+		color: #111;
+		border: 0;
+		border-radius: 12px;
+		padding: 14px 16px;
+		font: inherit;
+		cursor: pointer;
+	}
+	.gate__err {
+		margin: 0;
+		color: #ff8080;
+		font-size: 14px;
+	}
+
+	.deck {
+		--ink: #111;
+		--ink-2: #5a5a5a;
+		--ink-3: #9a9a9a;
+		--line: rgba(0, 0, 0, 0.12);
+		height: 100vh;
+		height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		background: #f2f2f0;
+		color: var(--ink);
+		overflow: hidden;
+	}
+	.bar {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 20px clamp(16px, 4vw, 56px);
+		gap: 16px;
+		padding: 14px clamp(16px, 4vw, 48px);
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
 		border-bottom: 1px solid var(--line);
 	}
-	.back {
-		font-weight: 600;
-		letter-spacing: 0.02em;
-		color: inherit;
-		text-decoration: none;
+	.bar__client {
+		color: var(--ink);
 	}
-	.back span {
-		font-weight: 400;
+	.rail {
+		flex: 1;
+		display: flex;
+		overflow-x: auto;
+		overflow-y: hidden;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+	.rail::-webkit-scrollbar {
+		display: none;
+	}
+	.slide {
+		flex: 0 0 100%;
+		scroll-snap-align: start;
+		display: grid;
+		place-items: center;
+		padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 48px);
+		overflow-y: auto;
+	}
+	.inner {
+		width: min(1180px, 100%);
+		opacity: 0;
+		transform: translateY(14px);
+		transition: opacity 0.45s ease, transform 0.45s ease;
+	}
+	.slide.on .inner {
+		opacity: 1;
+		transform: none;
+	}
+	.kicker {
+		display: block;
 		font-size: 11px;
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--ink-3);
-		margin-left: 6px;
+		margin-bottom: 10px;
 	}
-	.top__label {
-		font-size: 11px;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--ink-3);
-	}
-	.hero {
-		padding: clamp(36px, 6vw, 80px) clamp(16px, 4vw, 56px) 0;
-		max-width: 1400px;
-	}
-	.eyebrow {
-		font-size: 12px;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		color: var(--ink-3);
-	}
-	.hero h1 {
-		margin: 12px 0 4px;
-		font-size: clamp(30px, 5vw, 62px);
-		font-weight: 400;
-		line-height: 1.05;
-		text-transform: uppercase;
-		letter-spacing: 0.01em;
-	}
-	.site {
-		margin: 0 0 18px;
-		color: var(--ink-2);
-	}
-	.lead {
-		max-width: 44em;
-		line-height: 1.6;
-		color: var(--ink-2);
+	.big {
 		margin: 0;
-	}
-	.strategy {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-		gap: 16px;
-		padding: clamp(28px, 4vw, 48px) clamp(16px, 4vw, 56px);
-		max-width: 1400px;
-	}
-	.col {
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 20px;
-		padding: clamp(20px, 2.2vw, 28px);
-	}
-	.col h2 {
-		margin: 0 0 14px;
-		font-size: 13px;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--ink-3);
-		font-weight: 500;
-	}
-	.col p {
-		margin: 0 0 12px;
-		line-height: 1.6;
-		font-size: 15px;
-	}
-	.col p:last-of-type {
-		margin-bottom: 0;
-	}
-	.col--note {
-		background: #141414;
-		border-color: #141414;
-		color: #f2f2f2;
-	}
-	.col--note h2 {
-		color: rgba(255, 255, 255, 0.55);
-	}
-	.tv {
-		display: inline-block;
-		margin-top: 16px;
-		color: #fff;
-		font-size: 14px;
-	}
-	.nums {
-		padding: clamp(10px, 2vw, 20px) clamp(16px, 4vw, 56px) clamp(20px, 3vw, 36px);
-		max-width: 1400px;
-	}
-	.nums h2 {
-		margin: 0 0 18px;
-		font-size: clamp(22px, 2.6vw, 32px);
-		font-weight: 400;
-		text-transform: uppercase;
-	}
-	.hl {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-		gap: 12px;
-		margin-bottom: 20px;
-	}
-	.hl__i {
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 18px;
-		padding: 18px 20px;
-	}
-	.hl__i b {
-		display: block;
-		font-size: clamp(26px, 3vw, 38px);
-		font-weight: 400;
+		font-size: clamp(34px, 6.4vw, 86px);
 		line-height: 1;
+		font-weight: 400;
+		text-transform: uppercase;
+		letter-spacing: -0.01em;
 	}
-	.hl__i span {
-		display: block;
-		margin-top: 8px;
-		font-size: 13px;
+	h2 {
+		margin: 0 0 clamp(18px, 2.4vw, 30px);
+		font-size: clamp(26px, 3.6vw, 48px);
+		line-height: 1.05;
+		font-weight: 400;
+		text-transform: uppercase;
+	}
+	.sub {
+		margin: 16px 0 0;
+		font-size: clamp(15px, 1.6vw, 20px);
 		color: var(--ink-2);
-		line-height: 1.45;
 	}
-	.ntab {
-		overflow-x: auto;
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 18px;
-	}
-	.ntab table {
-		width: 100%;
-		min-width: 680px;
-		border-collapse: collapse;
-		font-size: 14px;
-	}
-	.ntab th,
-	.ntab td {
-		padding: 12px 14px;
-		text-align: left;
-		border-bottom: 1px solid var(--line);
-		white-space: nowrap;
-	}
-	.ntab thead th {
-		font-size: 11px;
+	.hint {
+		margin: 28px 0 0;
+		font-size: 12px;
 		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--ink-3);
-		font-weight: 500;
 	}
-	.ntab tbody tr:last-child th,
-	.ntab tbody tr:last-child td {
-		border-bottom: none;
+	.stats {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 14px;
 	}
-	.ntab tbody th {
-		font-weight: 500;
+	.stats div {
+		background: #fff;
+		border-radius: 18px;
+		padding: clamp(18px, 2vw, 26px);
+		border: 1px solid var(--line);
 	}
-	.ntab td {
-		color: var(--ink-2);
-	}
-	.nums__sum {
-		max-width: 46em;
-		margin: 18px 0 0;
-		line-height: 1.6;
-		color: var(--ink-2);
-		font-size: 15px;
-	}
-	.wins {
-		margin-top: 20px;
-	}
-	.wins__h {
+	.stats b {
 		display: block;
-		font-size: 11px;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--ink-3);
-		margin-bottom: 10px;
+		font-size: clamp(30px, 4.4vw, 58px);
+		font-weight: 400;
+		line-height: 1;
+		letter-spacing: -0.02em;
 	}
-	.wins ul {
+	.stats span {
+		display: block;
+		margin-top: 10px;
+		font-size: 13px;
+		line-height: 1.4;
+		color: var(--ink-2);
+	}
+	.stats--sm b {
+		font-size: clamp(26px, 3vw, 40px);
+	}
+	.tiles {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+		gap: 14px;
+	}
+	.tiles article {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 18px;
+		padding: clamp(18px, 2vw, 24px);
+	}
+	.tiles h3 {
+		margin: 0 0 8px;
+		font-size: clamp(16px, 1.7vw, 20px);
+		font-weight: 500;
+		line-height: 1.25;
+	}
+	.tiles p {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.5;
+		color: var(--ink-2);
+	}
+	.chart {
+		position: relative;
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 18px;
+		padding: 14px 14px 6px;
+	}
+	.chart svg {
+		width: 100%;
+		height: clamp(180px, 26vh, 300px);
+		display: block;
+	}
+	.line {
+		fill: none;
+		stroke-width: 2.5;
+		vector-effect: non-scaling-stroke;
+		stroke-linejoin: round;
+	}
+	.line--g,
+	.line--c {
+		stroke: #111;
+	}
+	.line--y {
+		stroke: #b3b3b3;
+	}
+	.area {
+		fill: rgba(17, 17, 17, 0.07);
+		stroke: none;
+	}
+	.chart__x {
+		position: relative;
+		height: 18px;
+	}
+	.chart__x span {
+		position: absolute;
+		transform: translateX(-50%);
+		font-size: 11px;
+		color: var(--ink-3);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.legend {
+		display: flex;
+		gap: 18px;
+		align-items: center;
+		font-size: 12px;
+		color: var(--ink-2);
+		padding: 6px 2px 4px;
+	}
+	.dot {
+		width: 10px;
+		height: 2px;
+		display: inline-block;
+		margin-right: 6px;
+		background: #111;
+	}
+	.dot--y {
+		background: #b3b3b3;
+	}
+	.bars {
+		display: flex;
+		gap: clamp(10px, 3vw, 34px);
+		align-items: flex-end;
+		height: clamp(180px, 30vh, 300px);
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 18px;
+		padding: 18px clamp(14px, 3vw, 30px);
+	}
+	.bars__i {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		align-items: center;
+		height: 100%;
+		gap: 8px;
+	}
+	.bars__v {
+		font-size: clamp(14px, 1.5vw, 18px);
+	}
+	.bars__bar {
+		width: 100%;
+		background: #141414;
+		border-radius: 8px 8px 0 0;
+		min-height: 4px;
+	}
+	.bars__l {
+		font-size: 12px;
+		color: var(--ink-3);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+	.split {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		gap: 16px;
+		align-items: stretch;
+	}
+	.jump {
+		background: #141414;
+		color: #fff;
+		border-radius: 18px;
+		padding: clamp(18px, 2vw, 28px);
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 12px;
+	}
+	.jump__from {
+		font-size: clamp(22px, 2.6vw, 34px);
+		color: rgba(255, 255, 255, 0.45);
+	}
+	.jump__arr {
+		color: rgba(255, 255, 255, 0.45);
+	}
+	.jump__to {
+		font-size: clamp(34px, 5vw, 64px);
+		line-height: 1;
+	}
+	.jump__l {
+		flex: 1 0 100%;
+		font-size: 13px;
+		color: rgba(255, 255, 255, 0.6);
+	}
+	.steps {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 		display: grid;
-		gap: 8px;
-		max-width: 620px;
+		gap: 10px;
+		counter-reset: s;
 	}
-	.wins li {
+	.steps li {
 		display: flex;
-		justify-content: space-between;
 		gap: 16px;
-		border-bottom: 1px dashed var(--line);
-		padding-bottom: 8px;
+		align-items: baseline;
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		padding: 14px 18px;
+	}
+	.steps b {
+		flex: 0 0 clamp(96px, 12vw, 150px);
+		font-weight: 500;
+	}
+	.steps span {
+		color: var(--ink-2);
 		font-size: 15px;
 	}
-	.wins li b {
-		font-weight: 400;
+	.result {
+		margin: 16px 0 0;
+		font-size: clamp(15px, 1.6vw, 19px);
+		line-height: 1.45;
+		max-width: 46em;
 	}
-	.wins li span {
-		color: var(--ink);
-		white-space: nowrap;
-	}
-	.rep--wide {
-		margin-top: 22px;
-		background: var(--panel);
+	.tbl {
+		width: 100%;
+		border-collapse: collapse;
+		background: #fff;
 		border: 1px solid var(--line);
 		border-radius: 18px;
-		padding: 18px 20px;
+		overflow: hidden;
+		font-size: clamp(14px, 1.5vw, 17px);
 	}
-	.tl {
-		padding: clamp(20px, 3vw, 40px) 0 0;
+	.tbl th,
+	.tbl td {
+		text-align: left;
+		padding: 12px 18px;
+		border-bottom: 1px solid var(--line);
 	}
-	.tl__head {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 16px 24px;
-		padding: 0 clamp(16px, 4vw, 56px) 18px;
-	}
-	.tl__head h2 {
-		margin: 0;
-		font-size: clamp(22px, 2.6vw, 32px);
-		font-weight: 400;
+	.tbl th {
+		font-size: 11px;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
+		color: var(--ink-3);
+		font-weight: 500;
 	}
-	.tl__nav {
+	.tbl tr:last-child td {
+		border-bottom: none;
+	}
+	.tbl td.num {
+		text-align: right;
+		width: 90px;
+		font-variant-numeric: tabular-nums;
+	}
+	.points {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 6px;
+		gap: clamp(16px, 3vw, 44px);
+		margin-top: 18px;
 	}
-	.tl__nav button {
+	.points b {
+		font-size: clamp(22px, 2.6vw, 34px);
+		font-weight: 400;
+		display: block;
+		line-height: 1;
+	}
+	.points span {
+		display: block;
+		margin-top: 6px;
+		font-size: 13px;
+		color: var(--ink-2);
+		max-width: 20em;
+	}
+	.note {
+		margin: 18px 0 0;
+		font-size: 14px;
+		line-height: 1.5;
+		color: var(--ink-2);
+		max-width: 52em;
+	}
+	.dots {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		padding: 12px;
+		border-top: 1px solid var(--line);
+	}
+	.dot-btn {
+		width: 8px;
+		height: 8px;
+		border-radius: 100px;
+		border: 0;
+		background: rgba(0, 0, 0, 0.18);
+		cursor: pointer;
+		padding: 0;
+		transition: background 0.2s ease, width 0.2s ease;
+	}
+	.dot-btn.on {
+		background: #141414;
+		width: 22px;
+	}
+	.nav {
 		border: 1px solid var(--line);
 		background: transparent;
 		border-radius: 100px;
-		padding: 7px 14px;
-		font: inherit;
-		font-size: 13px;
-		color: var(--ink-2);
-		cursor: pointer;
-		transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-	}
-	.tl__nav button.on {
-		background: #141414;
-		border-color: #141414;
-		color: #fff;
-	}
-	.tl__bar {
-		height: 2px;
-		background: var(--line);
-		margin: 0 clamp(16px, 4vw, 56px) 20px;
-		overflow: hidden;
-	}
-	.tl__bar span {
-		display: block;
-		height: 100%;
-		background: #141414;
-		transform-origin: left center;
-		transform: scaleX(0);
-		transition: transform 0.15s linear;
-	}
-	.rail {
-		display: flex;
-		gap: 18px;
-		overflow-x: auto;
-		overflow-y: hidden;
-		padding: 8px clamp(16px, 4vw, 56px) 30px;
-		scroll-snap-type: x proximity;
-		scrollbar-width: thin;
-		cursor: grab;
-		outline: none;
-	}
-	.rail:active {
-		cursor: grabbing;
-	}
-	.card {
-		flex: 0 0 min(620px, 88vw);
-		scroll-snap-align: start;
-		background: var(--panel);
-		border: 1px solid var(--line);
-		border-radius: 22px;
-		padding: clamp(20px, 2.4vw, 30px);
-		max-height: 70vh;
-		overflow-y: auto;
-		opacity: 0.55;
-		transform: translateY(6px) scale(0.985);
-		transition: opacity 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
-	}
-	.card.on {
-		opacity: 1;
-		transform: none;
-		box-shadow: 0 30px 70px -50px rgba(0, 0, 0, 0.6);
-	}
-	.card__date {
-		display: flex;
-		align-items: baseline;
-		gap: 12px;
-		margin-bottom: 12px;
-	}
-	.card__date b {
-		font-size: clamp(22px, 2.4vw, 30px);
-		font-weight: 400;
-	}
-	.card__date span {
-		font-size: 11px;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--ink-3);
-		border: 1px solid var(--line);
-		border-radius: 100px;
-		padding: 4px 10px;
-	}
-	.card h3 {
-		margin: 0 0 12px;
-		font-size: 19px;
-		font-weight: 500;
-		line-height: 1.3;
-	}
-	.card p {
-		margin: 0 0 12px;
-		line-height: 1.6;
-		font-size: 15px;
-		color: var(--ink-2);
-	}
-	.shots {
-		display: grid;
-		gap: 10px;
-		margin: 14px 0;
-	}
-	.shots figure {
-		margin: 0;
-	}
-	.shots img {
-		width: 100%;
-		border-radius: 14px;
-		border: 1px solid var(--line);
-		display: block;
-	}
-	.shots figcaption {
-		margin-top: 6px;
-		font-size: 12px;
-		color: var(--ink-3);
-	}
-	.links a {
-		font-size: 14px;
-		margin-right: 14px;
-	}
-	.rep {
-		margin-top: 14px;
-		border-top: 1px solid var(--line);
-		padding-top: 14px;
-	}
-	.rep summary {
+		width: 30px;
+		height: 30px;
 		cursor: pointer;
 		font-size: 14px;
-		list-style: none;
-		display: flex;
-		justify-content: space-between;
-		gap: 12px;
-		color: var(--ink);
-	}
-	.rep summary::-webkit-details-marker {
-		display: none;
-	}
-	.rep summary::after {
-		content: '+';
-		font-size: 18px;
-		line-height: 1;
-		color: var(--ink-3);
-	}
-	.rep[open] summary::after {
-		content: '–';
-	}
-	.rep__body {
-		margin-top: 14px;
-		font-size: 14px;
-		line-height: 1.6;
 		color: var(--ink-2);
 	}
-	.rep__body :global(h2) {
-		font-size: 18px;
-		color: var(--ink);
-		margin: 22px 0 10px;
-		font-weight: 500;
-	}
-	.rep__body :global(h3) {
-		font-size: 16px;
-		color: var(--ink);
-		margin: 18px 0 8px;
-		font-weight: 500;
-	}
-	.rep__body :global(h4) {
-		font-size: 14px;
-		color: var(--ink);
-		margin: 14px 0 6px;
-	}
-	.rep__body :global(p) {
-		margin: 0 0 10px;
-	}
-	.rep__body :global(p.lbl) {
-		font-size: 11px;
-		letter-spacing: 0.12em;
-		color: var(--ink-3);
-		margin: 10px 0 2px;
-	}
-	.rep__body :global(ul) {
-		margin: 0 0 12px;
-		padding-left: 18px;
-	}
-	.rep__body :global(li) {
-		margin-bottom: 6px;
-	}
-	.rep__body :global(.rtab) {
-		overflow-x: auto;
-		margin: 0 0 16px;
-	}
-	.rep__body :global(table) {
-		border-collapse: collapse;
-		width: 100%;
-		font-size: 13px;
-		min-width: 420px;
-	}
-	.rep__body :global(th),
-	.rep__body :global(td) {
-		border-bottom: 1px solid var(--line);
-		padding: 8px 10px;
-		text-align: left;
-		vertical-align: top;
-	}
-	.rep__body :global(th) {
-		color: var(--ink);
-		font-weight: 500;
-		white-space: nowrap;
-	}
-	.tail {
-		flex: 0 0 clamp(16px, 20vw, 220px);
-	}
-	.hint {
-		margin: 0;
-		padding: 0 clamp(16px, 4vw, 56px);
-		font-size: 12px;
-		color: var(--ink-3);
-	}
-	@media (max-width: 640px) {
-		.card {
-			max-height: none;
+	@media (max-width: 720px) {
+		.split {
+			grid-template-columns: 1fr;
+		}
+		.steps li {
+			flex-direction: column;
+			gap: 4px;
 		}
 	}
 </style>
