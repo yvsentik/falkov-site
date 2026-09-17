@@ -40,54 +40,60 @@
 		}
 	});
 
-	/* ---------- презентация ---------- */
-	let rail = $state();
-	let idx = $state(0);
+	/* ---------- длинная лента вправо ---------- */
+	let strip = $state();
+	let progress = $state(0);
 
-	function go(i) {
-		const n = deck?.slides.length ?? 0;
-		const t = Math.max(0, Math.min(i, n - 1));
-		const el = rail?.children[t];
-		if (el) rail.scrollTo({ left: el.offsetLeft, behavior: 'smooth' });
-	}
 	function onScroll() {
-		if (!rail) return;
-		idx = Math.round(rail.scrollLeft / rail.clientWidth);
+		if (!strip) return;
+		const max = strip.scrollWidth - strip.clientWidth;
+		progress = max > 0 ? strip.scrollLeft / max : 0;
 	}
 	function onWheel(e) {
-		if (!rail) return;
+		if (!strip) return;
 		if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
 		e.preventDefault();
-		rail.scrollLeft += e.deltaY;
+		strip.scrollLeft += e.deltaY;
+	}
+	let drag = null;
+	function down(e) {
+		if (e.target.closest('a, button, input')) return;
+		drag = { x: e.clientX, left: strip.scrollLeft };
+	}
+	function move(e) {
+		if (drag) strip.scrollLeft = drag.left - (e.clientX - drag.x);
+	}
+	function up() {
+		drag = null;
 	}
 	function onKey(e) {
-		if (!deck) return;
+		if (!deck || !strip) return;
+		const step = strip.clientWidth * 0.8;
 		if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
 			e.preventDefault();
-			go(idx + 1);
+			strip.scrollBy({ left: step, behavior: 'smooth' });
 		}
 		if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
 			e.preventDefault();
-			go(idx - 1);
+			strip.scrollBy({ left: -step, behavior: 'smooth' });
 		}
+		if (e.key === 'Home') strip.scrollTo({ left: 0, behavior: 'smooth' });
+		if (e.key === 'End') strip.scrollTo({ left: strip.scrollWidth, behavior: 'smooth' });
 	}
 
 	/* ---------- графики ---------- */
 	const W = 1000;
-	const H = 320;
-	const PAD = 26;
-
-	function path(series, keyName) {
-		const vals = series.map((p) => p[keyName]);
-		const max = Math.max(...vals) * 1.15;
+	const H = 300;
+	const PAD = 24;
+	function path(series, k) {
+		const max = Math.max(...series.map((p) => p[k])) * 1.15;
 		const step = (W - PAD * 2) / (series.length - 1);
 		return series
-			.map((p, i) => `${i ? 'L' : 'M'}${(PAD + i * step).toFixed(1)},${(H - PAD - (p[keyName] / max) * (H - PAD * 2)).toFixed(1)}`)
+			.map((p, i) => `${i ? 'L' : 'M'}${(PAD + i * step).toFixed(1)},${(H - PAD - (p[k] / max) * (H - PAD * 2)).toFixed(1)}`)
 			.join(' ');
 	}
-	function area(series, keyName) {
-		const d = path(series, keyName);
-		return `${d} L${W - PAD},${H - PAD} L${PAD},${H - PAD} Z`;
+	function area(series, k) {
+		return `${path(series, k)} L${W - PAD},${H - PAD} L${PAD},${H - PAD} Z`;
 	}
 	function xLabels(series) {
 		const months = { '06': 'июнь', '07': 'июль', '08': 'август', '09': 'сентябрь' };
@@ -96,182 +102,151 @@
 		const out = [];
 		series.forEach((p, i) => {
 			const m = p.w.slice(5, 7);
-			if (seen.has(m)) return;
-			seen.add(m);
-			out.push({ x: PAD + i * step, t: months[m] ?? m });
+			if (!seen.has(m)) {
+				seen.add(m);
+				out.push({ x: ((PAD + i * step) / W) * 100, t: months[m] ?? m });
+			}
 		});
 		return out;
 	}
 </script>
 
-<Seo
-	title="Отчёт по продвижению oneischool.com | Фальков"
-	description="Закрытая презентация по проекту."
-	path="/otchety/oneischool-com/"
-	noindex
-/>
+<Seo title="Отчёт по продвижению oneischool.com | Фальков" description="Закрытая презентация по проекту." path="/otchety/oneischool-com/" noindex />
 
-<svelte:window onkeydown={onKey} />
+<svelte:window onkeydown={onKey} onpointerup={up} onpointermove={move} />
 
 {#if !deck}
 	<div class="gate">
 		<form onsubmit={unlock}>
 			<span class="gate__kicker">Отчёт для клиента</span>
 			<h1>Презентация закрыта паролем</h1>
-			<input
-				type="password"
-				bind:value={pass}
-				placeholder="Пароль"
-				autocomplete="current-password"
-				aria-label="Пароль"
-			/>
+			<input type="password" bind:value={pass} placeholder="Пароль" autocomplete="current-password" aria-label="Пароль" />
 			<button type="submit" disabled={busy}>{busy ? 'Проверяем…' : 'Открыть'}</button>
 			{#if error}<p class="gate__err">{error}</p>{/if}
 		</form>
 	</div>
 {:else}
-	<div class="deck">
+	<div class="stage">
 		<header class="bar">
 			<span class="bar__client">{deck.meta.client}</span>
-			<span class="bar__mid">{deck.meta.period}</span>
-			<span class="bar__num">{idx + 1} / {deck.slides.length}</span>
+			<span>{deck.meta.site}</span>
+			<span class="bar__period">{deck.meta.period}</span>
 		</header>
 
-		<div class="rail" bind:this={rail} onscroll={onScroll} onwheel={onWheel}>
-			{#each deck.slides as s, i}
-				<section class="slide" class:on={i === idx}>
-					<div class="inner">
-						{#if s.type === 'title'}
-							<span class="kicker">{s.kicker}</span>
-							<h1 class="big">{s.title}</h1>
-							<p class="sub">{s.sub}</p>
-							<p class="hint">{s.hint}</p>
-						{:else if s.type === 'end'}
-							<h1 class="big">{s.title}</h1>
-							<p class="sub">{s.sub}</p>
+		<div class="strip" bind:this={strip} onscroll={onScroll} onwheel={onWheel} onpointerdown={down}>
+			{#each deck.blocks as b}
+				<section class="b b--{b.w}">
+					<div class="axis">
+						{#if b.mark}
+							<span class="axis__dot"></span>
+							<span class="axis__mark">{b.mark}</span>
+						{/if}
+					</div>
+
+					<div class="body">
+						{#if b.type === 'intro' || b.type === 'end'}
+							{#if b.kicker}<span class="kicker">{b.kicker}</span>{/if}
+							<h1>{b.title}</h1>
+							<p class="sub">{b.sub}</p>
+							{#if b.hint}<p class="hint">{b.hint}</p>{/if}
 						{:else}
-							<span class="kicker">{s.kicker}</span>
-							<h2>{s.title}</h2>
+							<span class="kicker">{b.kicker}</span>
+							<h2>{b.title}</h2>
 
-							{#if s.type === 'stats'}
-								<div class="stats">
-									{#each s.stats as st}
-										<div><b>{st.v}</b><span>{st.l}</span></div>
-									{/each}
-								</div>
-							{/if}
+							{#if b.lead}<p class="lead">{b.lead}</p>{/if}
 
-							{#if s.type === 'tiles'}
+							{#if b.tiles}
 								<div class="tiles">
-									{#each s.tiles as t}
+									{#each b.tiles as t}
 										<article><h3>{t.h}</h3><p>{t.p}</p></article>
 									{/each}
 								</div>
 							{/if}
 
-							{#if s.type === 'chart'}
+							{#if b.lines}
+								<ul class="lines">
+									{#each b.lines as l}<li>{l}</li>{/each}
+								</ul>
+							{/if}
+
+							{#if b.steps}
+								<div class="steps">
+									{#each b.steps as s}
+										<div><b>{s.n}</b><span>{s.t}</span></div>
+									{/each}
+								</div>
+							{/if}
+
+							{#if b.kick}<p class="kick">{b.kick}</p>{/if}
+
+							{#if b.type === 'chart'}
 								<div class="chart">
-									<svg viewBox="0 0 {W} {H}" preserveAspectRatio="none" role="img" aria-label={s.title}>
-										{#if s.chart === 'metrika'}
-											<path class="area area--g" d={area(s.series, 'g')} />
-											<path class="line line--g" d={path(s.series, 'g')} />
-											<path class="line line--y" d={path(s.series, 'y')} />
+									<svg viewBox="0 0 {W} {H}" preserveAspectRatio="none" role="img" aria-label={b.title}>
+										{#if b.chart === 'metrika'}
+											<path class="area" d={area(b.series, 'g')} />
+											<path class="line" d={path(b.series, 'g')} />
+											<path class="line line--2" d={path(b.series, 'y')} />
 										{:else}
-											<path class="area area--c" d={area(s.series, 'c')} />
-											<path class="line line--c" d={path(s.series, 'c')} />
+											<path class="area" d={area(b.series, 'c')} />
+											<path class="line" d={path(b.series, 'c')} />
 										{/if}
 									</svg>
 									<div class="chart__x">
-										{#each xLabels(s.series) as l}
-											<span style="left: {(l.x / W) * 100}%">{l.t}</span>
-										{/each}
+										{#each xLabels(b.series) as l}<span style="left: {l.x}%">{l.t}</span>{/each}
 									</div>
 									<div class="legend">
-										{#each s.legend as l}
-											<span class="dot dot--{l.k}"></span>{l.n}
-										{/each}
+										{#each b.legend as l}<span class="dot dot--{l.k}"></span>{l.n}{/each}
 									</div>
 								</div>
 							{/if}
 
-							{#if s.type === 'bars'}
+							{#if b.type === 'bars'}
 								<div class="bars">
-									{#each s.bars as b}
+									{#each b.bars as x}
 										<div class="bars__i">
-											<span class="bars__v">{String(b.v).replace('.', ',')}%</span>
-											<span class="bars__bar" style="height: {b.v}%"></span>
-											<span class="bars__l">{b.l}</span>
+											<span class="bars__v">{String(x.v).replace('.', ',')}%</span>
+											<span class="bars__bar" style="height: {x.v}%"></span>
+											<span class="bars__l">{x.l}</span>
 										</div>
 									{/each}
 								</div>
 							{/if}
 
-							{#if s.type === 'split'}
-								<div class="split">
-									<div class="stats stats--sm">
-										{#each s.stats as st}
-											<div><b>{st.v}</b><span>{st.l}</span></div>
-										{/each}
-									</div>
-									<div class="jump">
-										<span class="jump__from">{s.big.from}</span>
-										<span class="jump__arr">→</span>
-										<span class="jump__to">{s.big.to}</span>
-										<span class="jump__l">{s.big.l}</span>
-									</div>
-								</div>
-							{/if}
-
-							{#if s.type === 'steps'}
-								<ol class="steps">
-									{#each s.steps as st}
-										<li><b>{st.d}</b><span>{st.t}</span></li>
-									{/each}
-								</ol>
-								<p class="result">{s.result}</p>
-							{/if}
-
-							{#if s.type === 'table'}
+							{#if b.type === 'table'}
 								<table class="tbl">
-									<thead>
-										<tr>{#each s.head as h}<th>{h}</th>{/each}</tr>
-									</thead>
+									<thead><tr>{#each b.head as h}<th>{h}</th>{/each}</tr></thead>
 									<tbody>
-										{#each s.rows as r}
+										{#each b.rows as r}
 											<tr>{#each r as c, ci}<td class:num={ci > 0}>{c}</td>{/each}</tr>
 										{/each}
 									</tbody>
 								</table>
 							{/if}
 
-							{#if s.points}
+							{#if b.points}
 								<div class="points">
-									{#each s.points as p}
-										<div><b>{p.v}</b><span>{p.l}</span></div>
-									{/each}
+									{#each b.points as p}<div><b>{p.v}</b><span>{p.l}</span></div>{/each}
 								</div>
 							{/if}
 
-							{#if s.note}<p class="note">{s.note}</p>{/if}
+							{#if b.note}<p class="note">{b.note}</p>{/if}
 						{/if}
 					</div>
 				</section>
 			{/each}
 		</div>
 
-		<nav class="dots" aria-label="Слайды">
-			<button class="nav" type="button" onclick={() => go(idx - 1)} aria-label="Назад">←</button>
-			{#each deck.slides as _, i}
-				<button class="dot-btn" class:on={i === idx} type="button" onclick={() => go(i)} aria-label="Слайд {i + 1}"></button>
-			{/each}
-			<button class="nav" type="button" onclick={() => go(idx + 1)} aria-label="Вперёд">→</button>
-		</nav>
+		<footer class="foot">
+			<div class="progress"><span style="transform: scaleX({progress})"></span></div>
+			<span class="foot__hint">Двумя пальцами вправо · стрелки · перетаскивание</span>
+		</footer>
 	</div>
 {/if}
 
 <style>
 	:global(body) {
 		margin: 0;
+		overflow: hidden;
 	}
 	.gate {
 		min-height: 100vh;
@@ -320,25 +295,23 @@
 		font-size: 14px;
 	}
 
-	.deck {
+	.stage {
 		--ink: #111;
 		--ink-2: #5a5a5a;
 		--ink-3: #9a9a9a;
-		--line: rgba(0, 0, 0, 0.12);
+		--line: rgba(0, 0, 0, 0.14);
 		height: 100vh;
 		height: 100dvh;
 		display: flex;
 		flex-direction: column;
 		background: #f2f2f0;
 		color: var(--ink);
-		overflow: hidden;
 	}
 	.bar {
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 16px;
-		padding: 14px clamp(16px, 4vw, 48px);
+		gap: 18px;
+		align-items: baseline;
+		padding: 14px clamp(16px, 3vw, 40px);
 		font-size: 11px;
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
@@ -348,34 +321,88 @@
 	.bar__client {
 		color: var(--ink);
 	}
-	.rail {
+	.bar__period {
+		margin-left: auto;
+	}
+
+	.strip {
 		flex: 1;
 		display: flex;
+		align-items: stretch;
 		overflow-x: auto;
 		overflow-y: hidden;
-		scroll-snap-type: x mandatory;
 		scrollbar-width: none;
+		cursor: grab;
+		padding: 0 clamp(16px, 3vw, 40px);
 	}
-	.rail::-webkit-scrollbar {
+	.strip::-webkit-scrollbar {
 		display: none;
 	}
-	.slide {
-		flex: 0 0 100%;
-		scroll-snap-align: start;
-		display: grid;
-		place-items: center;
-		padding: clamp(18px, 3vw, 40px) clamp(16px, 4vw, 48px);
+	.strip:active {
+		cursor: grabbing;
+	}
+	.b {
+		flex: 0 0 auto;
+		display: flex;
+		flex-direction: column;
+		padding-right: clamp(28px, 4vw, 70px);
+		min-width: 0;
+	}
+	.b--narrow {
+		width: min(560px, 82vw);
+	}
+	.b--mid {
+		width: min(680px, 88vw);
+	}
+	.b--wide {
+		width: min(960px, 92vw);
+	}
+	.b--chart {
+		width: min(880px, 92vw);
+	}
+
+	/* ось времени: линия проходит сквозь все блоки */
+	.axis {
+		position: relative;
+		height: 62px;
+		flex: none;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+	.axis::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: -1px;
+		top: 50%;
+		height: 1px;
+		background: var(--line);
+	}
+	.axis__dot {
+		position: relative;
+		width: 9px;
+		height: 9px;
+		border-radius: 100px;
+		background: #141414;
+	}
+	.axis__mark {
+		position: relative;
+		background: #f2f2f0;
+		padding-right: 10px;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink);
+	}
+	.body {
+		flex: 1;
+		min-height: 0;
 		overflow-y: auto;
-	}
-	.inner {
-		width: min(1180px, 100%);
-		opacity: 0;
-		transform: translateY(14px);
-		transition: opacity 0.45s ease, transform 0.45s ease;
-	}
-	.slide.on .inner {
-		opacity: 1;
-		transform: none;
+		padding: clamp(14px, 2vw, 26px) 0 20px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
 	}
 	.kicker {
 		display: block;
@@ -383,109 +410,135 @@
 		letter-spacing: 0.18em;
 		text-transform: uppercase;
 		color: var(--ink-3);
-		margin-bottom: 10px;
+		margin-bottom: 8px;
 	}
-	.big {
+	h1 {
 		margin: 0;
-		font-size: clamp(34px, 6.4vw, 86px);
+		font-size: clamp(32px, 4.6vw, 62px);
 		line-height: 1;
 		font-weight: 400;
 		text-transform: uppercase;
-		letter-spacing: -0.01em;
 	}
 	h2 {
-		margin: 0 0 clamp(18px, 2.4vw, 30px);
-		font-size: clamp(26px, 3.6vw, 48px);
+		margin: 0 0 clamp(14px, 1.6vw, 22px);
+		font-size: clamp(24px, 2.8vw, 40px);
 		line-height: 1.05;
 		font-weight: 400;
 		text-transform: uppercase;
 	}
 	.sub {
-		margin: 16px 0 0;
-		font-size: clamp(15px, 1.6vw, 20px);
+		margin: 14px 0 0;
 		color: var(--ink-2);
+		font-size: clamp(14px, 1.4vw, 18px);
 	}
 	.hint {
-		margin: 28px 0 0;
-		font-size: 12px;
-		letter-spacing: 0.1em;
+		margin: 26px 0 0;
+		font-size: 11px;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
 		color: var(--ink-3);
 	}
-	.stats {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-		gap: 14px;
-	}
-	.stats div {
-		background: #fff;
-		border-radius: 18px;
-		padding: clamp(18px, 2vw, 26px);
-		border: 1px solid var(--line);
-	}
-	.stats b {
-		display: block;
-		font-size: clamp(30px, 4.4vw, 58px);
-		font-weight: 400;
-		line-height: 1;
-		letter-spacing: -0.02em;
-	}
-	.stats span {
-		display: block;
-		margin-top: 10px;
-		font-size: 13px;
-		line-height: 1.4;
-		color: var(--ink-2);
-	}
-	.stats--sm b {
-		font-size: clamp(26px, 3vw, 40px);
+	.lead {
+		margin: 0 0 16px;
+		font-size: clamp(16px, 1.8vw, 22px);
+		line-height: 1.35;
+		max-width: 26em;
 	}
 	.tiles {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-		gap: 14px;
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+		gap: 12px;
 	}
 	.tiles article {
 		background: #fff;
 		border: 1px solid var(--line);
-		border-radius: 18px;
-		padding: clamp(18px, 2vw, 24px);
+		border-radius: 16px;
+		padding: 18px 20px;
 	}
 	.tiles h3 {
-		margin: 0 0 8px;
-		font-size: clamp(16px, 1.7vw, 20px);
+		margin: 0 0 6px;
+		font-size: 17px;
 		font-weight: 500;
-		line-height: 1.25;
 	}
 	.tiles p {
 		margin: 0;
 		font-size: 14px;
-		line-height: 1.5;
+		line-height: 1.45;
 		color: var(--ink-2);
 	}
-	.chart {
+	.lines {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 10px;
+	}
+	.lines li {
+		font-size: clamp(16px, 1.7vw, 21px);
+		line-height: 1.35;
+		padding-left: 22px;
 		position: relative;
+	}
+	.lines li::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.62em;
+		width: 12px;
+		height: 1px;
+		background: #141414;
+	}
+	.steps {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+		gap: 12px;
+	}
+	.steps div {
 		background: #fff;
 		border: 1px solid var(--line);
-		border-radius: 18px;
-		padding: 14px 14px 6px;
+		border-radius: 16px;
+		padding: 16px 18px;
+	}
+	.steps b {
+		display: block;
+		font-size: 12px;
+		color: var(--ink-3);
+		font-weight: 400;
+		margin-bottom: 8px;
+	}
+	.steps span {
+		font-size: 15px;
+		line-height: 1.4;
+	}
+	.kick {
+		margin: 16px 0 0;
+		background: #141414;
+		color: #fff;
+		border-radius: 16px;
+		padding: 16px 20px;
+		font-size: clamp(14px, 1.5vw, 17px);
+		line-height: 1.45;
+		max-width: 40em;
+	}
+	.chart {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		padding: 12px 12px 6px;
 	}
 	.chart svg {
 		width: 100%;
-		height: clamp(180px, 26vh, 300px);
+		height: clamp(150px, 24vh, 260px);
 		display: block;
 	}
 	.line {
 		fill: none;
+		stroke: #111;
 		stroke-width: 2.5;
 		vector-effect: non-scaling-stroke;
 		stroke-linejoin: round;
 	}
-	.line--g,
-	.line--c {
-		stroke: #111;
-	}
-	.line--y {
+	.line--2 {
 		stroke: #b3b3b3;
 	}
 	.area {
@@ -494,149 +547,85 @@
 	}
 	.chart__x {
 		position: relative;
-		height: 18px;
+		height: 16px;
 	}
 	.chart__x span {
 		position: absolute;
 		transform: translateX(-50%);
 		font-size: 11px;
 		color: var(--ink-3);
-		letter-spacing: 0.08em;
 		text-transform: uppercase;
+		letter-spacing: 0.08em;
 	}
 	.legend {
 		display: flex;
-		gap: 18px;
+		gap: 16px;
 		align-items: center;
 		font-size: 12px;
 		color: var(--ink-2);
-		padding: 6px 2px 4px;
+		padding: 4px 2px;
 	}
 	.dot {
 		width: 10px;
 		height: 2px;
+		background: #111;
 		display: inline-block;
 		margin-right: 6px;
-		background: #111;
 	}
 	.dot--y {
 		background: #b3b3b3;
 	}
 	.bars {
 		display: flex;
-		gap: clamp(10px, 3vw, 34px);
+		gap: clamp(10px, 2vw, 26px);
 		align-items: flex-end;
-		height: clamp(180px, 30vh, 300px);
+		height: clamp(150px, 24vh, 250px);
 		background: #fff;
 		border: 1px solid var(--line);
-		border-radius: 18px;
-		padding: 18px clamp(14px, 3vw, 30px);
+		border-radius: 16px;
+		padding: 16px 20px;
 	}
 	.bars__i {
 		flex: 1;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-end;
 		align-items: center;
-		height: 100%;
-		gap: 8px;
+		gap: 6px;
 	}
 	.bars__v {
-		font-size: clamp(14px, 1.5vw, 18px);
+		font-size: 15px;
 	}
 	.bars__bar {
 		width: 100%;
 		background: #141414;
-		border-radius: 8px 8px 0 0;
-		min-height: 4px;
+		border-radius: 6px 6px 0 0;
 	}
 	.bars__l {
-		font-size: 12px;
-		color: var(--ink-3);
-		text-transform: uppercase;
+		font-size: 11px;
 		letter-spacing: 0.08em;
-	}
-	.split {
-		display: grid;
-		grid-template-columns: 1.2fr 1fr;
-		gap: 16px;
-		align-items: stretch;
-	}
-	.jump {
-		background: #141414;
-		color: #fff;
-		border-radius: 18px;
-		padding: clamp(18px, 2vw, 28px);
-		display: flex;
-		flex-wrap: wrap;
-		align-items: baseline;
-		gap: 12px;
-	}
-	.jump__from {
-		font-size: clamp(22px, 2.6vw, 34px);
-		color: rgba(255, 255, 255, 0.45);
-	}
-	.jump__arr {
-		color: rgba(255, 255, 255, 0.45);
-	}
-	.jump__to {
-		font-size: clamp(34px, 5vw, 64px);
-		line-height: 1;
-	}
-	.jump__l {
-		flex: 1 0 100%;
-		font-size: 13px;
-		color: rgba(255, 255, 255, 0.6);
-	}
-	.steps {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		gap: 10px;
-		counter-reset: s;
-	}
-	.steps li {
-		display: flex;
-		gap: 16px;
-		align-items: baseline;
-		background: #fff;
-		border: 1px solid var(--line);
-		border-radius: 14px;
-		padding: 14px 18px;
-	}
-	.steps b {
-		flex: 0 0 clamp(96px, 12vw, 150px);
-		font-weight: 500;
-	}
-	.steps span {
-		color: var(--ink-2);
-		font-size: 15px;
-	}
-	.result {
-		margin: 16px 0 0;
-		font-size: clamp(15px, 1.6vw, 19px);
-		line-height: 1.45;
-		max-width: 46em;
+		text-transform: uppercase;
+		color: var(--ink-3);
 	}
 	.tbl {
 		width: 100%;
 		border-collapse: collapse;
 		background: #fff;
 		border: 1px solid var(--line);
-		border-radius: 18px;
+		border-radius: 16px;
 		overflow: hidden;
-		font-size: clamp(14px, 1.5vw, 17px);
+		font-size: clamp(14px, 1.4vw, 16px);
 	}
 	.tbl th,
 	.tbl td {
 		text-align: left;
-		padding: 12px 18px;
+		padding: 11px 16px;
 		border-bottom: 1px solid var(--line);
 	}
 	.tbl th {
 		font-size: 11px;
-		letter-spacing: 0.12em;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
 		color: var(--ink-3);
 		font-weight: 500;
@@ -646,74 +635,59 @@
 	}
 	.tbl td.num {
 		text-align: right;
-		width: 90px;
+		width: 80px;
 		font-variant-numeric: tabular-nums;
 	}
 	.points {
 		display: flex;
 		flex-wrap: wrap;
-		gap: clamp(16px, 3vw, 44px);
-		margin-top: 18px;
+		gap: clamp(14px, 2.4vw, 34px);
+		margin-top: 14px;
 	}
 	.points b {
-		font-size: clamp(22px, 2.6vw, 34px);
-		font-weight: 400;
 		display: block;
+		font-size: clamp(22px, 2.4vw, 32px);
+		font-weight: 400;
 		line-height: 1;
 	}
 	.points span {
 		display: block;
-		margin-top: 6px;
-		font-size: 13px;
+		margin-top: 5px;
+		font-size: 12px;
 		color: var(--ink-2);
-		max-width: 20em;
 	}
 	.note {
-		margin: 18px 0 0;
+		margin: 14px 0 0;
 		font-size: 14px;
 		line-height: 1.5;
 		color: var(--ink-2);
-		max-width: 52em;
+		max-width: 42em;
 	}
-	.dots {
+	.foot {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		gap: 8px;
-		padding: 12px;
+		gap: 16px;
+		padding: 10px clamp(16px, 3vw, 40px) 12px;
 		border-top: 1px solid var(--line);
 	}
-	.dot-btn {
-		width: 8px;
-		height: 8px;
-		border-radius: 100px;
-		border: 0;
-		background: rgba(0, 0, 0, 0.18);
-		cursor: pointer;
-		padding: 0;
-		transition: background 0.2s ease, width 0.2s ease;
+	.progress {
+		flex: 1;
+		height: 2px;
+		background: var(--line);
+		overflow: hidden;
 	}
-	.dot-btn.on {
+	.progress span {
+		display: block;
+		height: 100%;
 		background: #141414;
-		width: 22px;
+		transform-origin: left center;
+		transition: transform 0.12s linear;
 	}
-	.nav {
-		border: 1px solid var(--line);
-		background: transparent;
-		border-radius: 100px;
-		width: 30px;
-		height: 30px;
-		cursor: pointer;
-		font-size: 14px;
-		color: var(--ink-2);
-	}
-	@media (max-width: 720px) {
-		.split {
-			grid-template-columns: 1fr;
-		}
-		.steps li {
-			flex-direction: column;
-			gap: 4px;
-		}
+	.foot__hint {
+		font-size: 11px;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		white-space: nowrap;
 	}
 </style>
