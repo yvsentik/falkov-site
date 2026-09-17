@@ -211,7 +211,9 @@
 						<div class="shots">
 							{#each e.shots as s}
 								<figure>
-									<img src={s.src} alt={s.cap} loading="lazy" onerror={(ev) => (ev.currentTarget.closest('figure').hidden = true)} />
+									<a href={s.src} target="_blank" rel="noopener" title="Открыть в полном размере">
+										<img src={s.src} alt={s.cap} loading="lazy" onerror={(ev) => (ev.currentTarget.closest('figure').hidden = true)} />
+									</a>
 									<figcaption>{s.cap}</figcaption>
 								</figure>
 							{/each}
