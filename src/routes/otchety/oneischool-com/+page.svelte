@@ -295,6 +295,21 @@
 								</ul>
 							{/if}
 
+							{#if b.dropdown}
+								<details class="dd">
+									<summary>{b.dropdown.label}</summary>
+									<div class="dd__body">
+										{#each b.dropdown.items as it}
+											<div class="dd__i">
+												<span class="dd__url">{it.url}</span>
+												<b>{it.title}</b>
+												<p>{it.desc}</p>
+											</div>
+										{/each}
+									</div>
+								</details>
+							{/if}
+
 							{#if b.compare}
 								<div class="cmp">
 									{#each [b.compare.a, b.compare.b] as side, si}
@@ -323,7 +338,7 @@
 							{#if b.shots?.length}
 								<div class="shots" class:shots--row={b.shotsRow}>
 									{#each b.shots as sh}
-										<figure>
+										<figure class:tall={sh.tall}>
 											<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} decoding="async" /></a>
 										</figure>
 									{/each}
@@ -1168,6 +1183,79 @@
 	}
 	.shots--row img {
 		max-height: clamp(160px, 34vh, 380px);
+	}
+	/* длинный скриншот страницы: листается внутри рамки */
+	.shots figure.tall {
+		max-height: clamp(260px, 62vh, 620px);
+		overflow-y: auto;
+		border-radius: 14px;
+		border: 1px solid var(--line);
+		background: #fff;
+	}
+	.shots figure.tall img {
+		max-height: none;
+		border: 0;
+		border-radius: 0;
+		object-fit: initial;
+	}
+	.dd {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		padding: 14px 18px;
+	}
+	.dd summary {
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+		gap: 12px;
+		font-size: 15px;
+	}
+	.dd summary::-webkit-details-marker {
+		display: none;
+	}
+	.dd summary::after {
+		content: '+';
+		font-size: 20px;
+		line-height: 1;
+		color: var(--ink-3);
+		transition: transform 0.25s ease;
+	}
+	.dd[open] summary::after {
+		transform: rotate(45deg);
+	}
+	.dd__body {
+		margin-top: 12px;
+		max-height: clamp(180px, 38vh, 380px);
+		overflow-y: auto;
+		display: grid;
+		gap: 10px;
+		padding-right: 6px;
+	}
+	.dd__i {
+		border-top: 1px solid var(--line);
+		padding-top: 10px;
+	}
+	.dd__url {
+		display: block;
+		font-size: 11px;
+		color: var(--ink-3);
+		letter-spacing: 0.04em;
+		margin-bottom: 3px;
+		word-break: break-all;
+	}
+	.dd__i b {
+		display: block;
+		font-weight: 500;
+		font-size: 14.5px;
+		line-height: 1.35;
+	}
+	.dd__i p {
+		margin: 4px 0 0;
+		font-size: 13.5px;
+		line-height: 1.45;
+		color: var(--ink-2);
 	}
 	.foot {
 		display: flex;
