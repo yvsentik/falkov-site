@@ -302,6 +302,9 @@
 										{#each b.dropdown.items as it}
 											<div class="dd__i">
 												<span class="dd__url">{it.url}</span>
+												{#if it.queries?.length}
+													<span class="dd__q">{#each it.queries as q}<i>{q}</i>{/each}</span>
+												{/if}
 												<b>{it.title}</b>
 												<p>{it.desc}</p>
 											</div>
@@ -1255,6 +1258,21 @@
 		margin: 4px 0 0;
 		font-size: 13.5px;
 		line-height: 1.45;
+		color: var(--ink-2);
+	}
+	.dd__q {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 5px;
+		margin: 4px 0 7px;
+	}
+	.dd__q i {
+		font-style: normal;
+		font-size: 12px;
+		line-height: 1;
+		padding: 5px 9px;
+		border-radius: 100px;
+		background: #f0f0ee;
 		color: var(--ink-2);
 	}
 	.foot {
