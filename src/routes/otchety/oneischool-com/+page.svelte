@@ -324,7 +324,7 @@
 								<div class="shots">
 									{#each b.shots as sh}
 										<figure>
-											<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} loading="lazy" /></a>
+											<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} decoding="async" /></a>
 										</figure>
 									{/each}
 								</div>
