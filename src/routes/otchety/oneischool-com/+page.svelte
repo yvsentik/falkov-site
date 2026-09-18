@@ -148,10 +148,11 @@
 							{#if b.kicker}<span class="kicker">{b.kicker}</span>{/if}
 							<h1>{b.title}</h1>
 							<p class="sub">{b.sub}</p>
-							{#if b.hint}<p class="hint">{b.hint}</p>{/if}
-						{:else}
+										{:else}
 							<span class="kicker">{b.kicker}</span>
 							<h2>{b.title}</h2>
+							<div class="cols" class:cols--shot={b.shots?.length}>
+							<div class="main">
 
 							{#if b.lead}<p class="lead">{b.lead}</p>{/if}
 
@@ -229,7 +230,56 @@
 								</div>
 							{/if}
 
+							{#if b.table}
+								<table class="tbl tbl--sm">
+									<thead><tr>{#each b.table.head as h}<th>{h}</th>{/each}</tr></thead>
+									<tbody>
+										{#each b.table.rows as r}
+											<tr>{#each r as c, ci}<td class:num={ci > 0}>{c}</td>{/each}</tr>
+										{/each}
+									</tbody>
+								</table>
+							{/if}
+
+							{#if b.type === 'groups'}
+								<div class="groups">
+									{#each b.groups as g}
+										<div class="groups__i">
+											<div class="groups__bars">
+												<span class="gb gb--1" style="height: {g.t1}%"><i>{String(g.t1).replace('.', ',')}</i></span>
+												<span class="gb gb--3" style="height: {g.t3}%"><i>{String(g.t3).replace('.', ',')}</i></span>
+												<span class="gb gb--10" style="height: {g.t10}%"><i>{String(g.t10).replace('.', ',')}</i></span>
+											</div>
+											<span class="groups__l">{g.l}</span>
+										</div>
+									{/each}
+								</div>
+								<div class="legend">
+									<span class="sw sw--1"></span>ТОП-1
+									<span class="sw sw--3"></span>ТОП-3
+									<span class="sw sw--10"></span>ТОП-10
+								</div>
+							{/if}
+
+							{#if b.links}
+								<p class="links">
+									{#each b.links as l}<a href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>{/each}
+								</p>
+							{/if}
+
 							{#if b.note}<p class="note">{b.note}</p>{/if}
+							</div>
+							{#if b.shots?.length}
+								<div class="shots">
+									{#each b.shots as sh}
+										<figure>
+											<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} loading="lazy" /></a>
+											<figcaption>{sh.cap}</figcaption>
+										</figure>
+									{/each}
+								</div>
+							{/if}
+							</div>
 						{/if}
 					</div>
 				</section>
@@ -238,7 +288,6 @@
 
 		<footer class="foot">
 			<div class="progress"><span style="transform: scaleX({progress})"></span></div>
-			<span class="foot__hint">Двумя пальцами вправо · стрелки · перетаскивание</span>
 		</footer>
 	</div>
 {/if}
@@ -511,7 +560,7 @@
 		line-height: 1.4;
 	}
 	.kick {
-		margin: 16px 0 0;
+		margin: 0;
 		background: #141414;
 		color: #fff;
 		border-radius: 16px;
@@ -642,7 +691,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: clamp(14px, 2.4vw, 34px);
-		margin-top: 14px;
 	}
 	.points b {
 		display: block;
@@ -657,11 +705,131 @@
 		color: var(--ink-2);
 	}
 	.note {
-		margin: 14px 0 0;
+		margin: 0;
 		font-size: 14px;
 		line-height: 1.5;
 		color: var(--ink-2);
 		max-width: 42em;
+	}
+	.cols {
+		display: grid;
+		gap: 18px;
+		align-items: start;
+	}
+	.cols--shot {
+		grid-template-columns: 1.1fr 0.9fr;
+	}
+	.main > * + * {
+		margin-top: 14px;
+	}
+	.shots figure {
+		margin: 0;
+	}
+	.shots img {
+		width: 100%;
+		max-height: clamp(220px, 52vh, 560px);
+		object-fit: contain;
+		object-position: top;
+		border-radius: 14px;
+		border: 1px solid var(--line);
+		background: #fff;
+		display: block;
+	}
+	.shots figcaption {
+		margin-top: 6px;
+		font-size: 12px;
+		color: var(--ink-3);
+	}
+	.links {
+		margin: 0;
+	}
+	.links a {
+		font-size: 14px;
+		color: var(--ink);
+	}
+	.tbl--sm {
+		font-size: 14px;
+	}
+	.tbl--sm th,
+	.tbl--sm td {
+		padding: 9px 14px;
+	}
+	.groups {
+		display: flex;
+		gap: clamp(12px, 3vw, 40px);
+		align-items: flex-end;
+		height: clamp(180px, 30vh, 300px);
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		padding: 26px 20px 14px;
+	}
+	.groups__i {
+		flex: 1;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		gap: 8px;
+	}
+	.groups__bars {
+		flex: 1;
+		display: flex;
+		align-items: flex-end;
+		gap: 6px;
+	}
+	.gb {
+		flex: 1;
+		position: relative;
+		border-radius: 5px 5px 0 0;
+		min-height: 3px;
+	}
+	.gb i {
+		position: absolute;
+		left: 50%;
+		top: -20px;
+		transform: translateX(-50%);
+		font-style: normal;
+		font-size: 11px;
+		color: var(--ink-2);
+		white-space: nowrap;
+	}
+	.gb--1 {
+		background: #141414;
+	}
+	.gb--3 {
+		background: #6b6b6b;
+	}
+	.gb--10 {
+		background: #c9c9c9;
+	}
+	.groups__l {
+		text-align: center;
+		font-size: 11px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+	.sw {
+		width: 12px;
+		height: 12px;
+		border-radius: 3px;
+		display: inline-block;
+		margin: 0 6px 0 12px;
+	}
+	.sw--1 {
+		background: #141414;
+	}
+	.sw--3 {
+		background: #6b6b6b;
+	}
+	.sw--10 {
+		background: #c9c9c9;
+	}
+	@media (max-width: 860px) {
+		.cols--shot {
+			grid-template-columns: 1fr;
+		}
 	}
 	.foot {
 		display: flex;
