@@ -162,7 +162,7 @@
 							<p class="sub">{b.sub}</p>
 										{:else}
 							<h2>{b.title}</h2>
-							<div class="cols" class:cols--shot={b.shots?.length}>
+							<div class="cols" class:cols--shot={b.shots?.length && !b.shotsRow}>
 							<div class="main">
 
 							{#if b.lead}<p class="lead">{b.lead}</p>{/if}
@@ -321,7 +321,7 @@
 							{#if b.note}<p class="note">{b.note}</p>{/if}
 							</div>
 							{#if b.shots?.length}
-								<div class="shots">
+								<div class="shots" class:shots--row={b.shotsRow}>
 									{#each b.shots as sh}
 										<figure>
 											<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} decoding="async" /></a>
@@ -1160,6 +1160,14 @@
 		.pages {
 			grid-template-columns: 1fr;
 		}
+	}
+	.shots--row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+	.shots--row img {
+		max-height: clamp(160px, 34vh, 380px);
 	}
 	.foot {
 		display: flex;
