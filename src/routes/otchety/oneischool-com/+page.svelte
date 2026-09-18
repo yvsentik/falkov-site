@@ -43,6 +43,18 @@
 	/* ---------- длинная лента вправо ---------- */
 	let strip = $state();
 	let progress = $state(0);
+	let audit = $state(null);
+
+	/* блок оживает, когда въезжает в кадр */
+	$effect(() => {
+		if (!deck || !strip) return;
+		const io = new IntersectionObserver(
+			(entries) => entries.forEach((e) => e.isIntersecting && e.target.classList.add('in')),
+			{ root: strip, threshold: 0.25 }
+		);
+		strip.querySelectorAll('.b').forEach((el) => io.observe(el));
+		return () => io.disconnect();
+	});
 
 	function onScroll() {
 		if (!strip) return;
@@ -77,6 +89,7 @@
 			e.preventDefault();
 			strip.scrollBy({ left: -step, behavior: 'smooth' });
 		}
+		if (e.key === 'Escape') audit = null;
 		if (e.key === 'Home') strip.scrollTo({ left: 0, behavior: 'smooth' });
 		if (e.key === 'End') strip.scrollTo({ left: strip.scrollWidth, behavior: 'smooth' });
 	}
@@ -261,6 +274,23 @@
 								</div>
 							{/if}
 
+							{#if b.compare}
+								<div class="cmp">
+									{#each [b.compare.a, b.compare.b] as side, si}
+										<div class="cmp__col" class:cmp__col--keep={si === 1}>
+											<span class="cmp__h">{side.h}</span>
+											<ul>{#each side.items as it}<li>{it}</li>{/each}</ul>
+										</div>
+									{/each}
+								</div>
+							{/if}
+
+							{#if b.audit}
+								<p class="links">
+									<button class="abtn" type="button" onclick={() => (audit = b.audit)}>Открыть полный аудит ↗</button>
+								</p>
+							{/if}
+
 							{#if b.links}
 								<p class="links">
 									{#each b.links as l}<a href={l.href} target="_blank" rel="noopener">{l.label} ↗</a>{/each}
@@ -274,7 +304,6 @@
 									{#each b.shots as sh}
 										<figure>
 											<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} loading="lazy" /></a>
-											<figcaption>{sh.cap}</figcaption>
 										</figure>
 									{/each}
 								</div>
@@ -289,6 +318,19 @@
 		<footer class="foot">
 			<div class="progress"><span style="transform: scaleX({progress})"></span></div>
 		</footer>
+
+		{#if audit}
+			<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
+			<div class="ov" onclick={(e) => e.target === e.currentTarget && (audit = null)}>
+				<div class="ov__panel">
+					<div class="ov__head">
+						<b>{deck.audits[audit].title}</b>
+						<button type="button" onclick={() => (audit = null)} aria-label="Закрыть">✕</button>
+					</div>
+					<div class="ov__body">{@html deck.audits[audit].html}</div>
+				</div>
+			</div>
+		{/if}
 	</div>
 {/if}
 
@@ -831,6 +873,213 @@
 			grid-template-columns: 1fr;
 		}
 	}
+	/* появление: блок и его дети въезжают с задержкой */
+	.b .body > * {
+		opacity: 0;
+		transform: translateY(18px);
+		transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.b.in .body > * {
+		opacity: 1;
+		transform: none;
+	}
+	.b .tiles article,
+	.b .steps > div,
+	.b .points > div,
+	.b .lines li,
+	.b .tbl tbody tr,
+	.b .cmp__col,
+	.b .shots figure {
+		opacity: 0;
+		transform: translateY(16px);
+		transition: opacity 0.55s ease, transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.b.in .tiles article,
+	.b.in .steps > div,
+	.b.in .points > div,
+	.b.in .lines li,
+	.b.in .tbl tbody tr,
+	.b.in .cmp__col,
+	.b.in .shots figure {
+		opacity: 1;
+		transform: none;
+	}
+	.b.in :is(.tiles, .steps, .points, .lines, .cmp) > :nth-child(1) { transition-delay: 0.1s; }
+	.b.in :is(.tiles, .steps, .points, .lines, .cmp) > :nth-child(2) { transition-delay: 0.2s; }
+	.b.in :is(.tiles, .steps, .points, .lines, .cmp) > :nth-child(3) { transition-delay: 0.3s; }
+	.b.in :is(.tiles, .steps, .points, .lines, .cmp) > :nth-child(4) { transition-delay: 0.4s; }
+	.b.in :is(.tiles, .steps, .points, .lines, .cmp) > :nth-child(5) { transition-delay: 0.5s; }
+	.b.in :is(.tiles, .steps, .points, .lines, .cmp) > :nth-child(6) { transition-delay: 0.6s; }
+	.b.in .tbl tbody tr:nth-child(n) { transition-delay: calc(0.08s * var(--i, 1)); }
+	.b.in .shots figure { transition-delay: 0.35s; }
+	.b .gb,
+	.b .bars__bar {
+		transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.b.in .gb,
+	.b.in .bars__bar {
+		transform: scaleY(1);
+	}
+	.b.in .gb--1 { transition-delay: 0.15s; }
+	.b.in .gb--3 { transition-delay: 0.3s; }
+	.b.in .gb--10 { transition-delay: 0.45s; }
+	.b .gb i { opacity: 0; transition: opacity 0.4s ease 0.9s; }
+	.b.in .gb i { opacity: 1; }
+	.axis__dot {
+		transform: scale(0.4);
+		opacity: 0;
+		transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.5s ease;
+	}
+	.b.in .axis__dot {
+		transform: none;
+		opacity: 1;
+	}
+	.b.in .axis__dot::after {
+		content: '';
+		position: absolute;
+		inset: -6px;
+		border-radius: 100px;
+		border: 1px solid #141414;
+		animation: pulse 1.6s ease-out 0.3s 2;
+		opacity: 0;
+	}
+	@keyframes pulse {
+		0% { transform: scale(0.5); opacity: 0.7; }
+		100% { transform: scale(1.8); opacity: 0; }
+	}
+	.axis__mark {
+		opacity: 0;
+		transform: translateX(-8px);
+		transition: opacity 0.5s ease 0.15s, transform 0.5s ease 0.15s;
+	}
+	.b.in .axis__mark {
+		opacity: 1;
+		transform: none;
+	}
+	.cmp {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 12px;
+	}
+	.cmp__col {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 16px;
+		padding: 16px 18px;
+	}
+	.cmp__col--keep {
+		background: #141414;
+		color: #fff;
+		border-color: #141414;
+	}
+	.cmp__h {
+		display: block;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-bottom: 10px;
+	}
+	.cmp__col--keep .cmp__h {
+		color: rgba(255, 255, 255, 0.55);
+	}
+	.cmp ul {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		display: grid;
+		gap: 5px;
+		font-size: 14px;
+	}
+	.cmp__col:not(.cmp__col--keep) li {
+		color: var(--ink-2);
+		text-decoration: line-through;
+		text-decoration-color: rgba(0, 0, 0, 0.35);
+	}
+	.abtn {
+		border: 1px solid #141414;
+		background: #141414;
+		color: #fff;
+		border-radius: 100px;
+		padding: 10px 18px;
+		font: inherit;
+		font-size: 14px;
+		cursor: pointer;
+		transition: transform 0.2s ease, box-shadow 0.2s ease;
+	}
+	.abtn:hover {
+		transform: translateY(-1px);
+		box-shadow: 0 12px 24px -14px rgba(0, 0, 0, 0.6);
+	}
+	.ov {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.55);
+		backdrop-filter: blur(6px);
+		display: grid;
+		place-items: center;
+		padding: 24px;
+		z-index: 50;
+		animation: fade 0.25s ease;
+	}
+	@keyframes fade {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+	.ov__panel {
+		width: min(980px, 100%);
+		height: min(88vh, 100%);
+		background: #fff;
+		border-radius: 20px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+		animation: rise 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	@keyframes rise {
+		from { transform: translateY(24px); opacity: 0; }
+		to { transform: none; opacity: 1; }
+	}
+	.ov__head {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 16px;
+		padding: 16px 22px;
+		border-bottom: 1px solid var(--line);
+	}
+	.ov__head b {
+		font-weight: 500;
+	}
+	.ov__head button {
+		border: 0;
+		background: #f2f2f0;
+		border-radius: 100px;
+		width: 34px;
+		height: 34px;
+		cursor: pointer;
+		font-size: 14px;
+	}
+	.ov__body {
+		overflow-y: auto;
+		padding: 8px 26px 30px;
+		font-size: 14px;
+		line-height: 1.6;
+		color: var(--ink-2);
+	}
+	.ov__body :global(h2) { font-size: 20px; color: var(--ink); margin: 26px 0 10px; font-weight: 500; }
+	.ov__body :global(h3) { font-size: 16px; color: var(--ink); margin: 22px 0 8px; font-weight: 500; }
+	.ov__body :global(h4) { font-size: 14px; color: var(--ink); margin: 14px 0 6px; }
+	.ov__body :global(p) { margin: 0 0 10px; }
+	.ov__body :global(p.lbl) { font-size: 11px; letter-spacing: 0.12em; color: var(--ink-3); margin: 12px 0 2px; }
+	.ov__body :global(ul) { margin: 0 0 12px; padding-left: 18px; }
+	.ov__body :global(li) { margin-bottom: 6px; }
+	.ov__body :global(.rtab) { overflow-x: auto; margin: 0 0 16px; }
+	.ov__body :global(table) { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 420px; }
+	.ov__body :global(th), .ov__body :global(td) { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+	.ov__body :global(th) { color: var(--ink); font-weight: 500; white-space: nowrap; }
 	.foot {
 		display: flex;
 		align-items: center;
