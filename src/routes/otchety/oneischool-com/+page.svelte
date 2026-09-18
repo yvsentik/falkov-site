@@ -158,11 +158,9 @@
 
 					<div class="body">
 						{#if b.type === 'intro' || b.type === 'end'}
-							{#if b.kicker}<span class="kicker">{b.kicker}</span>{/if}
 							<h1>{b.title}</h1>
 							<p class="sub">{b.sub}</p>
 										{:else}
-							<span class="kicker">{b.kicker}</span>
 							<h2>{b.title}</h2>
 							<div class="cols" class:cols--shot={b.shots?.length}>
 							<div class="main">
@@ -274,6 +272,29 @@
 								</div>
 							{/if}
 
+							{#if b.type === 'table2'}
+								<div class="t2">
+									{#each [b.left, b.right] as part}
+										<table class="tbl tbl--sm">
+											<thead><tr>{#each b.head as h}<th>{h}</th>{/each}</tr></thead>
+											<tbody>
+												{#each part as r, ri}
+													<tr style="--i: {ri + 1}">{#each r as c, ci}<td class:num={ci > 0} class:up={ci === 3}>{c}</td>{/each}</tr>
+												{/each}
+											</tbody>
+										</table>
+									{/each}
+								</div>
+							{/if}
+
+							{#if b.pages}
+								<ul class="pages">
+									{#each b.pages as pg}
+										<li><b>{pg[0]}</b><span>{pg[1]}</span></li>
+									{/each}
+								</ul>
+							{/if}
+
 							{#if b.compare}
 								<div class="cmp">
 									{#each [b.compare.a, b.compare.b] as side, si}
@@ -287,7 +308,7 @@
 
 							{#if b.audit}
 								<p class="links">
-									<button class="abtn" type="button" onclick={() => (audit = b.audit)}>Открыть полный аудит ↗</button>
+									<button class="abtn" type="button" onclick={() => (audit = b.audit)}>{b.auditLabel ?? 'Открыть ↗'}</button>
 								</p>
 							{/if}
 
@@ -1080,6 +1101,66 @@
 	.ov__body :global(table) { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 420px; }
 	.ov__body :global(th), .ov__body :global(td) { border-bottom: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
 	.ov__body :global(th) { color: var(--ink); font-weight: 500; white-space: nowrap; }
+	.b--xwide {
+		width: min(1240px, 94vw);
+	}
+	.t2 {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 14px;
+	}
+	.t2 .tbl--sm th,
+	.t2 .tbl--sm td {
+		padding: 7px 12px;
+		font-size: 13.5px;
+	}
+	.tbl td.up {
+		color: #141414;
+		font-weight: 500;
+	}
+	.pages {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+	}
+	.pages li {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		padding: 13px 16px;
+		opacity: 0;
+		transform: translateY(14px);
+		transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+	}
+	.b.in .pages li {
+		opacity: 1;
+		transform: none;
+	}
+	.b.in .pages li:nth-child(2n) { transition-delay: 0.12s; }
+	.b.in .pages li:nth-child(n + 3) { transition-delay: 0.2s; }
+	.b.in .pages li:nth-child(n + 5) { transition-delay: 0.3s; }
+	.b.in .pages li:nth-child(n + 7) { transition-delay: 0.4s; }
+	.pages b {
+		display: block;
+		font-weight: 500;
+		font-size: 15px;
+	}
+	.pages span {
+		display: block;
+		margin-top: 3px;
+		font-size: 13px;
+		color: var(--ink-2);
+		line-height: 1.4;
+	}
+	@media (max-width: 860px) {
+		.t2,
+		.pages {
+			grid-template-columns: 1fr;
+		}
+	}
 	.foot {
 		display: flex;
 		align-items: center;
