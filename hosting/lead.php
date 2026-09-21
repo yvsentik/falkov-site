@@ -2,7 +2,7 @@
 /* Приём заявок с falkov-marketing.ru: дублирует заявку письмом на почту владельца.
    В бота заявка уходит отдельно, прямо из формы, этот скрипт её не заменяет. */
 
-$TO = 'jjcloosey@gmail.com';
+$TO = 'korob338@mail.ru';
 $FROM = 'zayavki@falkov-marketing.ru';
 $ALLOWED = ['https://falkov-marketing.ru', 'https://www.falkov-marketing.ru'];
 
