@@ -145,6 +145,15 @@
 		}
 
 		status = 'sending';
+		/* дубль на почту: не ждём ответа и не зависим от него */
+		if (site.mailEndpoint) {
+			fetch(site.mailEndpoint, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ text: message() }),
+				keepalive: true
+			}).catch(() => {});
+		}
 		try {
 			const res = site.formEndpoint
 				? await fetch(site.formEndpoint, {
