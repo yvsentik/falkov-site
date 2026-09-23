@@ -37,4 +37,22 @@ $headers = "From: Falkov <{$FROM}>\r\nMIME-Version: 1.0\r\nContent-Type: text/pl
 $message = $text . "\n\n---\nIP: {$ip}\nВремя: " . date('d.m.Y H:i') . "\n";
 $ok = @mail($TO, $subject, $message, $headers, '-f' . $FROM);
 
-echo json_encode(['ok' => (bool) $ok]);
+/* Telegram с сервера: у части посетителей из России браузер до api.telegram.org не достаёт,
+   поэтому отправка из формы может не сработать. Сервер отправляет всегда. */
+$TG_TOKEN = '8656918564:AAHZQW_q74De5ax4Vwp1b3fN3Jhk4nMRLjI';
+$TG_CHAT = '7315203539';
+$tg = false;
+$ch = curl_init("https://api.telegram.org/bot{$TG_TOKEN}/sendMessage");
+curl_setopt_array($ch, [
+	CURLOPT_RETURNTRANSFER => true,
+	CURLOPT_TIMEOUT => 8,
+	CURLOPT_CONNECTTIMEOUT => 5,
+	CURLOPT_POST => true,
+	CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+	CURLOPT_POSTFIELDS => json_encode(['chat_id' => $TG_CHAT, 'text' => $text, 'disable_web_page_preview' => true], JSON_UNESCAPED_UNICODE)
+]);
+$res = curl_exec($ch);
+$tg = curl_getinfo($ch, CURLINFO_HTTP_CODE) === 200;
+curl_close($ch);
+
+echo json_encode(['ok' => (bool) $ok || $tg, 'mail' => (bool) $ok, 'tg' => $tg]);

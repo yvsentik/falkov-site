@@ -145,31 +145,31 @@
 		}
 
 		status = 'sending';
-		/* дубль на почту: не ждём ответа и не зависим от него */
-		if (site.mailEndpoint) {
-			fetch(site.mailEndpoint, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ text: message() }),
-				keepalive: true
-			}).catch(() => {});
-		}
-		try {
-			const res = site.formEndpoint
-				? await fetch(site.formEndpoint, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ token: captchaToken, text: message() })
-					})
-				: await fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ chat_id: bot.chatId, text: message(), disable_web_page_preview: true })
-					});
-			status = res.ok ? 'ok' : 'error';
-		} catch {
-			status = 'error';
-		}
+		/* Два независимых канала: бот напрямую из браузера и обработчик на хостинге
+		   (почта + бот с сервера). Успех, если сработал хотя бы один: у части посетителей
+		   из России браузер до api.telegram.org не достаёт, тогда заявку доносит сервер. */
+		const text = message();
+		const viaServer = site.mailEndpoint
+			? fetch(site.mailEndpoint, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ text }),
+					keepalive: true
+				}).then((r) => r.ok).catch(() => false)
+			: Promise.resolve(false);
+		const viaBot = site.formEndpoint
+			? fetch(site.formEndpoint, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ token: captchaToken, text })
+				}).then((r) => r.ok).catch(() => false)
+			: fetch(`https://api.telegram.org/bot${bot.token}/sendMessage`, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ chat_id: bot.chatId, text, disable_web_page_preview: true })
+				}).then((r) => r.ok).catch(() => false);
+		const [s1, s2] = await Promise.all([viaServer, viaBot]);
+		status = s1 || s2 ? 'ok' : 'error';
 		if (status === 'error' && useCaptcha && widgetId !== null) {
 			window.smartCaptcha?.reset(widgetId);
 			captchaToken = '';
