@@ -40,6 +40,22 @@
 		}
 	});
 
+	/* ---------- части отчёта ---------- */
+	let part = $state(1);
+
+	function setPart(n) {
+		part = n;
+		try {
+			sessionStorage.setItem('oneischool-part', String(n));
+		} catch {}
+	}
+
+	$effect(() => {
+		if (!deck) return;
+		const saved = sessionStorage.getItem('oneischool-part');
+		if (saved === '2') part = 2;
+	});
+
 	/* ---------- длинная лента вправо ---------- */
 	let strip = $state();
 	let progress = $state(0);
@@ -142,10 +158,17 @@
 	<div class="stage">
 		<header class="bar">
 			<span class="bar__client">{deck.meta.client}</span>
-			<span>{deck.meta.site}</span>
+			<span class="bar__site">{deck.meta.site}</span>
+			{#if deck.part2}
+				<nav class="parts" aria-label="Части отчёта">
+					<button type="button" class:on={part === 1} onclick={() => setPart(1)}>Часть 1 · хроника</button>
+					<button type="button" class:on={part === 2} onclick={() => setPart(2)}>Часть 2 · данные</button>
+				</nav>
+			{/if}
 			<span class="bar__period">{deck.meta.period}</span>
 		</header>
 
+		{#if part === 1}
 		<div class="strip" bind:this={strip} onscroll={onScroll} onwheel={onWheel} onpointerdown={down}>
 			{#each deck.blocks as b}
 				<section class="b b--{b.w}">
@@ -357,6 +380,77 @@
 		<footer class="foot">
 			<div class="progress"><span style="transform: scaleX({progress})"></span></div>
 		</footer>
+		{:else}
+			<div class="p2">
+				<div class="p2__in">
+					<header class="p2__head">
+						<h1>{deck.part2.title}</h1>
+						<p class="sub">{deck.part2.sub}</p>
+					</header>
+
+					{#each deck.part2.sections as s}
+						<section class="p2__s">
+							<div class="p2__mark"><span></span>{s.mark}</div>
+							<div class="body">
+								<h2>{s.title}</h2>
+								{#if s.lead}<p class="lead">{s.lead}</p>{/if}
+
+								{#if s.points}
+									<div class="points">
+										{#each s.points as p}<div><b>{p.v}</b><span>{p.l}</span></div>{/each}
+									</div>
+								{/if}
+
+								{#if s.tiles}
+									<div class="tiles">
+										{#each s.tiles as t}<article><h3>{t.h}</h3><p>{t.p}</p></article>{/each}
+									</div>
+								{/if}
+
+								{#if s.steps}
+									<div class="steps">
+										{#each s.steps as st}<div><b>{st.n}</b><span>{st.t}</span></div>{/each}
+									</div>
+								{/if}
+
+								{#if s.lines}
+									<ul class="lines">
+										{#each s.lines as l}<li>{l}</li>{/each}
+									</ul>
+								{/if}
+
+								{#if s.table}
+									<div class="p2__tw">
+										<table class="tbl tbl--sm">
+											<thead><tr>{#each s.table.head as h}<th>{h}</th>{/each}</tr></thead>
+											<tbody>
+												{#each s.table.rows as r}
+													<tr>{#each r as c}<td>{c}</td>{/each}</tr>
+												{/each}
+											</tbody>
+										</table>
+									</div>
+								{/if}
+
+								{#if s.shots}
+									<div class="p2__shots">
+										{#each s.shots as sh}
+											<figure>
+												<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} decoding="async" /></a>
+												<figcaption>{sh.cap}</figcaption>
+											</figure>
+										{/each}
+									</div>
+								{/if}
+
+								{#if s.kick}<p class="kick">{s.kick}</p>{/if}
+								{#if s.note}<p class="note">{s.note}</p>{/if}
+							</div>
+						</section>
+					{/each}
+				</div>
+			</div>
+		{/if}
 
 		{#if audit}
 			<!-- svelte-ignore a11y_click_events_have_key_events a11y_no_static_element_interactions -->
@@ -453,6 +547,137 @@
 	}
 	.bar__period {
 		margin-left: auto;
+	}
+
+	/* переключатель частей */
+	.parts {
+		display: flex;
+		gap: 4px;
+		margin-left: 6px;
+		align-self: center;
+	}
+	.parts button {
+		font: inherit;
+		letter-spacing: inherit;
+		text-transform: inherit;
+		color: var(--ink-3);
+		background: transparent;
+		border: 1px solid var(--line);
+		border-radius: 999px;
+		padding: 6px 12px;
+		cursor: pointer;
+		white-space: nowrap;
+	}
+	.parts button.on {
+		background: var(--ink);
+		border-color: var(--ink);
+		color: #f2f2f0;
+	}
+	.parts button:focus-visible {
+		outline: 2px solid var(--ink);
+		outline-offset: 2px;
+	}
+
+	/* вторая часть: вертикальная выгрузка */
+	.p2 {
+		flex: 1;
+		overflow-y: auto;
+		overflow-x: hidden;
+	}
+	.p2__in {
+		max-width: 980px;
+		margin: 0 auto;
+		padding: clamp(28px, 5vw, 56px) clamp(16px, 3vw, 40px) 90px;
+	}
+	.p2__head h1 {
+		margin: 0 0 10px;
+		font-size: clamp(28px, 4.4vw, 46px);
+		font-weight: 400;
+		line-height: 1.08;
+		letter-spacing: -0.02em;
+		text-wrap: balance;
+	}
+	.p2__head .sub {
+		margin: 0;
+		max-width: 60ch;
+	}
+	.p2__s {
+		margin-top: clamp(34px, 5vw, 62px);
+		padding-top: clamp(20px, 3vw, 30px);
+		border-top: 1px solid var(--line);
+	}
+	.p2__mark {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+		margin-bottom: 14px;
+	}
+	.p2__mark span {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--ink);
+		flex: none;
+	}
+	.p2 .body {
+		display: grid;
+		gap: 18px;
+	}
+	.p2 .body h2 {
+		margin: 0;
+	}
+	.p2 .lines li {
+		font-size: clamp(15px, 1.4vw, 18px);
+	}
+	.p2__tw {
+		overflow-x: auto;
+	}
+	.p2__tw .tbl {
+		min-width: 520px;
+	}
+	.p2__tw .tbl td:first-child {
+		white-space: nowrap;
+		font-weight: 500;
+	}
+	.p2__shots {
+		display: grid;
+		gap: 18px;
+	}
+	.p2__shots figure {
+		margin: 0;
+	}
+	.p2__shots img {
+		display: block;
+		width: 100%;
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		background: #fff;
+	}
+	.p2__shots figcaption {
+		margin-top: 8px;
+		font-size: 13px;
+		color: var(--ink-2);
+	}
+	@media (max-width: 720px) {
+		.bar {
+			flex-wrap: wrap;
+			gap: 10px 14px;
+		}
+		.bar__period {
+			margin-left: 0;
+		}
+		.parts {
+			order: 3;
+			width: 100%;
+			margin-left: 0;
+		}
+		.parts button {
+			flex: 1;
+		}
 	}
 
 	.strip {
