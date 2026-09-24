@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Как добраться в детский сад в ЖК «Мосфильмовский» · ONE! International School</title>
+<meta name="description" content="Детский сад в ЖК «Мосфильмовский»: адрес ул. Мосфильмовская, 88к1, маршрут на автомобиле и пешком с фотографиями по шагам, парковка, вход на территорию, карта.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/one.css">
+<style>
+  main{display:block}
+  .dm{padding-top:16px}
+  .dm__card{background:var(--white);border-radius:var(--r-xl);padding:56px 56px 52px;display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:start}
+  .dm__card h1{font-size:44px;color:var(--navy)}
+  .dm__addr{margin-top:26px;display:flex;flex-direction:column;gap:6px}
+  .dm__addr b{font-size:24px;font-weight:300;color:var(--navy);letter-spacing:-.01em}
+  .dm__addr span{font-size:14px;color:var(--gray)}
+  .dm__metro{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .dm__metro .chip{cursor:default}
+  .dm__metro .chip::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--orange);margin-right:9px}
+  .dm__acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+  .quick{background:var(--card);border-radius:var(--r-lg);padding:30px 32px;display:grid;gap:0}
+  .quick div{padding:16px 0;border-bottom:1px solid #d8d8d8;display:grid;gap:4px}
+  .quick div:first-child{padding-top:0}.quick div:last-child{border-bottom:0;padding-bottom:0}
+  .quick .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)}
+  .quick .v{font-size:16px;color:var(--navy);line-height:1.45}
+
+  .route{display:grid;grid-template-columns:.9fr 1.1fr;gap:20px;align-items:start}
+  .route__txt{background:var(--white);border-radius:var(--r-xl);padding:44px 40px;position:sticky;top:calc(var(--hdr) + 16px)}
+  .way{padding:24px 0;border-top:1px solid var(--line)}
+  .way:first-of-type{border-top:0;padding-top:0}
+  .way h3{display:flex;align-items:center;gap:12px;margin-bottom:14px;color:var(--navy)}
+  .way h3 svg{width:22px;height:22px;stroke:var(--orange);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+  .way p{font-size:15px;line-height:1.7;color:#4a4a4a;margin-bottom:12px}
+  .way p:last-child{margin-bottom:0}
+  .route__note{margin-top:22px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--gray);line-height:1.55}
+  .route__note a{color:var(--navy);border-bottom:1px solid var(--orange)}
+
+  .gal{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .gal--4{grid-template-columns:repeat(2,1fr)}
+  .shot{position:relative;border-radius:var(--r-lg);overflow:hidden;background:var(--card-2);aspect-ratio:3/4;cursor:zoom-in;border:0;padding:0;display:block;width:100%}
+  .gal--4 .shot{aspect-ratio:4/3}
+  .shot img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+  .shot:hover img{transform:scale(1.04)}
+  .shot__n{position:absolute;left:14px;top:14px;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+  .shot__zoom{position:absolute;right:14px;bottom:14px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(6px);transition:opacity .25s,transform .25s}
+  .shot:hover .shot__zoom{opacity:1;transform:none}
+  .shot__zoom svg{width:16px;height:16px;stroke:var(--navy);fill:none;stroke-width:1.8}
+  .gal__cap{margin-top:16px;font-size:13px;color:var(--gray)}
+
+  .mapc{background:var(--white);border-radius:var(--r-xl);padding:14px;display:grid;grid-template-columns:340px 1fr;gap:14px}
+  .mapc__info{padding:30px 26px;display:flex;flex-direction:column}
+  .mapc__info h3{margin-bottom:16px;color:var(--navy)}
+  .mapc__info p{font-size:15px;color:#4a4a4a;line-height:1.6;margin-bottom:18px}
+  .mapc__info .tel{font-size:22px;font-weight:300;color:var(--navy);display:block}
+  .mapc__info .wa{display:inline-block;margin-top:8px;font-size:14px;color:var(--orange);border-bottom:1px solid var(--orange)}
+  .mapc__info .btn{margin-top:auto;padding-top:0}
+  .mapc__frame{border-radius:var(--r-lg);overflow:hidden;background:var(--card-2);min-height:420px;position:relative}
+  .mapc__frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  .others{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .oth{background:var(--white);border-radius:var(--r-lg);padding:26px 24px;display:flex;flex-direction:column;gap:8px;transition:transform .22s,box-shadow .22s;border:1px solid var(--line)}
+  .oth:hover{transform:translateY(-4px);border-color:var(--orange)}
+  .oth .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)}
+  .oth .t{font-size:16px;font-weight:500;color:var(--navy);line-height:1.3}
+  .oth .a{font-size:13px;color:var(--gray)}
+  .oth .ar{margin-top:auto;padding-top:14px;color:var(--orange);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+
+  /* лайтбокс */
+  .lb{position:fixed;inset:0;z-index:200;background:rgba(10,16,32,.96);display:none;flex-direction:column;color:#fff}
+  .lb.is-open{display:flex}
+  .lb__top{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+  .lb__close{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.4);color:#fff;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .lb__close:hover{background:rgba(255,255,255,.12)}
+  .lb__stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0;padding:0 80px}
+  .lb__img{max-width:100%;max-height:100%;object-fit:contain;border-radius:16px;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:lbIn .35s ease}
+  @keyframes lbIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+  .lb__arw{position:absolute;top:50%;transform:translateY(-50%);width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.4);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;transition:background .2s}
+  .lb__arw:hover{background:var(--orange);border-color:var(--orange)}
+  .lb__prev{left:22px}.lb__next{right:22px}
+  .lb__bot{padding:16px 24px 22px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .lb__cap{font-size:15px;color:rgba(255,255,255,.85)}
+  .lb__thumbs{display:flex;gap:8px;overflow-x:auto;max-width:100%;scrollbar-width:none;padding:2px}
+  .lb__thumbs::-webkit-scrollbar{display:none}
+  .lb__thumbs button{flex:0 0 auto;width:56px;height:56px;border-radius:10px;overflow:hidden;opacity:.5;border:2px solid transparent;padding:0;transition:opacity .2s,border-color .2s}
+  .lb__thumbs button img{width:100%;height:100%;object-fit:cover;display:block}
+  .lb__thumbs button.is-on{opacity:1;border-color:var(--orange)}
+  body.lb-lock{overflow:hidden}
+
+  .rv{opacity:1}
+  @media(prefers-reduced-motion:no-preference){
+    .rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}
+    .rv.in{opacity:1;transform:none}
+    .gal .shot:nth-child(2){transition-delay:.05s}.gal .shot:nth-child(3){transition-delay:.1s}
+  }
+
+  @media(max-width:1280px){.dm__card{padding:44px 40px}.dm__card h1{font-size:38px}.others{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:1024px){
+    .dm__card{grid-template-columns:1fr;gap:28px;padding:36px 30px}
+    .route{grid-template-columns:1fr}
+    .route__txt{position:static;padding:34px 30px}
+    .mapc{grid-template-columns:1fr}
+    .mapc__frame{min-height:360px}
+    .lb__stage{padding:0 16px}
+    .lb__arw{width:44px;height:44px}.lb__prev{left:8px}.lb__next{right:8px}
+  }
+  @media(max-width:768px){
+    :root{--hdr:76px}
+    .brand img{width:120px!important}
+    .hdr__tel{margin-left:auto}
+    .dm__card{padding:26px 20px 28px}
+    .dm__card h1{font-size:26px}
+    .dm__addr b{font-size:20px}
+    .quick{padding:22px 20px}
+    .route__txt{padding:26px 20px}
+    .way p{font-size:14.5px}
+    .gal{grid-template-columns:repeat(2,1fr);gap:10px}
+    .shot__n{width:32px;height:32px;font-size:13px;left:10px;top:10px}
+    .mapc{padding:10px}.mapc__info{padding:22px 16px}.mapc__frame{min-height:300px}
+    .others{grid-template-columns:1fr;gap:10px}
+    .lb__top{padding:14px 16px}
+    .lb__thumbs button{width:44px;height:44px}
+    .dm__acts .btn{width:100%}
+  }
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="wrap">
+    <div class="ubar util">
+      <span class="ubar__geo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg> Москва и область</span>
+      <a href="#zapis" class="uline ubar__mid">Записаться на индивидуальную экскурсию</a>
+      <a href="#" class="ubar__lang">Eng</a>
+    </div>
+    <nav class="mnav" aria-label="Основная навигация">
+      <a href="#" class="brand" aria-label="ONE! International School, на главную"><img src="assets/logo.png" alt="ONE! International School" style="width:172px;height:auto;display:block"></a>
+      <ul class="mnav__menu">
+        <li><a href="#zapis">Поступление</a></li>
+        <li><a href="#">Школы <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub"><li><a href="shkola-zhk-horoshevskiy.html">Школа в ЖК «Хорошёвский»</a></li><li><a href="shkola-zhk-mosfilmovskiy.html">Школа в ЖК «Мосфильмовский»</a></li><li><a href="#">Подготовительные классы Masters</a></li></ul></li>
+        <li><a href="#">Детские сады <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub"><li><a href="sad-bc-dukat.html">Детский сад в БЦ «Дукат»</a></li><li><a href="sad-zhk-mosfilmovskiy.html">Детский сад в ЖК «Мосфильмовский»</a></li><li><a href="sad-zhk-horoshevskiy.html">Детский сад в ЖК «Хорошёвский»</a></li></ul></li>
+        <li><a href="#">Стоимость</a></li>
+        <li><a href="#">Кружки и секции</a></li>
+        <li><a href="#">О компании <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub"><li><a href="#">Отзывы</a></li><li><a href="#">СМИ о нас</a></li><li><a href="#">Блог</a></li><li><a href="#">Контакты</a></li></ul></li>
+      </ul>
+      <div class="hdr__tel"><a href="tel:+74996819079"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12.5 12.5 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg> 8 (499) 681-90-79</a><small>09:00–21:00, без выходных</small></div>
+      <div class="hdr__cta"><a href="#zapis" class="btn btn--or">Получить консультацию</a></div>
+      <div class="mnav__mob"><button class="burger" id="burger" aria-label="Открыть меню"><span></span></button></div>
+    </nav>
+  </div>
+</header>
+<div class="mobmenu" id="mobmenu" role="dialog" aria-label="Меню">
+  <div class="mobmenu__top"><img src="assets/logo.png" alt="ONE! International School" style="width:150px;height:auto;display:block"><button class="mobmenu__close" id="mobClose" aria-label="Закрыть меню">✕</button></div>
+  <ul>
+    <li><a href="#zapis">Поступление</a></li>
+    <li><a href="#">Школы</a><div class="sub-m"><a href="shkola-zhk-horoshevskiy.html">Школа в ЖК «Хорошёвский»</a><a href="shkola-zhk-mosfilmovskiy.html">Школа в ЖК «Мосфильмовский»</a></div></li>
+    <li><a href="#">Детские сады</a><div class="sub-m"><a href="sad-bc-dukat.html">Детский сад в БЦ «Дукат»</a><a href="sad-zhk-mosfilmovskiy.html">Детский сад в ЖК «Мосфильмовский»</a><a href="sad-zhk-horoshevskiy.html">Детский сад в ЖК «Хорошёвский»</a></div></li>
+    <li><a href="#">Стоимость</a></li><li><a href="#">Кружки и секции</a></li><li><a href="#">Контакты</a></li>
+  </ul>
+  <div class="mobmenu__foot">
+    <a class="btn btn--call" href="tel:+74996819079"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12.5 12.5 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg><span class="num">8 (499) 681-90-79</span></a>
+    <a href="#zapis" class="btn btn--or">Получить консультацию</a>
+  </div>
+</div>
+<main>
+
+<section class="dm"><div class="wrap">
+  <div class="dm__card">
+    <div>
+      <span class="eyebrow">Как добраться · Частный детский сад</span>
+      <h1>Детский сад в ЖК «Мосфильмовский»</h1>
+      <p class="lead" style="margin-top:14px">Кампус детского сада ONE! International School. Ниже маршрут на автомобиле и пешком, фотографии каждого поворота и карта.</p>
+      <div class="dm__addr"><b>ул. Мосфильмовская, 88к1</b><span>119192, Москва, район Раменки, ул. Мосфильмовская, 88к1</span></div>
+      <div class="dm__metro"><span class="chip">м. Раменки, выход 6</span></div>
+      <div class="dm__acts">
+        <a class="btn btn--or" href="https://yandex.ru/maps/?rtext=~%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9C%D0%BE%D1%81%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F%2C%2088%D0%BA1" target="_blank" rel="noopener">Построить маршрут <span class="ar">→</span></a>
+        <a class="btn btn--ghost" href="tel:+74996819079">8 (499) 681-90-79</a>
+      </div>
+    </div>
+    <div class="quick rv"><div><span class="k">Ориентир</span><span class="v">магазин «Азбука вкуса», направо до конца здания</span></div><div><span class="k">Вход</span><span class="v">бежевый забор, табличка ONE! на двери</span></div><div><span class="k">Парковка</span><span class="v">несколько парковок перед ЖК</span></div></div>
+  </div>
+</div></section>
+
+<section class="sec" id="marshrut" style="padding-top:60px"><div class="wrap">
+  <div class="shead"><div><h2>Маршрут по&nbsp;шагам</h2></div><p>Нажмите на любое фото: откроется слайдер с крупными снимками, стрелками и номерами шагов. Красные стрелки на фото показывают направление.</p></div>
+  <div class="route">
+    <div class="route__txt rv">
+      <div class="way"><h3><svg viewBox="0 0 24 24"><path d="M3 13l2-5h14l2 5v5H3z"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/><path d="M5 13h14"/></svg>На автомобиле</h3><p>Перед ЖК «Мосфильмовский» есть несколько парковок, удобно припарковать автомобиль у магазина «Азбука вкуса» на ул. Мосфильмовской. Если стоять лицом к магазину «Азбука Вкуса», Вам нужно идти направо до конца здания. Через 10 м бежевый забор, за ним здание детского сада.</p></div><div class="way"><h3><svg viewBox="0 0 24 24"><circle cx="13" cy="4" r="1.6"/><path d="M10 21l2-6 3 2 1 4M9 13l2-5 3 1 2 3 3 1M11 8l-3 3-1 3"/></svg>Пешком</h3><p>м. Раменки, выход 6, из центра последний вагон. Из метро сразу налево, пройти 600 м прямо. Затем повернуть на ул. Мосфильмовская, ориентир магазин «Азбука Вкуса». Если стоять лицом к магазину «Азбука Вкуса», Вам нужно идти направо до конца здания. Через 10 м бежевый забор, за ним здание детского сада.</p></div><div class="way"><h3><svg viewBox="0 0 24 24"><path d="M5 21V4a1 1 0 011-1h9a1 1 0 011 1v17M3 21h18M12 12h.01"/></svg>У входа</h3><p>У двери табличка ONE! International School. Позвоните в звонок, скажите охране, что Вы на экскурсию к управляющей. Вход в сад находится прямо за воротами.</p></div>
+      <p class="route__note">Если потерялись, позвоните <a href="tel:+74996819079">8 (499) 681-90-79</a>, администратор подскажет дорогу или встретит у входа.</p>
+    </div>
+    <div>
+      <div class="gal" id="gal"><button class="shot rv" type="button" data-full="img/sad-mosfilm/1.jpg" data-thumb="img/sad-mosfilm/1-thumb.jpg" data-cap="Шаг 1. Детский сад в ЖК «Мосфильмовский»" aria-label="Открыть фото 1">
+        <img src="img/sad-mosfilm/1-thumb.jpg" alt="Шаг 1. Детский сад в ЖК «Мосфильмовский»" loading="lazy" decoding="async"><span class="shot__n">1</span>
+        <span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></span></button><button class="shot rv" type="button" data-full="img/sad-mosfilm/2.jpg" data-thumb="img/sad-mosfilm/2-thumb.jpg" data-cap="Шаг 2. Детский сад в ЖК «Мосфильмовский»" aria-label="Открыть фото 2">
+        <img src="img/sad-mosfilm/2-thumb.jpg" alt="Шаг 2. Детский сад в ЖК «Мосфильмовский»" loading="lazy" decoding="async"><span class="shot__n">2</span>
+        <span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></span></button><button class="shot rv" type="button" data-full="img/sad-mosfilm/3.jpg" data-thumb="img/sad-mosfilm/3-thumb.jpg" data-cap="Шаг 3. Детский сад в ЖК «Мосфильмовский»" aria-label="Открыть фото 3">
+        <img src="img/sad-mosfilm/3-thumb.jpg" alt="Шаг 3. Детский сад в ЖК «Мосфильмовский»" loading="lazy" decoding="async"><span class="shot__n">3</span>
+        <span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></span></button><button class="shot rv" type="button" data-full="img/sad-mosfilm/4.jpg" data-thumb="img/sad-mosfilm/4-thumb.jpg" data-cap="Шаг 4. Детский сад в ЖК «Мосфильмовский»" aria-label="Открыть фото 4">
+        <img src="img/sad-mosfilm/4-thumb.jpg" alt="Шаг 4. Детский сад в ЖК «Мосфильмовский»" loading="lazy" decoding="async"><span class="shot__n">4</span>
+        <span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></span></button><button class="shot rv" type="button" data-full="img/sad-mosfilm/5.jpg" data-thumb="img/sad-mosfilm/5-thumb.jpg" data-cap="Шаг 5. Детский сад в ЖК «Мосфильмовский»" aria-label="Открыть фото 5">
+        <img src="img/sad-mosfilm/5-thumb.jpg" alt="Шаг 5. Детский сад в ЖК «Мосфильмовский»" loading="lazy" decoding="async"><span class="shot__n">5</span>
+        <span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></span></button><button class="shot rv" type="button" data-full="img/sad-mosfilm/6.jpg" data-thumb="img/sad-mosfilm/6-thumb.jpg" data-cap="Шаг 6. Детский сад в ЖК «Мосфильмовский»" aria-label="Открыть фото 6">
+        <img src="img/sad-mosfilm/6-thumb.jpg" alt="Шаг 6. Детский сад в ЖК «Мосфильмовский»" loading="lazy" decoding="async"><span class="shot__n">6</span>
+        <span class="shot__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4M11 8v6M8 11h6"/></svg></span></button></div>
+      <p class="gal__cap">6 фото · нумерация совпадает с порядком движения от парковки и метро до входа</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="karta"><div class="wrap">
+  <div class="shead"><div><h2>На&nbsp;карте</h2></div></div>
+  <div class="mapc rv">
+    <div class="mapc__info">
+      <h3>Детский сад в ЖК «Мосфильмовский»</h3>
+      <p>119192, Москва, район Раменки, ул. Мосфильмовская, 88к1</p>
+      <a class="tel" href="tel:+74996819079">8 (499) 681-90-79</a>
+      <a class="wa" href="https://wa.me/74996819079" target="_blank" rel="noopener">Написать в WhatsApp</a>
+      <a class="btn btn--or" href="https://yandex.ru/maps/?rtext=~%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9C%D0%BE%D1%81%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F%2C%2088%D0%BA1" target="_blank" rel="noopener" style="margin-top:26px">Построить маршрут</a>
+    </div>
+    <div class="mapc__frame" data-src="https://yandex.ru/map-widget/v1/?text=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D1%83%D0%BB.%20%D0%9C%D0%BE%D1%81%D1%84%D0%B8%D0%BB%D1%8C%D0%BC%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F%2C%2088%D0%BA1&z=17"></div>
+  </div>
+</div></section>
+
+<section class="sec" id="others"><div class="wrap">
+  <div class="shead"><div><h2>Другие кампусы</h2></div><p>Две школы и три детских сада в Москве. Схема проезда для каждого кампуса на отдельной странице.</p></div>
+  <div class="others"><a class="oth rv" href="shkola-zhk-horoshevskiy.html"><span class="k">Школа</span><span class="t">Школа в ЖК «Хорошёвский»</span><span class="a">3-я Хорошёвская улица, 27А</span><span class="ar">Как добраться →</span></a><a class="oth rv" href="shkola-zhk-mosfilmovskiy.html"><span class="k">Школа</span><span class="t">Школа в ЖК «Мосфильмовский»</span><span class="a">ул. Мосфильмовская, 88к3</span><span class="ar">Как добраться →</span></a><a class="oth rv" href="sad-zhk-horoshevskiy.html"><span class="k">Детский сад</span><span class="t">Детский сад в ЖК «Хорошёвский»</span><span class="a">3-я Хорошёвская улица, 23с3</span><span class="ar">Как добраться →</span></a><a class="oth rv" href="sad-bc-dukat.html"><span class="k">Детский сад</span><span class="t">Детский сад в БЦ «Дукат»</span><span class="a">ул. Гашека, 6</span><span class="ar">Как добраться →</span></a></div>
+</div></section>
+
+<section class="final" id="zapis"><div class="wrap"><div class="final__card">
+  <div>
+    <h2>Запишитесь на&nbsp;индивидуальную экскурсию</h2>
+    <p class="lead">Встретим у входа, покажем кампус в учебное время и ответим на вопросы. Экскурсия занимает около часа и ни к чему не обязывает.</p>
+    <ul class="finlist"><li>Индивидуально, без общей группы</li><li>Согласуем удобное время, в том числе в выходные</li><li>Закажем пропуск на парковку, если приедете на машине</li></ul>
+    <p class="fintel">Или позвоните: <a href="tel:+74996819079">8 (499) 681-90-79</a><span class="small" style="display:block;margin-top:8px">Ежедневно 09:00–21:00, без выходных</span></p>
+  </div>
+  <div class="form" id="formBox">
+    <form class="fform" id="leadForm" novalidate>
+      <div class="field"><label for="fName">Ваше имя</label><input type="text" id="fName" name="name" placeholder="Имя и фамилия" required minlength="2"></div>
+      <div class="field"><label for="fPhone">Телефон</label><input type="tel" id="fPhone" name="phone" placeholder="+7 (___) ___-__-__" required></div>
+      <div class="field"><label for="fCampus">Кампус</label><select id="fCampus" name="campus"><option selected>Детский сад в ЖК «Мосфильмовский»</option><option>Школа в ЖК «Хорошёвский»</option><option>Школа в ЖК «Мосфильмовский»</option><option>Детский сад в ЖК «Хорошёвский»</option><option>Детский сад в БЦ «Дукат»</option></select></div>
+      <button type="submit" class="btn btn--wide">Записаться на экскурсию <span class="ar">→</span></button>
+      <p class="agree">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой обработки персональных данных</a>.</p>
+    </form>
+    <div class="done" id="doneBox" role="status"><div class="m">Заявка отправлена</div><p>Мы свяжемся с вами в течение рабочего дня, чтобы согласовать дату и время экскурсии.</p></div>
+  </div>
+</div></div></section>
+
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Фотографии маршрута">
+  <div class="lb__top"><span id="lbCnt">Шаг 1</span><button class="lb__close" id="lbClose" aria-label="Закрыть">✕</button></div>
+  <div class="lb__stage">
+    <button class="lb__arw lb__prev" id="lbPrev" aria-label="Предыдущее фото">←</button>
+    <img class="lb__img" id="lbImg" src="" alt="">
+    <button class="lb__arw lb__next" id="lbNext" aria-label="Следующее фото">→</button>
+  </div>
+  <div class="lb__bot"><div class="lb__cap" id="lbCap"></div><div class="lb__thumbs" id="lbThumbs"></div></div>
+</div>
+
+<div class="callbar" role="complementary" aria-label="Быстрая связь">
+  <a class="btn btn--call" href="tel:+74996819079"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12.5 12.5 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg><span class="num">Позвонить</span></a>
+  <a class="btn btn--or" href="#zapis">На экскурсию</a>
+</div>
+<footer class="ftr"><div class="wrap"><div class="ftr__card">
+  <div class="ftr__top">
+    <div>
+      <a href="#" class="brand ftr__brand"><img src="assets/crest.png" alt="ONE! International School" class="ftr__crest"><span class="ftr__wm"><b>One!</b><span>International School</span></span></a>
+      <a href="tel:+74996819079" class="ftr__tel">8 (499) 681-90-79</a>
+      <a href="tel:88001003108" class="ftr__tel2">8&nbsp;(800)&nbsp;100-31-08</a>
+      <p class="ftr__hrs">Ежедневно 09:00–21:00, без выходных</p>
+      <a href="#zapis" class="btn btn--sm" style="margin-top:24px">Записаться на экскурсию <span class="ar">→</span></a>
+    </div>
+    <div><h4>Школы</h4><ul><li><a href="shkola-zhk-horoshevskiy.html">ЖК «Хорошёвский»</a></li><li><a href="shkola-zhk-mosfilmovskiy.html">ЖК «Мосфильмовский»</a></li><li><a href="#">Подготовительные классы</a></li><li><a href="#">Стоимость обучения</a></li></ul></div>
+    <div><h4>Детские сады</h4><ul><li><a href="sad-zhk-horoshevskiy.html">ЖК «Хорошёвский»</a></li><li><a href="sad-zhk-mosfilmovskiy.html">ЖК «Мосфильмовский»</a></li><li><a href="sad-bc-dukat.html">БЦ «Дукат» / Маяковская</a></li></ul></div>
+    <div><h4>Родителям</h4><ul><li><a href="#zapis">Экскурсия по школе</a></li><li><a href="#">Диагностика знаний</a></li><li><a href="#">Блог для родителей</a></li><li><a href="#">Отзывы родителей</a></li><li><a href="https://t.me/oneschoolnews" target="_blank" rel="noopener">Telegram-канал</a></li></ul></div>
+  </div>
+  <div class="ftr__bot">
+    <p>ООО «Центр Образования Северо-Запад», ИНН&nbsp;7727426789. Сеть основана в 2014 году: 2 школы, 3 детских сада, 2 центра исследований и разработки. Образовательная деятельность ведётся на основании лицензии; школа имеет государственную аккредитацию.</p>
+    <div class="ftr__docs chips"><a href="#" class="chip">Лицензия</a><a href="#" class="chip">Аккредитация</a><a href="#" class="chip">Сведения об организации</a><a href="#" class="chip">Политика конфиденциальности</a></div>
+  </div>
+</div></div></footer>
+<script>
+(function(){
+  'use strict';
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.1});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  var burger=document.getElementById('burger'),mob=document.getElementById('mobmenu'),mobClose=document.getElementById('mobClose');
+  if(burger&&mob)burger.addEventListener('click',function(){mob.classList.add('is-open');});
+  if(mobClose&&mob)mobClose.addEventListener('click',function(){mob.classList.remove('is-open');});
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var id=a.getAttribute('href');if(!id||id==='#')return;var t=document.querySelector(id);if(!t)return;e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-130,behavior:'smooth'});if(mob)mob.classList.remove('is-open');});});
+
+  /* лайтбокс-слайдер */
+  var shots=Array.prototype.slice.call(document.querySelectorAll('.shot'));
+  var lb=document.getElementById('lb'),img=document.getElementById('lbImg'),cnt=document.getElementById('lbCnt'),cap=document.getElementById('lbCap'),thumbs=document.getElementById('lbThumbs');
+  var cur=0,total=shots.length;
+  shots.forEach(function(s,i){
+    var b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Фото '+(i+1));
+    var t=document.createElement('img');t.src=s.getAttribute('data-thumb');t.alt='';b.appendChild(t);
+    b.addEventListener('click',function(){show(i);});thumbs.appendChild(b);
+    s.addEventListener('click',function(){open(i);});
+  });
+  function show(i){
+    cur=(i+total)%total;
+    img.style.opacity='0';
+    var full=shots[cur].getAttribute('data-full');
+    var pre=new Image();pre.onload=function(){img.src=full;img.style.opacity='1';};pre.src=full;
+    cnt.textContent='Шаг '+(cur+1)+' из '+total;
+    cap.textContent=shots[cur].getAttribute('data-cap');
+    thumbs.querySelectorAll('button').forEach(function(b,k){b.classList.toggle('is-on',k===cur);if(k===cur)b.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});});
+  }
+  function open(i){lb.classList.add('is-open');document.body.classList.add('lb-lock');show(i);}
+  function close(){lb.classList.remove('is-open');document.body.classList.remove('lb-lock');}
+  document.getElementById('lbClose').addEventListener('click',close);
+  document.getElementById('lbPrev').addEventListener('click',function(){show(cur-1);});
+  document.getElementById('lbNext').addEventListener('click',function(){show(cur+1);});
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('lb__stage'))close();});
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('is-open'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(cur-1);if(e.key==='ArrowRight')show(cur+1);});
+  var x0=null;
+  lb.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+  lb.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1));x0=null;});
+  img.style.transition='opacity .25s ease';
+
+  /* карта грузится по появлению */
+  var mf=document.querySelector('.mapc__frame');
+  if(mf){var mio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var f=document.createElement('iframe');f.src=mf.getAttribute('data-src');f.loading='lazy';f.title='Карта';mf.appendChild(f);mio.disconnect();}});},{rootMargin:'300px'});mio.observe(mf);}
+})();
+
+(function(){var ph=document.getElementById('fPhone');if(ph)ph.addEventListener('input',function(){var d=ph.value.replace(/\D/g,'');if(d.charAt(0)==='8')d='7'+d.slice(1);if(d.charAt(0)!=='7')d='7'+d;d=d.slice(0,11);var o='+7';if(d.length>1)o+=' ('+d.slice(1,4);if(d.length>=5)o+=') '+d.slice(4,7);if(d.length>=8)o+='-'+d.slice(7,9);if(d.length>=10)o+='-'+d.slice(9,11);ph.value=o;});var f=document.getElementById('leadForm'),b=document.getElementById('formBox');if(f&&b)f.addEventListener('submit',function(e){e.preventDefault();if(!f.checkValidity()){f.reportValidity();return;}b.classList.add('is-sent');});})();
+</script>
+</body>
+</html>
