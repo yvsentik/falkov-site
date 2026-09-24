@@ -643,6 +643,10 @@
 		white-space: nowrap;
 		font-weight: 500;
 	}
+	.p2__tw .tbl td:last-child:not(:first-child) {
+		white-space: nowrap;
+		color: var(--ink-2);
+	}
 	.p2__shots {
 		display: grid;
 		gap: 18px;
