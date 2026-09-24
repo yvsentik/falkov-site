@@ -34,7 +34,9 @@
   .dm__media::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(10,18,40,.82) 0%,rgba(10,18,40,.6) 45%,rgba(10,18,40,.18) 100%)}
   .dm__in{position:relative;z-index:1;min-width:0}
   .dm__card .eyebrow{color:rgba(255,255,255,.75)}
-  .dm__card h1{color:#fff}
+  .dm__card h1{color:#fff;font-size:clamp(40px,5.2vw,72px);font-weight:300;letter-spacing:.01em}
+  .dm__to{margin-top:12px;font-size:clamp(20px,2vw,28px);font-weight:400;color:#fff;line-height:1.3}
+  .dm__to::first-letter{text-transform:lowercase}
   .dm__card .lead{color:rgba(255,255,255,.82)}
   .dm__addr b{color:#fff}
   .dm__addr span{color:rgba(255,255,255,.7)}
@@ -130,7 +132,8 @@
     .brand img{width:120px!important}
     .hdr__tel{margin-left:auto}
     .dm__card{padding:26px 20px 28px}
-    .dm__card h1{font-size:26px}
+    .dm__card h1{font-size:36px}
+    .dm__to{font-size:19px}
     .dm__addr b{font-size:20px}
     .quick{padding:22px 20px}
     .route__txt{padding:26px 20px}
@@ -191,9 +194,9 @@
   <div class="dm__card">
     <div class="dm__media"><img src="img/sad-horoshevskiy/hero.jpg" alt="Детский сад в ЖК «Хорошёвский»" fetchpriority="high"></div>
     <div class="dm__in">
-      <span class="eyebrow">Как добраться · Частный детский сад</span>
-      <h1>Детский сад в ЖК «Хорошёвский»</h1>
-      <p class="lead" style="margin-top:14px">Кампус детского сада ONE! International School. Ниже маршрут на автомобиле и пешком, фотографии каждого поворота и карта.</p>
+      <span class="eyebrow">Частный детский сад ONE! International School</span>
+      <h1>Как добраться?</h1>
+      <p class="dm__to">в детский сад в ЖК «Хорошёвский»</p>
       <div class="dm__addr"><b>3-я Хорошёвская улица, 23с3</b><span>123298, Москва, район Хорошёво-Мневники, ул. 3-я Хорошёвская, 23, стр. 3</span></div>
       <div class="dm__metro"><span class="chip">м. Октябрьское Поле</span><span class="chip">МЦК Зорге</span></div>
       <div class="dm__acts">
@@ -206,7 +209,7 @@
 </div></section>
 
 <section class="sec" id="marshrut" style="padding-top:60px"><div class="wrap">
-  <div class="shead"><div><h2>Маршрут по&nbsp;шагам</h2></div><p>Нажмите на любое фото: откроется слайдер с крупными снимками, стрелками и номерами шагов. Красные стрелки на фото показывают направление.</p></div>
+  <div class="shead"><div><span class="eyebrow">Кампус детского сада ONE! International School</span><h2>Маршрут по&nbsp;шагам</h2></div><p>Нажмите на любое фото: откроется слайдер с крупными снимками, стрелками и номерами шагов. Красные стрелки на фото показывают направление.</p></div>
   <div class="route">
     <div class="route__txt rv">
       <div class="way"><h3><svg viewBox="0 0 24 24"><path d="M3 13l2-5h14l2 5v5H3z"/><circle cx="7.5" cy="16" r="1.5"/><circle cx="16.5" cy="16" r="1.5"/><path d="M5 13h14"/></svg>На автомобиле</h3><p>Вам необходимо заезжать с 3-й Хорошёвской улицы, объехать ЖК «Хорошёвский» с правой стороны. Подъезд к детскому саду, а также вход находится с внешней стороны ЖК «Хорошёвский». Вход со стороны ЖК отсутствует. Бесплатные парковки находятся вдоль ЖК «Хорошёвский», в том числе и рядом с детским садом.</p><p>Вы также можете припарковать машину на большой парковке по ул. Берзарина и пройти до сада пешком, пройдя через сквер, а затем обойдя дом 1 по ул. Берзарина с правой стороны.</p></div><div class="way"><h3><svg viewBox="0 0 24 24"><circle cx="13" cy="4" r="1.6"/><path d="M10 21l2-6 3 2 1 4M9 13l2-5 3 1 2 3 3 1M11 8l-3 3-1 3"/></svg>Пешком</h3><p>Детский сад находится в пешей доступности от м. Октябрьское Поле, МЦК Зорге. Вход с внешней стороны ЖК, ориентир разноцветный фасад и вывеска «Детский сад».</p></div>
