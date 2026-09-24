@@ -54,6 +54,7 @@
 		if (!deck) return;
 		const saved = sessionStorage.getItem('oneischool-part');
 		if (saved === '2') part = 2;
+		if (saved === '3' && deck.part3) part = 3;
 	});
 
 	/* ---------- длинная лента вправо ---------- */
@@ -163,6 +164,9 @@
 				<nav class="parts" aria-label="Части отчёта">
 					<button type="button" class:on={part === 1} onclick={() => setPart(1)}>Часть 1 · хроника</button>
 					<button type="button" class:on={part === 2} onclick={() => setPart(2)}>Часть 2 · данные</button>
+					{#if deck.part3}
+						<button type="button" class:on={part === 3} onclick={() => setPart(3)}>Часть 3 · блог</button>
+					{/if}
 				</nav>
 			{/if}
 			<span class="bar__period">{deck.meta.period}</span>
@@ -380,7 +384,7 @@
 		<footer class="foot">
 			<div class="progress"><span style="transform: scaleX({progress})"></span></div>
 		</footer>
-		{:else}
+		{:else if part === 2}
 			<div class="p2">
 				<div class="p2__in">
 					<header class="p2__head">
@@ -448,6 +452,90 @@
 							</div>
 						</section>
 					{/each}
+				</div>
+			</div>
+		{:else}
+			<div class="p2 p3">
+				<div class="p2__in">
+					<header class="p2__head">
+						<h1>{deck.part3.title}</h1>
+						<p class="sub">{deck.part3.sub}</p>
+					</header>
+
+					<section class="p2__s">
+						<div class="p2__mark"><span></span>Файлы</div>
+						<div class="body">
+							<h2>Скачать</h2>
+							<ul class="lines">
+								{#each deck.part3.files as f}
+									<li><a href={f.href} target="_blank" rel="noopener">{f.label} ↗</a></li>
+								{/each}
+							</ul>
+						</div>
+					</section>
+
+					<section class="p2__s">
+						<div class="p2__mark"><span></span>Структура</div>
+						<div class="body p3__doc">
+							<h2>Как устроен блог</h2>
+							{@html deck.part3.struct_html}
+						</div>
+					</section>
+
+					<section class="p2__s">
+						<div class="p2__mark"><span></span>Статьи</div>
+						<div class="body">
+							<h2>15 статей целиком</h2>
+							<p class="lead">Нажмите на заголовок, чтобы развернуть текст. Голубые плашки внутри это заглушки под фото с описанием кадра.</p>
+							{#each ['Детский сад', 'Выбор школы', 'Педагоги', 'Подготовка к школе', 'Обучение в школе'] as cat}
+								<h3 class="p3__cat">{cat}</h3>
+								{#each deck.part3.articles.filter((a) => a.cat === cat) as a}
+									<details class="p3__art">
+										<summary>
+											<span class="p3__n">{String(a.n).padStart(2, '0')}</span>
+											<span class="p3__t">{a.h1}</span>
+											<span class="p3__w">{a.words} слов</span>
+										</summary>
+										<div class="p3__meta">
+											<div><b>URL</b> {a.url}</div>
+											<div><b>Title</b> {a.title}</div>
+											<div><b>Description</b> {a.desc}</div>
+											<div><b>Ссылаться со страниц</b> {a.link_from}</div>
+											<div><a href={a.file} target="_blank" rel="noopener">Скачать docx ↗</a></div>
+										</div>
+										<div class="p3__doc">
+											{@html a.html}
+										</div>
+									</details>
+								{/each}
+							{/each}
+						</div>
+					</section>
+
+					<section class="p2__s">
+						<div class="p2__mark"><span></span>Перелинковка</div>
+						<div class="body">
+							<h2>Какой блок на какой странице ведёт на какую статью</h2>
+							<p class="lead">82 точки на 24 страницах. Приоритет: с чего начинать.</p>
+							<div class="p2__tw p3__links">
+								<table class="tbl tbl--sm">
+									<thead><tr><th>Страница</th><th>Блок на странице</th><th>Статья</th><th>Анкор</th><th>Как поставить</th><th>Приоритет</th></tr></thead>
+									<tbody>
+										{#each deck.part3.links as r}
+											<tr class="pr-{r[8] === 'Высокий' ? 'h' : r[8] === 'Средний' ? 'm' : 'l'}">
+												<td><b>{r[0]}</b><br /><small>{r[1]}</small></td>
+												<td>{r[2]}</td>
+												<td><small>{r[3]}</small> {r[4]}</td>
+												<td>{r[6]}</td>
+												<td>{r[7]}</td>
+												<td>{r[8]}</td>
+											</tr>
+										{/each}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</section>
 				</div>
 			</div>
 		{/if}
@@ -669,6 +757,158 @@
 		margin-top: 8px;
 		font-size: 13px;
 		color: var(--ink-2);
+	}
+	/* третья часть: блог */
+	.p3 .lines a {
+		color: var(--ink);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.p3__cat {
+		margin: 22px 0 8px;
+		font-size: 11px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+	.p3__art {
+		background: #fff;
+		border: 1px solid var(--line);
+		border-radius: 14px;
+		margin-bottom: 8px;
+		overflow: hidden;
+	}
+	.p3__art summary {
+		list-style: none;
+		cursor: pointer;
+		display: grid;
+		grid-template-columns: 34px 1fr auto;
+		gap: 12px;
+		align-items: baseline;
+		padding: 14px 18px;
+		font-size: clamp(15px, 1.4vw, 18px);
+		line-height: 1.3;
+	}
+	.p3__art summary::-webkit-details-marker {
+		display: none;
+	}
+	.p3__art summary::before {
+		content: '+';
+		grid-column: 1;
+		font-family: monospace;
+		color: var(--ink-3);
+	}
+	.p3__art[open] summary::before {
+		content: '−';
+	}
+	.p3__n {
+		display: none;
+	}
+	.p3__w {
+		font-size: 12px;
+		color: var(--ink-3);
+		white-space: nowrap;
+	}
+	.p3__meta {
+		display: grid;
+		gap: 4px;
+		padding: 0 18px 14px;
+		font-size: 12.5px;
+		color: var(--ink-2);
+		border-bottom: 1px solid var(--line);
+	}
+	.p3__meta b {
+		color: var(--ink-3);
+		font-weight: 500;
+		margin-right: 6px;
+	}
+	.p3__meta a {
+		color: var(--ink);
+	}
+	.p3__doc {
+		padding: 6px 18px 20px;
+		max-width: 76ch;
+		font-size: 15.5px;
+		line-height: 1.55;
+	}
+	.p3__doc :global(h3) {
+		margin: 24px 0 8px;
+		font-size: 19px;
+		font-weight: 500;
+	}
+	.p3__doc :global(h4) {
+		margin: 16px 0 6px;
+		font-size: 16px;
+		font-weight: 500;
+	}
+	.p3__doc :global(p) {
+		margin: 0 0 10px;
+	}
+	.p3__doc :global(ul),
+	.p3__doc :global(ol) {
+		margin: 0 0 12px;
+		padding-left: 22px;
+	}
+	.p3__doc :global(li) {
+		margin-bottom: 5px;
+	}
+	.p3__doc :global(.ph) {
+		background: #eaf1fb;
+		color: #2b4c9b;
+		border-radius: 10px;
+		padding: 10px 14px;
+		font-size: 13px;
+		font-style: italic;
+		margin: 12px 0;
+	}
+	.p3__doc :global(.co) {
+		background: #f3f6ee;
+		border-left: 3px solid #6b8e4e;
+		border-radius: 0 10px 10px 0;
+		padding: 10px 14px;
+		margin: 12px 0;
+		font-size: 14.5px;
+	}
+	.p3__doc :global(.co p) {
+		margin: 0 0 4px;
+	}
+	.p3__doc :global(.tw) {
+		overflow-x: auto;
+		margin: 10px 0 14px;
+	}
+	.p3__doc :global(table) {
+		border-collapse: collapse;
+		width: 100%;
+		min-width: 420px;
+		font-size: 13.5px;
+	}
+	.p3__doc :global(th),
+	.p3__doc :global(td) {
+		border: 1px solid var(--line);
+		padding: 7px 10px;
+		text-align: left;
+		vertical-align: top;
+	}
+	.p3__doc :global(th) {
+		background: #f4f4f2;
+		font-weight: 500;
+	}
+	.p3__links .tbl {
+		min-width: 900px;
+		font-size: 12.5px;
+	}
+	.p3__links td {
+		vertical-align: top;
+	}
+	.p3__links small {
+		color: var(--ink-3);
+	}
+	.p3__links tr.pr-h td:last-child {
+		color: #1f6b4a;
+		font-weight: 500;
+	}
+	.p3__links tr.pr-l td:last-child {
+		color: var(--ink-3);
 	}
 	@media (max-width: 720px) {
 		.bar {
