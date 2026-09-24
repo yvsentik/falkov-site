@@ -433,7 +433,7 @@
 								{/if}
 
 								{#if s.shots}
-									<div class="p2__shots">
+									<div class="p2__shots" class:p2__shots--grid={s.shotsGrid}>
 										{#each s.shots as sh}
 											<figure>
 												<a href={sh.src} target="_blank" rel="noopener"><img src={sh.src} alt={sh.cap} decoding="async" /></a>
@@ -650,6 +650,10 @@
 	.p2__shots {
 		display: grid;
 		gap: 18px;
+	}
+	.p2__shots--grid {
+		grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+		gap: 14px;
 	}
 	.p2__shots figure {
 		margin: 0;
