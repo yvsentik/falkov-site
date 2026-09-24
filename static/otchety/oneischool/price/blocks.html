@@ -2,182 +2,182 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Блоки стоимости для хабов и страниц кампусов ONE!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Блоки «Стоимость» для хабов и страниц кампусов ONE!</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#F6F4F1; --paper:#FFFFFF; --ink:#1E2B45; --ink-2:#4B566B; --ink-3:#8A93A5; --line:#E6E1DA;
-    --peach:#E8A87C; --peach-2:#DD9566; --peach-soft:#FBEFE5; --navy:#1B2540; --green:#2E7D57; --green-soft:#E7F3ED;
-    --r:20px; --sans:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif; --ease:cubic-bezier(.2,.7,.2,1);
+    --white:#fff;--black:#000;--gray:#8a8a8a;--plane:#f2f2f2;--card:#e8e8e8;--line:#e8e8e8;
+    --orange:#e8a06b;--orange-h:#dd8f55;--navy:#132245;
+    --r-xl:28px;--r-lg:24px;--r-sm:16px;--pill:999px;--pad:40px;--ease:cubic-bezier(.2,.7,.2,1);
   }
+  @media(max-width:900px){:root{--pad:20px}}
+  @media(max-width:600px){:root{--pad:16px}}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:1180px;margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
-  .eyebrow{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
-  h2,h3{margin:0;font-weight:800;letter-spacing:-.02em;line-height:1.1;text-wrap:balance}
-  h2{font-size:clamp(26px,3.6vw,38px)}
-  h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
-  p{margin:0}
-  .muted{color:var(--ink-2)}
-  .num{font-variant-numeric:tabular-nums}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 22px;border-radius:999px;font:700 13px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:0;cursor:pointer;transition:transform .25s var(--ease),background .25s}
-  .btn--peach{background:var(--peach);color:var(--navy);box-shadow:0 10px 24px -12px rgba(232,168,124,.9)}
-  .btn--peach:hover{background:var(--peach-2);transform:translateY(-2px)}
-  .btn--ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
-  .btn--ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
-  .btn--light{background:#fff;color:var(--navy)}
-  .btn--light:hover{transform:translateY(-2px)}
+  body{margin:0;background:var(--plane);color:var(--black);font-family:"Suisse Intl","Onest","Manrope",-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit;text-decoration:none} p,h2,h3{margin:0} ul{margin:0;padding:0;list-style:none}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 var(--pad)}
+  .num{font-weight:300;letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+  .eyebrow{display:block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+  h2{font-size:clamp(26px,2.6vw,38px);text-transform:uppercase;letter-spacing:-.02em;line-height:1.08;font-weight:300;color:var(--navy);text-wrap:balance}
+  .lead{font-size:18px;line-height:1.6;color:var(--gray);max-width:46ch;margin-top:14px}
+  .cap{font-size:13px;color:var(--gray);margin-top:14px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:52px;padding:0 30px;border-radius:var(--pill);font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--black);color:var(--white);border:1px solid var(--black);transition:.2s;white-space:nowrap}
+  .btn:hover{opacity:.82}
+  .btn--or{background:var(--orange);color:var(--white);border-color:var(--orange)} .btn--or:hover{background:var(--orange-h);opacity:1}
+  .btn--ghost{background:transparent;color:var(--black);border:1px solid var(--black)} .btn--ghost:hover{background:var(--black);color:var(--white);opacity:1}
+  .btn--onlight{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.75)} .btn--onlight:hover{background:var(--white);color:var(--black);opacity:1}
+  @media(max-width:600px){.btn{min-height:46px;padding:0 22px;font-size:11px}}
 
-  /* демо-обвязка: подписи к блокам, на сайт не идут */
-  .demo{padding:56px 0 0}
-  .demo__lbl{display:inline-block;font:700 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#fff;background:#6B8E4E;padding:8px 12px;border-radius:8px;margin-bottom:18px}
-  .demo__note{font-size:13px;color:var(--ink-3);margin:12px 0 0}
-  .demo hr{border:0;border-top:1px dashed var(--line);margin:56px 0 0}
+  /* служебное */
+  .demo{padding:60px 0;border-bottom:1px solid #ddd}
+  .demo__lbl{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray);margin-bottom:24px;display:flex;gap:10px;align-items:center}
+  .demo__lbl::before{content:"";width:22px;height:1px;background:var(--gray)}
 
-  /* ===== БЛОК ДЛЯ ХАБА ===== */
-  .pricehub{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:clamp(22px,3vw,36px);display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(20px,3vw,40px);align-items:center}
-  .pricehub__txt p{margin-top:10px;max-width:40ch}
-  .pricehub__txt .btn{margin-top:20px}
-  .pricehub__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  /* ===== БЛОК 1. Хаб: Стоимость обучения ===== */
+  .pricehub__head{display:flex;justify-content:space-between;align-items:end;gap:24px;flex-wrap:wrap;margin-bottom:32px}
+  .pricehub__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .pricehub__grid--2{grid-template-columns:repeat(2,1fr)}
-  .pc{background:var(--bg);border-radius:16px;padding:18px 18px 16px;display:grid;gap:6px;transition:transform .3s var(--ease),background .3s}
-  .pc:hover{transform:translateY(-3px);background:var(--peach-soft)}
-  .pc .eyebrow{font-size:10.5px}
-  .pc b{font-size:clamp(22px,2.2vw,28px);font-weight:800;letter-spacing:-.03em;line-height:1.05}
-  .pc small{font-size:12.5px;color:var(--ink-3)}
-  .pricehub__foot{grid-column:1/-1;display:flex;gap:8px 22px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);padding-top:14px;border-top:1px solid var(--line)}
-  .pricehub__foot span::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--peach);margin-right:8px;vertical-align:middle}
-  @media(max-width:920px){.pricehub{grid-template-columns:1fr}.pricehub__grid{grid-template-columns:1fr 1fr}.pricehub__grid--2{grid-template-columns:1fr 1fr}}
-  @media(max-width:520px){.pricehub__grid,.pricehub__grid--2{grid-template-columns:1fr}.pricehub__txt .btn{width:100%}}
+  .pc{background:var(--card);border-radius:var(--r-xl);padding:34px 32px 30px;display:grid;gap:14px;align-content:start;position:relative;transition:transform .35s var(--ease)}
+  .pc:hover{transform:translateY(-4px)}
+  .pc--navy{background:var(--navy);color:var(--white)}
+  .pc--navy .cap,.pc--navy .pc__unit,.pc--navy .pc__meta{color:rgba(255,255,255,.6)}
+  .pc__tag{position:absolute;top:22px;right:22px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--orange);color:var(--white);padding:7px 11px;border-radius:var(--pill)}
+  .pc h3{font-size:22px;font-weight:500;line-height:1.2}
+  .pc__price{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+  .pc__price b{font-size:clamp(34px,3vw,46px);font-weight:300;letter-spacing:-.02em;line-height:1}
+  .pc__unit{font-size:13px;color:var(--gray)}
+  .pc__meta{font-size:14px;color:var(--gray);padding-top:14px;border-top:1px solid rgba(0,0,0,.08)}
+  .pc--navy .pc__meta{border-color:rgba(255,255,255,.14)}
+  .pricehub__foot{margin-top:16px;background:var(--card);border-radius:var(--r-lg);padding:26px 30px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .pricehub__foot p{color:var(--gray);font-size:15px;max-width:60ch}
+  .pricehub__foot b{color:var(--black);font-weight:500}
+  @media(max-width:900px){.pricehub__grid,.pricehub__grid--2{grid-template-columns:1fr}}
 
-  /* ===== БЛОК ДЛЯ СТРАНИЦЫ КАМПУСА ===== */
-  .pricecampus{background:var(--navy);color:#fff;border-radius:var(--r);padding:clamp(22px,3vw,36px);display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(20px,3vw,40px)}
-  .pricecampus .eyebrow{color:rgba(255,255,255,.55)}
-  .pricecampus h2{color:#fff}
-  .pricecampus p{color:rgba(255,255,255,.75)}
-  .pricecampus__txt p{margin-top:10px;max-width:44ch}
-  .pricecampus__acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
-  .pl{display:grid;gap:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;overflow:hidden}
-  .pl__row{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:16px 20px;border-top:1px solid rgba(255,255,255,.1);transition:background .25s}
-  .pl__row:first-child{border-top:0}
-  .pl__row:hover{background:rgba(255,255,255,.05)}
-  .pl__row span{display:block;font-weight:700}
-  .pl__row small{display:block;color:rgba(255,255,255,.55);font-size:12.5px;margin-top:2px}
-  .pl__row b{font-size:clamp(20px,2vw,26px);font-weight:800;letter-spacing:-.03em;white-space:nowrap}
-  .pl__row b i{font-style:normal;font-size:12px;color:rgba(255,255,255,.55);font-weight:600;margin-left:4px}
-  .pl__foot{padding:12px 20px 14px;font-size:12.5px;color:rgba(255,255,255,.55);border-top:1px solid rgba(255,255,255,.1)}
-  .pl__disc{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-  .pl__disc span{font-size:12px;font-weight:700;background:rgba(232,168,124,.18);color:var(--peach);border-radius:999px;padding:7px 12px}
-  @media(max-width:920px){.pricecampus{grid-template-columns:1fr}.pricecampus__acts .btn{flex:1}}
+  /* ===== БЛОК 2. Кампус: Стоимость ===== */
+  .pricecampus{background:var(--navy);color:var(--white);border-radius:var(--r-xl);padding:clamp(28px,3.4vw,48px);display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(24px,3vw,48px);align-items:start}
+  .pricecampus .eyebrow{color:rgba(255,255,255,.5)}
+  .pricecampus h2{color:var(--white)}
+  .pricecampus .lead{color:rgba(255,255,255,.7)}
+  .pricecampus__acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+  .pl{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--r-lg);padding:8px 26px}
+  .pl__row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+  .pl__row:last-child{border-bottom:0}
+  .pl__row span{font-size:15px}
+  .pl__row small{display:block;color:rgba(255,255,255,.5);font-size:12.5px}
+  .pl__row b{font-size:24px;font-weight:300;letter-spacing:-.02em;white-space:nowrap}
+  .pl__row--sum b{font-size:clamp(30px,2.6vw,38px)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .chips span{font-size:12px;border:1px solid rgba(255,255,255,.25);padding:8px 14px;border-radius:var(--pill);color:rgba(255,255,255,.85)}
+  .chips span b{color:var(--orange);font-weight:500}
+  @media(max-width:900px){.pricecampus{grid-template-columns:1fr}}
+  @media(max-width:600px){.pl{padding:4px 18px}.pl__row{flex-direction:column;gap:6px}.pl__row b{font-size:22px}}
 
-  /* появление */
+  .rv{opacity:1}
   @media(prefers-reduced-motion:no-preference){
     .rv{opacity:0;transform:translateY(18px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
     .rv.in{opacity:1;transform:none}
-    .pricehub__grid .pc:nth-child(2){transition-delay:.07s}.pricehub__grid .pc:nth-child(3){transition-delay:.14s}
+    .pricehub__grid .pc:nth-child(2){transition-delay:.08s}.pricehub__grid .pc:nth-child(3){transition-delay:.16s}
   }
 </style>
 </head>
 <body>
 
-<div class="wrap demo">
-  <span class="demo__lbl">Блок для хаба школ · /chastnye-shkoly/</span>
-
-  <section class="pricehub rv" aria-labelledby="ph1">
-    <div class="pricehub__txt">
-      <div class="eyebrow">2026 / 2027</div>
-      <h2 id="ph1" style="margin-top:10px">Стоимость обучения</h2>
-      <p class="muted">Цена одинаковая для обоих кампусов. Учебный год 10 месяцев, членский взнос раз в год. Скидки семьям до 13%.</p>
-      <a class="btn btn--peach" href="/stoimost-obucheniya/">Подробный прайс и условия</a>
+<!-- ============ БЛОК 1а: хаб /chastnye-shkoly/ ============ -->
+<section class="demo"><div class="wrap">
+  <div class="demo__lbl">Блок для хаба /chastnye-shkoly/ (после блока с кампусами)</div>
+  <div class="pricehub">
+    <div class="pricehub__head rv">
+      <div><span class="eyebrow">Стоимость</span><h2>Сколько стоит обучение в школе ONE!</h2>
+      <p class="lead">Цена одинаковая для кампусов на Хорошёвском и Мосфильмовской. Учебный год 10 месяцев.</p></div>
+      <a class="btn btn--ghost" href="/stoimost-obucheniya/">Все цены и скидки</a>
     </div>
     <div class="pricehub__grid">
-      <div class="pc rv"><span class="eyebrow">1–4 классы</span><b class="num">146 000 ₽</b><small>в месяц · 1 460 000 ₽ в год</small></div>
-      <div class="pc rv"><span class="eyebrow">5–9 классы</span><b class="num">149 000 ₽</b><small>в месяц · 1 490 000 ₽ в год</small></div>
-      <div class="pc rv"><span class="eyebrow">10–11 классы</span><b class="num">157 000 ₽</b><small>в месяц · 1 570 000 ₽ в год</small></div>
+      <article class="pc rv"><span class="eyebrow" style="margin:0">Начальная школа</span><h3>1–4 классы</h3>
+        <div class="pc__price"><b class="num">146 000 ₽</b><span class="pc__unit">/ месяц</span></div>
+        <p class="pc__meta">1 460 000 ₽ за год · членский взнос 146 000 ₽</p></article>
+      <article class="pc pc--navy rv"><span class="pc__tag">Самый частый выбор</span><span class="eyebrow" style="margin:0">Средняя школа</span><h3>5–9 классы</h3>
+        <div class="pc__price"><b class="num">149 000 ₽</b><span class="pc__unit">/ месяц</span></div>
+        <p class="pc__meta">1 490 000 ₽ за год · членский взнос 149 000 ₽</p></article>
+      <article class="pc rv"><span class="eyebrow" style="margin:0">Старшая школа</span><h3>10–11 классы</h3>
+        <div class="pc__price"><b class="num">157 000 ₽</b><span class="pc__unit">/ месяц</span></div>
+        <p class="pc__meta">1 570 000 ₽ за год · членский взнос 157 000 ₽</p></article>
     </div>
-    <div class="pricehub__foot">
-      <span>Скидка 5% за двух детей, 7% за трёх</span>
-      <span>До 10% за оплату вперёд</span>
-      <span>Маткапитал и налоговый вычет</span>
-      <span>НДС не облагается</span>
+    <div class="pricehub__foot rv">
+      <p><b>Скидки до 13% в год:</b> 5% за второго ребёнка, 7% за третьего, 5–10% при оплате вперёд. Принимаем маткапитал, оформляем документы для налогового вычета.</p>
+      <a class="btn btn--or" href="/chastnye-shkoly/postuplenie/">Записаться на экскурсию</a>
     </div>
-  </section>
-  <p class="demo__note">Ставится в хаб школ после блока с кампусами или перед формой записи. Кнопка ведёт на полный прайс.</p>
+  </div>
+</div></section>
 
-  <hr>
-  <span class="demo__lbl">Блок для хаба садов · /chastnye-detskie-sady/</span>
-
-  <section class="pricehub rv" aria-labelledby="ph2">
-    <div class="pricehub__txt">
-      <div class="eyebrow">2026 / 2027</div>
-      <h2 id="ph2" style="margin-top:10px">Стоимость детского сада</h2>
-      <p class="muted">Одна цена для трёх кампусов. Учебный год 12 месяцев, членский взнос раз в год. Приём с 1,5 лет.</p>
-      <a class="btn btn--peach" href="/stoimost-obucheniya/#sady">Подробный прайс и условия</a>
+<!-- ============ БЛОК 1б: хаб /chastnye-detskie-sady/ ============ -->
+<section class="demo"><div class="wrap">
+  <div class="demo__lbl">Блок для хаба /chastnye-detskie-sady/</div>
+  <div class="pricehub">
+    <div class="pricehub__head rv">
+      <div><span class="eyebrow">Стоимость</span><h2>Сколько стоит детский сад ONE!</h2>
+      <p class="lead">Цена одинаковая для трёх кампусов. Учебный год в саду 12 месяцев, до 31 августа.</p></div>
+      <a class="btn btn--ghost" href="/stoimost-obucheniya/#sady">Все цены и скидки</a>
     </div>
     <div class="pricehub__grid pricehub__grid--2">
-      <div class="pc rv"><span class="eyebrow">Билингвальная группа</span><b class="num">154 000 ₽</b><small>в месяц · 1 848 000 ₽ в год</small></div>
-      <div class="pc rv"><span class="eyebrow">Международная группа</span><b class="num">174 000 ₽</b><small>в месяц · 2 088 000 ₽ в год</small></div>
+      <article class="pc rv"><span class="eyebrow" style="margin:0">С 1,5 лет</span><h3>Билингвальная группа</h3>
+        <div class="pc__price"><b class="num">154 000 ₽</b><span class="pc__unit">/ месяц</span></div>
+        <p class="pc__meta">1 848 000 ₽ за год · членский взнос 154 000 ₽</p></article>
+      <article class="pc pc--navy rv"><span class="pc__tag">Максимум английского</span><span class="eyebrow" style="margin:0">С 1,5 лет</span><h3>Международная группа</h3>
+        <div class="pc__price"><b class="num">174 000 ₽</b><span class="pc__unit">/ месяц</span></div>
+        <p class="pc__meta">2 088 000 ₽ за год · членский взнос 174 000 ₽</p></article>
     </div>
-    <div class="pricehub__foot">
-      <span>Скидка 5% за двух детей, 7% за трёх</span>
-      <span>До 10% за оплату вперёд</span>
-      <span>Тестирование перед поступлением 4 000 ₽</span>
+    <div class="pricehub__foot rv">
+      <p><b>Скидки до 13% в год:</b> семейные и за оплату вперёд. Маткапитал принимаем, налоговый вычет оформляем.</p>
+      <a class="btn btn--or" href="#">Записаться на экскурсию</a>
     </div>
-  </section>
-  <p class="demo__note">Тот же блок, два тарифа вместо трёх. Кнопка ведёт на прайс сразу на вкладку садов.</p>
+  </div>
+</div></section>
 
-  <hr>
-  <span class="demo__lbl">Блок для страницы школы · /chastnye-shkoly/horoshyovskaya/</span>
+<!-- ============ БЛОК 2а: страница школы (Хорошёвский) ============ -->
+<section class="demo"><div class="wrap">
+  <div class="demo__lbl">Блок для страницы школы, пример: Хорошёвский</div>
+  <div class="pricecampus rv">
+    <div>
+      <span class="eyebrow">Стоимость · 2026/2027</span>
+      <h2>Обучение в школе на Хорошёвском</h2>
+      <p class="lead">Оплата помесячно, учебный год 10 месяцев. При зачислении вносится первый месяц и членский взнос.</p>
+      <div class="pricecampus__acts"><a class="btn btn--or" href="#">Записаться на экскурсию</a><a class="btn btn--onlight" href="/stoimost-obucheniya/">Скидки и условия</a></div>
+    </div>
+    <div>
+      <div class="pl">
+        <div class="pl__row"><span>1–4 классы<small>членский взнос 146 000 ₽ в год</small></span><b class="num">146 000 ₽ / мес</b></div>
+        <div class="pl__row"><span>5–9 классы<small>членский взнос 149 000 ₽ в год</small></span><b class="num">149 000 ₽ / мес</b></div>
+        <div class="pl__row"><span>10–11 классы<small>членский взнос 157 000 ₽ в год</small></span><b class="num">157 000 ₽ / мес</b></div>
+        <div class="pl__row"><span>Питание<small>ориентировочно, отдельно</small></span><b class="num">20 400 ₽ / мес</b></div>
+      </div>
+      <div class="chips"><span><b>5%</b> двое детей</span><span><b>7%</b> трое детей</span><span><b>10%</b> оплата за 7–12 мес</span><span>маткапитал</span><span>налоговый вычет</span></div>
+    </div>
+  </div>
+</div></section>
 
-  <section class="pricecampus rv" aria-labelledby="pc1">
-    <div class="pricecampus__txt">
-      <div class="eyebrow">Стоимость обучения</div>
-      <h2 id="pc1" style="margin-top:10px">Школа ONE! в ЖК «Хорошёвский»</h2>
-      <p>Кампус полного цикла с 1 по 11 класс. В оплату входит полный день, углублённый английский, тьютор в начальной школе и подготовка домашних заданий в школе.</p>
-      <div class="pl__disc">
-        <span>5% за двух детей</span><span>7% за трёх</span><span>до 10% за оплату вперёд</span><span>маткапитал</span>
-      </div>
-      <div class="pricecampus__acts">
-        <a class="btn btn--peach" href="#zapis">Записаться на экскурсию</a>
-        <a class="btn btn--light" href="/stoimost-obucheniya/">Все условия</a>
-      </div>
+<!-- ============ БЛОК 2б: страница сада (Маяковская) ============ -->
+<section class="demo"><div class="wrap">
+  <div class="demo__lbl">Блок для страницы сада, пример: Маяковская</div>
+  <div class="pricecampus rv">
+    <div>
+      <span class="eyebrow">Стоимость · 2026/2027</span>
+      <h2>Детский сад на Маяковской</h2>
+      <p class="lead">Оплата помесячно, учебный год 12 месяцев до 31 августа. Тестирование перед поступлением 4 000 ₽.</p>
+      <div class="pricecampus__acts"><a class="btn btn--or" href="#">Записаться на экскурсию</a><a class="btn btn--onlight" href="/stoimost-obucheniya/#sady">Скидки и условия</a></div>
     </div>
-    <div class="pl">
-      <div class="pl__row"><div><span>1–4 классы</span><small>членский взнос 146 000 ₽ в год</small></div><b class="num">146 000<i>₽ / мес</i></b></div>
-      <div class="pl__row"><div><span>5–9 классы</span><small>членский взнос 149 000 ₽ в год</small></div><b class="num">149 000<i>₽ / мес</i></b></div>
-      <div class="pl__row"><div><span>10–11 классы</span><small>членский взнос 157 000 ₽ в год</small></div><b class="num">157 000<i>₽ / мес</i></b></div>
-      <div class="pl__foot">Питание около 20 400 ₽ в месяц и форма оплачиваются отдельно. Учебный год 10 месяцев. НДС не облагается.</div>
-    </div>
-  </section>
-  <p class="demo__note">Ставится на странице кампуса перед блоком «Педагоги» или перед формой. Для Мосфильмовского кампуса убрать строку 10–11 классов, если там только начальная и средняя школа.</p>
-
-  <hr>
-  <span class="demo__lbl">Блок для страницы сада · /chastnye-detskie-sady/mayakovskaya/</span>
-
-  <section class="pricecampus rv" aria-labelledby="pc2">
-    <div class="pricecampus__txt">
-      <div class="eyebrow">Стоимость обучения</div>
-      <h2 id="pc2" style="margin-top:10px">Детский сад ONE! на Маяковской</h2>
-      <p>Группы с 1,5 лет в БЦ «Дукат». Монтессори-среда, два педагога в группе, английский весь день. Учебный год 12 месяцев.</p>
-      <div class="pl__disc">
-        <span>5% за двух детей</span><span>7% за трёх</span><span>до 10% за оплату вперёд</span>
+    <div>
+      <div class="pl">
+        <div class="pl__row"><span>Билингвальная группа<small>членский взнос 154 000 ₽ в год</small></span><b class="num">154 000 ₽ / мес</b></div>
+        <div class="pl__row"><span>Международная группа<small>членский взнос 174 000 ₽ в год</small></span><b class="num">174 000 ₽ / мес</b></div>
+        <div class="pl__row pl__row--sum"><span>За год, билингвальная<small>12 месяцев</small></span><b class="num">1 848 000 ₽</b></div>
       </div>
-      <div class="pricecampus__acts">
-        <a class="btn btn--peach" href="#zapis">Записаться на экскурсию</a>
-        <a class="btn btn--light" href="/stoimost-obucheniya/#sady">Все условия</a>
-      </div>
+      <div class="chips"><span><b>5%</b> двое детей</span><span><b>7%</b> трое детей</span><span><b>5%</b> оплата за 3–6 мес</span><span><b>10%</b> за 7–12 мес</span><span>маткапитал</span></div>
     </div>
-    <div class="pl">
-      <div class="pl__row"><div><span>Билингвальная группа</span><small>членский взнос 154 000 ₽ в год</small></div><b class="num">154 000<i>₽ / мес</i></b></div>
-      <div class="pl__row"><div><span>Международная группа</span><small>членский взнос 174 000 ₽ в год</small></div><b class="num">174 000<i>₽ / мес</i></b></div>
-      <div class="pl__foot">Психолого-педагогическое тестирование перед поступлением 4 000 ₽. НДС не облагается.</div>
-    </div>
-  </section>
-  <p class="demo__note" style="padding-bottom:64px">Один и тот же блок для всех трёх садов, меняется только заголовок и описание кампуса.</p>
-</div>
+  </div>
+</div></section>
 
 <script>
   var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
