@@ -447,6 +447,12 @@
 									</div>
 								{/if}
 
+								{#if s.links}
+									<div class="p2__links">
+										{#each s.links as l}<a class="p2__lnk" href={l.href} target="_blank" rel="noopener">{l.label}<span>→</span></a>{/each}
+									</div>
+								{/if}
+
 								{#if s.kick}<p class="kick">{s.kick}</p>{/if}
 								{#if s.note}<p class="note">{s.note}</p>{/if}
 							</div>
@@ -734,6 +740,34 @@
 	.p2__tw .tbl td:last-child:not(:first-child) {
 		white-space: nowrap;
 		color: var(--ink-2);
+	}
+	.p2__links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		margin-top: 18px;
+	}
+	.p2__lnk {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		padding: 12px 18px;
+		border: 1px solid var(--ink);
+		border-radius: 999px;
+		font-size: 14px;
+		color: var(--ink);
+		text-decoration: none;
+		transition: background 0.2s, color 0.2s;
+	}
+	.p2__lnk span {
+		transition: transform 0.2s;
+	}
+	.p2__lnk:hover {
+		background: var(--ink);
+		color: #fff;
+	}
+	.p2__lnk:hover span {
+		transform: translateX(3px);
 	}
 	.p2__shots {
 		display: grid;

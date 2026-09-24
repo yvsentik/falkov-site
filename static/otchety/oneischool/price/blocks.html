@@ -9,6 +9,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="one.css">
 <style>
+  .rep{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.04em}
+  .rep__in{display:flex;align-items:center;gap:18px;min-height:38px;flex-wrap:wrap}
+  .rep__in span{color:#9fb0cf;margin-right:auto}
+  .rep a{border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;white-space:nowrap}
+  .rep a:hover{color:var(--orange);border-color:var(--orange)}
+  @media(max-width:768px){.rep__in{padding-top:8px;padding-bottom:8px;gap:8px 16px}.rep__in span{display:none}}
   .demo{padding:60px 0;border-bottom:1px solid #ddd}
   .demo__lbl{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray);margin-bottom:24px;display:flex;gap:10px;align-items:center}
   .demo__lbl::before{content:"";width:22px;height:1px;background:var(--gray)}
@@ -60,12 +66,21 @@
 </head>
 <body>
 
+<!-- служебная полоса: возврат в отчёт -->
+<div class="rep" role="navigation" aria-label="Отчёт">
+  <div class="wrap rep__in">
+    <span>Макет для отчёта · блоки «Стоимость» для хабов и страниц кампусов</span>
+    <a href="/otchety/oneischool-com/" class="rep__back">← Вернуться в отчёт</a>
+    <a href="index.html" class="rep__alt">Полный прайс-лист →</a>
+  </div>
+</div>
+
 <!-- ============ БЛОК 1а: хаб /chastnye-shkoly/ ============ -->
 <section class="demo"><div class="wrap">
   <div class="demo__lbl">Блок для хаба /chastnye-shkoly/ (после блока с кампусами)</div>
   <div class="shead">
     <div><span class="eyebrow">Стоимость · 2026/2027</span><h2>Сколько стоит обучение в&nbsp;школе ONE!</h2></div>
-    <div class="shead__r"><p>Цена одинаковая для кампусов в ЖК «Хорошёвский» и ЖК «Мосфильмовский». Учебный год 10 месяцев.</p><a class="btn btn--ghost" href="/stoimost-obucheniya/">Все цены и скидки</a></div>
+    <div class="shead__r"><p>Цена одинаковая для кампусов в ЖК «Хорошёвский» и ЖК «Мосфильмовский». Учебный год 10 месяцев.</p><a class="btn btn--ghost" href="index.html">Все цены и скидки</a></div>
   </div>
   <div class="tf-grid">
     <article class="tf" data-idx="01"><div class="s">Начальная школа</div><h3>1–4 классы</h3><div class="v">146 000 ₽</div><div class="u">в месяц</div><div class="m">1 460 000 ₽ за учебный год · членский взнос 146 000 ₽ раз в год</div></article>
@@ -83,7 +98,7 @@
   <div class="demo__lbl">Блок для хаба /chastnye-detskie-sady/</div>
   <div class="shead">
     <div><span class="eyebrow">Стоимость · 2026/2027</span><h2>Сколько стоит детский сад ONE!</h2></div>
-    <div class="shead__r"><p>Цена одинаковая для трёх кампусов. Учебный год в саду 12 месяцев, до 31 августа.</p><a class="btn btn--ghost" href="/stoimost-obucheniya/#sady">Все цены и скидки</a></div>
+    <div class="shead__r"><p>Цена одинаковая для трёх кампусов. Учебный год в саду 12 месяцев, до 31 августа.</p><a class="btn btn--ghost" href="index.html#sady">Все цены и скидки</a></div>
   </div>
   <div class="tf-grid tf-grid--2">
     <article class="tf" data-idx="01"><div class="s">С 1,5 лет</div><h3>Билингвальная группа</h3><div class="v">154 000 ₽</div><div class="u">в месяц</div><div class="m">1 848 000 ₽ за учебный год · членский взнос 154 000 ₽ раз в год</div></article>
@@ -103,7 +118,7 @@
       <span class="eyebrow">Стоимость · 2026/2027</span>
       <h2>Обучение в&nbsp;школе в&nbsp;ЖК «Хорошёвский»</h2>
       <p class="lead">Оплата помесячно, учебный год 10 месяцев. При зачислении вносится первый месяц и членский взнос.</p>
-      <div class="pcamp__acts"><a class="btn btn--or" href="#">Записаться на экскурсию</a><a class="btn btn--onlight" href="/stoimost-obucheniya/">Скидки и условия</a></div>
+      <div class="pcamp__acts"><a class="btn btn--or" href="#">Записаться на экскурсию</a><a class="btn btn--onlight" href="index.html">Скидки и условия</a></div>
     </div>
     <div>
       <ul class="pl">
@@ -125,7 +140,7 @@
       <span class="eyebrow">Стоимость · 2026/2027</span>
       <h2>Детский сад в&nbsp;БЦ «Дукат»</h2>
       <p class="lead">Оплата помесячно, учебный год 12 месяцев до 31 августа. Тестирование перед поступлением 4 000 ₽.</p>
-      <div class="pcamp__acts"><a class="btn btn--or" href="#">Записаться на экскурсию</a><a class="btn btn--onlight" href="/stoimost-obucheniya/#sady">Скидки и условия</a></div>
+      <div class="pcamp__acts"><a class="btn btn--or" href="#">Записаться на экскурсию</a><a class="btn btn--onlight" href="index.html#sady">Скидки и условия</a></div>
     </div>
     <div>
       <ul class="pl">
