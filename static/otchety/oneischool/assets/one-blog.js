@@ -16,6 +16,14 @@
       Array.prototype.forEach.call(grid.children,function(el){ var x=el.dataset[attr]; el.hidden=!(v==='all'||x===v||(attr==='stage'&&x==='all')); });
     }); });
   });
+  document.querySelectorAll('.ttabs').forEach(function(box){
+    var bs=box.querySelectorAll('.ttabs__b'), ps=box.querySelectorAll('.ttabs__pane');
+    bs.forEach(function(b){ b.addEventListener('click',function(){
+      bs.forEach(function(o){o.classList.toggle('is-on',o===b)});
+      ps.forEach(function(p){p.classList.toggle('is-on',p.id===b.dataset.t)});
+      var nav=b.parentElement; if(nav.scrollWidth>nav.clientWidth) nav.scrollTo({left:b.offsetLeft-nav.offsetLeft-20,behavior:'smooth'});
+    }); });
+  });
   /* содержание: подсветка текущего раздела + полоса прогресса */
   var links=[].slice.call(document.querySelectorAll('.toc a')), bar=document.getElementById('rbar'), body=document.querySelector('.art__body');
   if(links.length){
