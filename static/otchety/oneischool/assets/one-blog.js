@@ -16,4 +16,18 @@
       Array.prototype.forEach.call(grid.children,function(el){ var x=el.dataset[attr]; el.hidden=!(v==='all'||x===v||(attr==='stage'&&x==='all')); });
     }); });
   });
+  /* содержание: подсветка текущего раздела + полоса прогресса */
+  var links=[].slice.call(document.querySelectorAll('.toc a')), bar=document.getElementById('rbar'), body=document.querySelector('.art__body');
+  if(links.length){
+    var secs=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1))});
+    var tick=false;
+    function spy(){
+      tick=false; var y=window.scrollY+180, cur=-1;
+      secs.forEach(function(s,i){ if(s && s.getBoundingClientRect().top+window.scrollY<=y) cur=i; });
+      links.forEach(function(a,i){ a.parentElement.classList.toggle('is-on',i===cur); });
+      if(bar&&body){ var r=body.getBoundingClientRect(), p=Math.min(1,Math.max(0,(-r.top+200)/(r.height-window.innerHeight+400))); bar.style.width=(p*100)+'%'; }
+    }
+    window.addEventListener('scroll',function(){ if(!tick){tick=true;requestAnimationFrame(spy);} },{passive:true});
+    spy();
+  }
 })();
