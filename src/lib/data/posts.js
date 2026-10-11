@@ -1,7 +1,9 @@
 /* Блог. Формат контента: массив блоков.
    type: 'p' | 'h2' | 'h3' | 'ul' | 'ol' | 'quote' */
 
-export const posts = [
+import { marketingPosts } from './posts-marketing.js';
+
+const seoPosts = [
 	{
 		slug: 'skolko-stoit-seo-v-spb',
 		title: 'Сколько стоит SEO-продвижение в Санкт-Петербурге в 2026 году',
@@ -263,5 +265,8 @@ export const posts = [
 		]
 	}
 ];
+
+/** Сначала статьи про маркетинг в целом, затем узкие разборы по поиску. */
+export const posts = [...marketingPosts, ...seoPosts];
 
 export const postBySlug = Object.fromEntries(posts.map((p) => [p.slug, p]));

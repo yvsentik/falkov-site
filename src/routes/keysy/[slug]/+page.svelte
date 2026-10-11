@@ -5,9 +5,10 @@
 	import Rankings from '$lib/components/Rankings.svelte';
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import Arrow from '$lib/components/Arrow.svelte';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
 	import { reveal } from '$lib/actions.js';
 	import { site } from '$lib/config/site.js';
-	import { graph, orgSchema, breadcrumbSchema } from '$lib/seo.js';
+	import { graph, orgSchema, breadcrumbSchema, abs } from '$lib/seo.js';
 
 	let { data } = $props();
 	const c = $derived(data.item);
@@ -22,17 +23,25 @@
 			'@type': 'Article',
 			headline: `Кейс: ${c.client}`,
 			description: c.short,
-			author: { '@id': '#organization' },
-			publisher: { '@id': '#organization' }
+			inLanguage: 'ru-RU',
+			image: abs(c.screenshot ?? c.photo ?? site.ogImage),
+			author: { '@id': abs('/#organization') },
+			publisher: { '@id': abs('/#organization') },
+			mainEntityOfPage: abs(path)
 		})
+	);
+	/* Короткое описание кейса бывает длинным: тогда служебный хвост не добавляем,
+	   чтобы description не обрезался в выдаче. */
+	const description = $derived(
+		c.short.length > 130
+			? c.short
+			: `${c.short} Исходные данные, состав работ и результаты в цифрах${c.rank ? ', позиции можно проверить в поиске самостоятельно' : ''}.`
 	);
 </script>
 
 <Seo
 	title="Кейс: {c.client} – {c.industry}, {c.region} | агентство {site.name}"
-	description="{c.short} Исходные данные, состав работ и результаты в цифрах{c.rank
-		? ', позиции можно проверить в поиске самостоятельно'
-		: ''}."
+	{description}
 	{path}
 	{schema}
 	ogType="article"
@@ -45,7 +54,7 @@
 			<div class="chead__grid">
 				<div class="chead__l">
 					<span class="chead__industry">{c.industry}</span>
-					<h1>{c.site ?? c.client}</h1>
+					<h1>{c.h1 ?? c.site ?? c.client}</h1>
 					{#if c.site}
 						<p class="chead__client">{c.client} · {c.region}</p>
 						<a class="chead__site" href={c.siteUrl} target="_blank" rel="noopener nofollow">
@@ -186,9 +195,10 @@
 			</div>
 		</div>
 	</section>
+	<SeeAlso services={data.services} posts={data.posts} title="Услуги и статьи по теме" alt />
 </article>
 
-<CtaBlock source="Кейс – {c.client}" title="Посчитаем, что даст SEO вашему проекту" />
+<CtaBlock source="Кейс – {c.client}" title="Посчитаем, что даст маркетинг вашему проекту" />
 
 <style>
 	.ai {

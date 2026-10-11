@@ -3,6 +3,7 @@
 	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import Arrow from '$lib/components/Arrow.svelte';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
 	import { graph, orgSchema, breadcrumbSchema, articleSchema } from '$lib/seo.js';
 
 	let { data } = $props();
@@ -48,25 +49,16 @@
 					</ol>
 				{:else if b.type === 'quote'}
 					<blockquote>{b.text}</blockquote>
+				{:else if b.type === 'link'}
+					<p class="inlink"><a href={b.href}>{b.text} <Arrow /></a></p>
 				{/if}
 			{/each}
 		</div>
 
-		<div class="others">
-			<h2>Ещё по теме</h2>
-			<ul class="others__list">
-				{#each data.others as o (o.slug)}
-					<li><a href="/blog/{o.slug}/">{o.title} <Arrow /></a></li>
-				{/each}
-			</ul>
-			<p class="others__services">
-				Услуги по теме: <a href="/uslugi/seo/">SEO-продвижение</a>,
-				<a href="/uslugi/prodvizhenie-v-yandex/">продвижение в Яндексе</a>,
-				<a href="/uslugi/seo-audit-sajta/">аудит сайта</a>.
-			</p>
-		</div>
 	</div>
 </article>
+
+<SeeAlso services={data.links.services} cases={data.links.cases} posts={data.others} />
 
 <CtaBlock
 	title="Разберём ваш сайт бесплатно"
@@ -121,29 +113,18 @@
 		border-radius: 0 12px 12px 0;
 		line-height: 1.6;
 	}
-	.others {
-		margin-top: 44px;
-		padding-top: 24px;
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
+	.inlink {
+		margin: 22px 0;
 	}
-	.others h2 {
-		font-size: 20px;
-		margin: 0 0 14px;
-	}
-	.others__list {
-		list-style: none;
-		padding: 0;
-		margin: 0 0 18px;
-		display: grid;
-		gap: 10px;
-	}
-	.others__list a {
+	.inlink a {
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-	}
-	.others__services {
-		font-size: 15px;
-		color: rgba(0, 0, 0, 0.7);
+		padding: 12px 18px;
+		border: 1px solid rgba(0, 0, 0, 0.14);
+		border-radius: 14px;
+		background: #fff;
+		font-weight: 600;
+		line-height: 1.35;
 	}
 </style>

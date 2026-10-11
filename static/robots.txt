@@ -1,28 +1,12 @@
+# Одна группа для всех роботов. Отдельные группы для Яндекса и Google не заводим:
+# робот, для которого есть своя группа, общие запреты из группы * уже не читает.
+# AI-агенты (GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot) открыты этой же группой:
+# без этого контент не попадает в ответы нейросетей.
 User-agent: *
 Allow: /
 Disallow: /*?
+Disallow: /otchety/
+Disallow: /kommercheskie-predlozheniya/
 Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&from
-
-# Поисковые роботы
-User-agent: Yandex
-Allow: /
-Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&from
-
-User-agent: Googlebot
-Allow: /
-
-# AI-агенты. Открыты намеренно: без этого контент не попадает
-# в ответы нейросетей (см. /uslugi/prodvizhenie-v-nejrosetyah/).
-User-agent: GPTBot
-Allow: /
-
-User-agent: OAI-SearchBot
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
-
-User-agent: ClaudeBot
-Allow: /
 
 Sitemap: https://falkov-marketing.ru/sitemap.xml

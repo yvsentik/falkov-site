@@ -6,23 +6,25 @@
 	import { reveal } from '$lib/actions.js';
 	import { site } from '$lib/config/site.js';
 	import { generalFaq } from '$lib/data/faq.js';
-	import { graph, orgSchema, breadcrumbSchema, faqSchema } from '$lib/seo.js';
+	import { graph, orgSchema, breadcrumbSchema, abs } from '$lib/seo.js';
 
 	const crumbs = [
 		{ title: 'Главная', href: '/' },
 		{ title: 'Контакты', href: '/kontakty/' }
 	];
-	const schema = graph(
-		orgSchema(),
-		breadcrumbSchema(crumbs),
-		faqSchema(generalFaq.slice(0, 5)),
-		{ '@type': 'ContactPage', name: 'Контакты' }
-	);
+	/* FAQPage здесь не выводим: те же вопросы размечены на главной,
+	   дубль разметки на двух страницах поисковики не засчитывают. */
+	const schema = graph(orgSchema(), breadcrumbSchema(crumbs), {
+		'@type': 'ContactPage',
+		name: 'Контакты маркетингового агентства «Фальков»',
+		url: abs('/kontakty/'),
+		mainEntity: { '@id': abs('/#organization') }
+	});
 </script>
 
 <Seo
-	title="Контакты SEO-агентства в Санкт-Петербурге – телефон, адрес, Telegram"
-	description="Контакты агентства в Санкт-Петербурге: телефон, почта, Telegram, адрес офиса и режим работы. Оставьте заявку – разберём сайт и ответим в течение рабочего дня."
+	title="Контакты маркетингового агентства «Фальков» – телефон и адрес в СПб"
+	description="Контакты агентства «Фальков» в Санкт-Петербурге: телефон +7 993 982-32-04, офис на пр. Энергетиков, 10, Telegram и MAX. Оставьте заявку, разберём сайт и ответим в течение рабочего дня."
 	path="/kontakty/"
 	{schema}
 />
@@ -49,16 +51,24 @@
 			<div class="cblock">
 				<span class="eyebrow">Мессенджеры</span>
 				<ul>
-					<li><a href={site.telegram} target="_blank" rel="noopener">Telegram – {site.telegramLabel}</a></li>
-					<li><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
-					<li><a href={site.vk} target="_blank" rel="noopener">ВКонтакте</a></li>
+					<li><a href={site.manager} target="_blank" rel="noopener">Telegram для заявок – {site.managerLabel}</a></li>
+					<li><a href={site.telegram} target="_blank" rel="noopener">Канал агентства – {site.telegramLabel}</a></li>
+					{#if site.max}
+						<li><a href={site.max} target="_blank" rel="noopener">MAX</a></li>
+					{/if}
+					{#if site.whatsapp}
+						<li><a href={site.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
+					{/if}
+					{#if site.vk}
+						<li><a href={site.vk} target="_blank" rel="noopener">ВКонтакте</a></li>
+					{/if}
 				</ul>
 			</div>
 
 			<div class="cblock">
 				<span class="eyebrow">Офис</span>
 				<p>{site.address.city}, {site.address.street}</p>
-				<p class="muted">{site.workHours}</p>
+				<p class="muted">{site.workHours}. {site.addressNote}.</p>
 			</div>
 
 		</div>

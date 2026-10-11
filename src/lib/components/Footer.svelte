@@ -28,15 +28,17 @@
 						{#each categories as c}
 							<li><a href="/uslugi/#{c.slug}">{c.title}</a></li>
 						{/each}
-						<li><a href="/uslugi/">Все 50 услуг</a></li>
+						<li><a href="/uslugi/">Все услуги</a></li>
 					</ul>
 				</div>
 				<div class="footer__col">
 					<h3>Популярные услуги</h3>
 					<ul>
 						{#each featuredServices.slice(0, 7) as s}
-							<li><a href="/uslugi/{s.slug}/">{s.h1}</a></li>
+							<li><a href="/uslugi/{s.slug}/">{s.nav ?? s.h1}</a></li>
 						{/each}
+						<li><a href="/uslugi/direkt/">Яндекс Директ</a></li>
+						<li><a href="/uslugi/telegram-ads/">Telegram Ads</a></li>
 					</ul>
 				</div>
 				<div class="footer__col">
@@ -44,6 +46,7 @@
 					<ul>
 						<li><a href="/o-nas/">О нас</a></li>
 						<li><a href="/keysy/">Кейсы</a></li>
+						<li><a href="/blog/">Блог</a></li>
 						<li><a href="/otzyvy/">Отзывы</a></li>
 						<li><a href="/kontakty/">Контакты</a></li>
 					</ul>

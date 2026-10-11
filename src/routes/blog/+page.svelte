@@ -5,20 +5,35 @@
 	import Arrow from '$lib/components/Arrow.svelte';
 	import { reveal } from '$lib/actions.js';
 	import { posts } from '$lib/data/posts.js';
-	import { graph, orgSchema, breadcrumbSchema } from '$lib/seo.js';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
+	import { cases } from '$lib/data/cases.js';
+	import { serviceLink } from '$lib/data/links.js';
+	import { graph, orgSchema, breadcrumbSchema, itemListSchema } from '$lib/seo.js';
 
 	const crumbs = [
 		{ title: 'Главная', href: '/' },
 		{ title: 'Блог', href: '/blog/' }
 	];
-	const schema = graph(orgSchema(), breadcrumbSchema(crumbs));
-	const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : -1));
+	/* Порядок берём из данных: сначала статьи о маркетинге в целом, дальше узкие разборы. */
+	const sorted = [...posts].sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
+	const schema = graph(
+		orgSchema(),
+		breadcrumbSchema(crumbs),
+		{ '@type': 'Blog', name: 'Блог маркетингового агентства «Фальков»', url: 'https://falkov-marketing.ru/blog/' },
+		itemListSchema('Статьи блога', sorted.map((p) => ({ title: p.title, href: `/blog/${p.slug}/` })))
+	);
+	const alsoServices = [
+		'/uslugi/kompleksnyj-internet-marketing/',
+		'/uslugi/seo/',
+		'/uslugi/direkt/',
+		'/uslugi/telegram-ads/'
+	].map(serviceLink);
 	const fmt = (d) => new Date(d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 </script>
 
 <Seo
-	title="Блог о продвижении сайтов и маркетинге в Санкт-Петербурге | Фальков"
-	description="Разборы от агентства «Фальков»: сколько стоит SEO в СПб, как выбрать подрядчика, коммерческие факторы Яндекса, локальное продвижение по районам, GEO и нейросети."
+	title="Блог о маркетинге и продвижении бизнеса – агентство «Фальков»"
+	description="Разборы от агентства «Фальков»: чем занимается маркетинговое агентство и как его выбрать, сколько стоят услуги, SEO или Директ, реклама в Telegram, CRM, рассылки, коммерческие факторы Яндекса."
 	path="/blog/"
 	{schema}
 />
@@ -29,8 +44,8 @@
 		<h1 style="margin:26px 0 24px;max-width:16em">Блог: как работает продвижение и на что уходят деньги</h1>
 		<p class="lead" style="max-width:38em">
 			Пишем о том, что обычно остаётся за рамками коммерческого предложения: из чего складывается
-			цена, по каким признакам видно слабого подрядчика, какие факторы в Яндексе решают исход
-			борьбы за ТОП. Разборы основаны на проектах, которые мы ведём в Санкт-Петербурге.
+			цена маркетинга, как выбрать агентство, с какого канала начинать и какие факторы в Яндексе
+			решают исход борьбы за ТОП. Разборы основаны на проектах, которые мы ведём.
 		</p>
 	</div>
 </section>
@@ -51,6 +66,8 @@
 		</div>
 	</div>
 </section>
+
+<SeeAlso services={alsoServices} cases={cases.filter((c) => c.turnkey).slice(0, 4)} title="Услуги и кейсы" alt />
 
 <CtaBlock
 	title="Разберём ваш сайт так же подробно"

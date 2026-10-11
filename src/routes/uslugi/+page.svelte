@@ -8,7 +8,10 @@
 	import { services } from '$lib/data/services/index.js';
 	import { categories } from '$lib/data/categories.js';
 	import { directions } from '$lib/data/directions.js';
-	import { graph, orgSchema, breadcrumbSchema } from '$lib/seo.js';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
+	import { cases } from '$lib/data/cases.js';
+	import { posts } from '$lib/data/posts.js';
+	import { graph, orgSchema, breadcrumbSchema, abs } from '$lib/seo.js';
 
 	const crumbs = [
 		{ title: 'Главная', href: '/' },
@@ -16,15 +19,18 @@
 	];
 	const schema = graph(orgSchema(), breadcrumbSchema(crumbs), {
 		'@type': 'CollectionPage',
-		name: 'Услуги SEO-агентства в Санкт-Петербурге',
-		url: '/uslugi/',
-		hasPart: services.map((s) => ({ '@type': 'Service', name: s.h1, url: `/uslugi/${s.slug}/` }))
+		name: 'Услуги маркетингового агентства в Санкт-Петербурге',
+		url: abs('/uslugi/'),
+		hasPart: [
+			...directions.map((d) => ({ '@type': 'Service', name: d.title, url: abs(d.href) })),
+			...services.map((s) => ({ '@type': 'Service', name: s.h1, url: abs(`/uslugi/${s.slug}/`) }))
+		]
 	});
 </script>
 
 <Seo
-	title="Услуги маркетингового агентства в Санкт-Петербурге – SEO, Директ, Telegram Ads"
-	description="Три направления работы агентства «Фальков» в СПб: SEO-продвижение сайтов, Яндекс Директ с оплатой из прибыли и Telegram Ads. Внутри – 50 посадочных под ниши, типы сайтов и CMS."
+	title="Услуги маркетингового агентства в СПб – цены на интернет-маркетинг"
+	description="Услуги маркетингового агентства «Фальков» в Санкт-Петербурге: продвижение сайтов, Яндекс Директ, Telegram Ads, разработка сайтов, CRM и email-рассылки. Состав работ и цены по каждой услуге."
 	path="/uslugi/"
 	{schema}
 />
@@ -36,13 +42,14 @@
 			<div>
 				<h1>Услуги маркетингового агентства в Санкт-Петербурге</h1>
 				<p class="lead">
-					Работа делится на три направления: SEO, Яндекс Директ и Telegram Ads. Можно взять одно,
-					можно отдать маркетинг целиком – ниже подробно про каждое и все {services.length} посадочных,
-					из которых собирается работа под конкретный проект.
+					Шесть направлений: продвижение сайтов, Яндекс Директ, Telegram Ads, разработка, CRM и
+					email-рассылки. Можно взять одно, можно отдать
+					<a href="/uslugi/kompleksnyj-internet-marketing/">маркетинг под ключ</a>. Ниже подробно
+					про каждое и все {services.length} услуг с составом работ и ценами.
 				</p>
 			</div>
 			<div class="head__nav">
-				<span class="eyebrow">Разделы SEO</span>
+				<span class="eyebrow">Разделы каталога</span>
 				<ul>
 					{#each categories as c}
 						<li><a href="#{c.slug}">{c.title}</a></li>
@@ -53,7 +60,7 @@
 	</div>
 </section>
 
-<!-- Главная разбивка: три направления работы агентства -->
+<!-- Главная разбивка: шесть направлений работы агентства -->
 <section class="section section--tight">
 	<div class="container">
 		<div class="dirs">
@@ -66,7 +73,9 @@
 					<ul class="dirs__list">
 						{#each d.bullets as b}<li>{b}</li>{/each}
 					</ul>
-					<span class="dirs__m"><b>{d.metric.v}</b><i>{d.metric.l}</i></span>
+					{#if d.metric}
+						<span class="dirs__m"><b>{d.metric.v}</b><i>{d.metric.l}</i></span>
+					{/if}
 					<span class="dirs__go">Подробнее <Arrow /></span>
 				</a>
 			{/each}
@@ -102,13 +111,22 @@
 		<div class="prose" use:reveal>
 			<h2>Как выбрать услугу</h2>
 			<p>
-				Если вы не знаете, с чего начать, начните с <a href="/uslugi/seo-audit-sajta/">аудита</a>: он
-				показывает, что мешает сайту расти и какие работы дадут наибольший эффект на вашем проекте.
-				По итогам аудита мы собираем формат работы под задачу – иногда это полный цикл, а иногда
-				достаточно закрыть один участок.
+				Заявки нужны в этом месяце: начинайте с <a href="/uslugi/direkt/">Яндекс Директа</a>, он
+				даёт обращения с первой недели. Есть запас в несколько месяцев и дорогой клик в нише:
+				вкладывайтесь в <a href="/uslugi/seo/">продвижение сайта в поиске</a>. Трафик идёт, а
+				заявок мало: смотрите на сайт и учёт обращений, это
+				<a href="/uslugi/razrabotka-sajtov/">разработка</a> и
+				<a href="/uslugi/vnedrenie-crm/">CRM</a>. База клиентов лежит без дела: подключайте
+				<a href="/uslugi/email-marketing/">рассылки</a>.
 			</p>
 			<p>
-				Если сайт уже получает органический трафик и задача – не потерять позиции, подойдёт
+				Если вы не знаете, с чего начать по поиску, начните с
+				<a href="/uslugi/seo-audit-sajta/">аудита</a>: он показывает, что мешает сайту расти и
+				какие работы дадут наибольший эффект. По итогам собираем формат работы под задачу. Иногда
+				это полный цикл, иногда достаточно закрыть один участок.
+			</p>
+			<p>
+				Если сайт уже получает органический трафик и нужно удержать позиции, подойдёт
 				<a href="/uslugi/seo-abonentskoe-soprovozhdenie/">абонентское сопровождение</a>. Если у вас
 				есть своя команда и не хватает стратегии – <a href="/uslugi/seo-konsalting/">консалтинг</a>.
 				Если нужен результат без вашего участия в процессе –
@@ -121,6 +139,13 @@
 		</div>
 	</div>
 </section>
+
+<SeeAlso
+	cases={cases.filter((c) => c.turnkey).slice(0, 4)}
+	posts={posts.slice(0, 4)}
+	title="Кейсы и статьи"
+	alt
+/>
 
 <CtaBlock source="Каталог услуг" />
 

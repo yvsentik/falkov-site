@@ -5,12 +5,24 @@ export const abs = (path = '/') => site.url.replace(/\/$/, '') + path;
 /** Организация – выводится на каждой странице. */
 export function orgSchema() {
 	const data = {
-		'@type': 'ProfessionalService',
+		'@type': ['ProfessionalService', 'LocalBusiness'],
 		'@id': abs('/#organization'),
-		name: site.name,
-		description: `Маркетинговое агентство ${geo.cityIn}. Ведём проекты под ключ: поиск, контекст, Telegram, разработка и аналитика.`,
+		name: `Маркетинговое агентство «${site.name}»`,
+		alternateName: [site.name, 'Falkov Marketing'],
+		description: `Маркетинговое агентство полного цикла ${geo.cityIn}. Ведём проекты под ключ: продвижение сайтов, Яндекс Директ, Telegram Ads, разработка сайтов, CRM и email-рассылки.`,
 		url: abs('/'),
-		telephone: site.phone,
+		logo: abs('/icon-512.png'),
+		image: abs(site.ogImage),
+		telephone: site.phoneHref,
+		knowsAbout: [
+			'Интернет-маркетинг',
+			'Продвижение сайтов',
+			'Яндекс Директ',
+			'Telegram Ads',
+			'Разработка сайтов',
+			'CRM',
+			'Email-маркетинг'
+		],
 		priceRange: '₽₽',
 		areaServed: [{ '@type': 'City', name: geo.city }, { '@type': 'AdministrativeArea', name: 'Ленинградская область' }],
 		address: {
@@ -23,6 +35,13 @@ export function orgSchema() {
 		},
 		geo: { '@type': 'GeoCoordinates', latitude: site.address.lat, longitude: site.address.lon },
 		openingHours: 'Mo-Fr 10:00-19:00',
+		contactPoint: {
+			'@type': 'ContactPoint',
+			telephone: site.phoneHref,
+			contactType: 'sales',
+			areaServed: 'RU',
+			availableLanguage: 'ru'
+		},
 		sameAs: [site.telegram, site.vk].filter(Boolean)
 	};
 	if (site.rating.value && site.rating.count) {
@@ -58,26 +77,42 @@ export function faqSchema(faq) {
 	};
 }
 
-export function serviceSchema(service) {
-	return {
+/** Услуга. Блок offers выводится, только если у услуги есть цена числом.
+    path – для страниц направлений, которые лежат не в общем списке посадочных. */
+export function serviceSchema(service, path = `/uslugi/${service.slug}/`) {
+	const price = String(service.price?.from ?? '').replace(/[^0-9]/g, '');
+	const data = {
 		'@type': 'Service',
 		name: service.h1,
 		description: service.description,
 		serviceType: service.h1,
 		provider: { '@id': abs('/#organization') },
 		areaServed: { '@type': 'City', name: geo.city },
-		url: abs(`/uslugi/${service.slug}/`),
-		offers: {
+		url: abs(path)
+	};
+	if (price) {
+		data.offers = {
 			'@type': 'Offer',
 			priceCurrency: 'RUB',
-			price: String(service.price.from).replace(/[^0-9]/g, ''),
-			priceSpecification: {
-				'@type': 'PriceSpecification',
-				minPrice: String(service.price.from).replace(/[^0-9]/g, ''),
-				priceCurrency: 'RUB'
-			},
+			price,
+			priceSpecification: { '@type': 'PriceSpecification', minPrice: price, priceCurrency: 'RUB' },
 			availability: 'https://schema.org/InStock'
-		}
+		};
+	}
+	return data;
+}
+
+/** Список страниц раздела: хаб услуг, кейсы, блог. */
+export function itemListSchema(name, items) {
+	return {
+		'@type': 'ItemList',
+		name,
+		itemListElement: items.map((it, i) => ({
+			'@type': 'ListItem',
+			position: i + 1,
+			name: it.title,
+			url: abs(it.href)
+		}))
 	};
 }
 
@@ -88,6 +123,8 @@ export function articleSchema(post) {
 		description: post.description,
 		datePublished: post.date,
 		dateModified: post.date,
+		inLanguage: 'ru-RU',
+		image: abs(site.ogImage),
 		author: { '@type': 'Person', name: post.author },
 		publisher: { '@id': abs('/#organization') },
 		mainEntityOfPage: abs(`/blog/${post.slug}/`)

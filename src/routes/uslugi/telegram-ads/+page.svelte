@@ -4,6 +4,8 @@
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import Faq from '$lib/components/Faq.svelte';
 	import Arrow from '$lib/components/Arrow.svelte';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
+	import { casesForService, postsForService, serviceLink } from '$lib/data/links.js';
 	import { reveal } from '$lib/actions.js';
 	import { site, geo } from '$lib/config/site.js';
 	import { tgProjects } from '$lib/data/directions.js';
@@ -59,7 +61,7 @@
 </script>
 
 <Seo
-	title="Telegram Ads и ведение каналов – реклама в Telegram | Агентство Фальков"
+	title="Реклама в Telegram Ads – настройка рекламы и ведение каналов | Фальков"
 	description="Реклама в Telegram Ads и комплексное ведение каналов: закупка, посевы, контент и воронка до заявки. 7 клиентских каналов на постоянном ведении – от люксовой посуды до сельхозтехники."
 	{path}
 	{schema}
@@ -72,7 +74,7 @@
 			<div class="shead__grid">
 				<div>
 					<span class="eyebrow">Направление 03</span>
-					<h1>Telegram Ads и ведение каналов</h1>
+					<h1>Реклама в Telegram Ads и ведение каналов</h1>
 					<p class="lead">
 						Каналы ниже – наши проекты на комплексном ведении: реклама, посевы, контент и
 						воронка до заявки на одной стороне. Ниши разные – от люксовой посуды и
@@ -209,6 +211,12 @@
 			<Faq items={faq} />
 		</div>
 	</section>
+
+	<SeeAlso
+		services={['/uslugi/kompleksnyj-internet-marketing/', '/uslugi/direkt/', '/uslugi/email-marketing/'].map(serviceLink)}
+		cases={casesForService('/uslugi/telegram-ads/')}
+		posts={postsForService('/uslugi/telegram-ads/')}
+	/>
 
 	<CtaBlock
 		title="Разберём ваш канал и нишу"

@@ -108,17 +108,17 @@ export const nav = [
 		title: 'Услуги',
 		href: '/uslugi/',
 		children: [
-			{ title: 'SEO-продвижение сайта', href: '/uslugi/seo-prodvizhenie-sajta/' },
-			{ title: 'SEO-продвижение', href: '/uslugi/seo/' },
+			{ title: 'Маркетинг под ключ', href: '/uslugi/kompleksnyj-internet-marketing/' },
+			{ title: 'Продвижение сайтов', href: '/uslugi/seo/' },
 			{ title: 'Яндекс Директ', href: '/uslugi/direkt/' },
 			{ title: 'Telegram Ads', href: '/uslugi/telegram-ads/' },
-			{ title: 'SEO под ключ', href: '/uslugi/seo-pod-klyuch/' },
+			{ title: 'Разработка сайтов', href: '/uslugi/razrabotka-sajtov/' },
+			{ title: 'Внедрение CRM', href: '/uslugi/vnedrenie-crm/' },
+			{ title: 'Email-маркетинг', href: '/uslugi/email-marketing/' },
 			{ title: 'Продвижение интернет-магазина', href: '/uslugi/prodvizhenie-internet-magazina/' },
-			{ title: 'Продвижение в Яндексе', href: '/uslugi/prodvizhenie-v-yandex/' },
-			{ title: 'Продвижение в Google', href: '/uslugi/prodvizhenie-v-google/' },
 			{ title: 'Продвижение в нейросетях (GEO)', href: '/uslugi/prodvizhenie-v-nejrosetyah/' },
 			{ title: 'SEO-аудит сайта', href: '/uslugi/seo-audit-sajta/' },
-			{ title: 'Все 50 услуг', href: '/uslugi/' }
+			{ title: 'Все услуги', href: '/uslugi/' }
 		]
 	},
 	{ title: 'Кейсы', href: '/keysy/' },
@@ -127,6 +127,7 @@ export const nav = [
 		href: '/o-nas/',
 		children: [
 			{ title: 'О нас', href: '/o-nas/' },
+			{ title: 'Блог', href: '/blog/' },
 			{ title: 'Отзывы', href: '/otzyvy/' },
 			{ title: 'Контакты', href: '/kontakty/' }
 		]

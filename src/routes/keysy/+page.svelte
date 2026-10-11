@@ -5,18 +5,35 @@
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import { reveal } from '$lib/actions.js';
 	import { cases } from '$lib/data/cases.js';
-	import { graph, orgSchema, breadcrumbSchema } from '$lib/seo.js';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
+	import { posts } from '$lib/data/posts.js';
+	import { serviceLink } from '$lib/data/links.js';
+	import { graph, orgSchema, breadcrumbSchema, itemListSchema } from '$lib/seo.js';
 
 	const crumbs = [
 		{ title: 'Главная', href: '/' },
 		{ title: 'Кейсы', href: '/keysy/' }
 	];
-	const schema = graph(orgSchema(), breadcrumbSchema(crumbs));
+	const schema = graph(
+		orgSchema(),
+		breadcrumbSchema(crumbs),
+		itemListSchema(
+			'Кейсы агентства',
+			cases.map((c) => ({ title: `${c.client} – ${c.industry}`, href: `/keysy/${c.slug}/` }))
+		)
+	);
+	const alsoServices = [
+		'/uslugi/kompleksnyj-internet-marketing/',
+		'/uslugi/seo/',
+		'/uslugi/direkt/',
+		'/uslugi/telegram-ads/',
+		'/uslugi/razrabotka-sajtov/'
+	].map(serviceLink);
 </script>
 
 <Seo
 	title="Кейсы маркетингового агентства в СПб – 45+ проектов с цифрами"
-	description="Кейсы SEO-агентства в СПб: интернет-магазин, стоматология, производство, ремонт квартир, автосервис. Исходные данные, состав работ, сроки и измеримые результаты."
+	description="Кейсы агентства «Фальков»: интернет-магазины, юристы, медицина, производство, спецтехника, автоуслуги. Задача, состав работ и результат в цифрах. У проектов под ключ позиции можно проверить в поиске."
 	path="/keysy/"
 	{schema}
 />
@@ -44,5 +61,7 @@
 		</div>
 	</div>
 </section>
+
+<SeeAlso services={alsoServices} posts={posts.slice(0, 4)} title="Услуги и статьи по теме" alt />
 
 <CtaBlock source="Кейсы" title="Хотите такой же результат?" />

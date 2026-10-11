@@ -5,10 +5,12 @@
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import Faq from '$lib/components/Faq.svelte';
 	import Arrow from '$lib/components/Arrow.svelte';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
+	import { casesForService, postsForService, serviceLink } from '$lib/data/links.js';
 	import { reveal } from '$lib/actions.js';
 	import { site, geo } from '$lib/config/site.js';
 	import { services } from '$lib/data/services/index.js';
-	import { categories } from '$lib/data/categories.js';
+	import { seoCategories as categories } from '$lib/data/categories.js';
 	import { cases } from '$lib/data/cases.js';
 	import { rankings } from '$lib/data/rankings.js';
 	import { testSteps } from '$lib/data/channel.js';
@@ -122,8 +124,8 @@
 </script>
 
 <Seo
-	title="SEO-продвижение сайтов в Санкт-Петербурге – цены от 50 000 ₽ | Фальков"
-	description="SEO-продвижение сайтов в СПб и по России: вывод коммерческих запросов в топ Яндекса и Google, техническая оптимизация, структура, контент, ссылки. Бесплатный тест до договора, позиции можно проверить руками."
+	title="Продвижение сайтов в Санкт-Петербурге – SEO в Яндексе и Google | Фальков"
+	description="Продвижение сайтов в СПб и по России: выводим коммерческие запросы в топ Яндекса и Google, ведём проект до заявок. Бесплатный тест до договора, позиции наших проектов можно проверить руками."
 	{path}
 	{schema}
 />
@@ -135,7 +137,7 @@
 			<div class="shead__grid">
 				<div>
 					<span class="eyebrow">Направление 01</span>
-					<h1>SEO-продвижение сайтов в Санкт-Петербурге</h1>
+					<h1>Продвижение сайтов в Санкт-Петербурге</h1>
 					<p class="lead">
 						Выводим коммерческие запросы в топ Яндекса и Google и отвечаем за трафик и обращения.
 						Позиции наших проектов можно проверить руками – мы для этого
@@ -302,6 +304,12 @@
 			<Faq items={faq} />
 		</div>
 	</section>
+
+	<SeeAlso
+		services={['/uslugi/direkt/', '/uslugi/kompleksnyj-internet-marketing/', '/uslugi/razrabotka-sajtov/'].map(serviceLink)}
+		cases={casesForService('/uslugi/seo/')}
+		posts={postsForService('/uslugi/seo/')}
+	/>
 
 	<CtaBlock
 		title="Покажем, что вытащим из вашей ниши"

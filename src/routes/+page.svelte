@@ -2,14 +2,18 @@
 	import Seo from '$lib/components/Seo.svelte';
 	import { reveal } from '$lib/actions.js';
 	import { site, geo, stats } from '$lib/config/site.js';
-	import { categories } from '$lib/data/categories.js';
+	import { categories, seoCategories } from '$lib/data/categories.js';
 	import { services, featuredServices } from '$lib/data/services/index.js';
 	import { cases } from '$lib/data/cases.js';
 	import { clients } from '$lib/data/clients.js';
 	import { mainServices } from '$lib/data/main-services.js';
 	import { rankings } from '$lib/data/rankings.js';
 	import { generalFaq } from '$lib/data/faq.js';
-	import { scope, timing, guarantees, spb, compare } from '$lib/data/agency.js';
+	import { scope, timing, guarantees, spb, compare, prices } from '$lib/data/agency.js';
+	import { posts } from '$lib/data/posts.js';
+	import { reviews, reviewsVerified } from '$lib/data/reviews.js';
+	import { directions } from '$lib/data/directions.js';
+	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import {
 		testSteps,
 		principles,
@@ -18,21 +22,27 @@
 		nicheGroups,
 		officePhotos
 	} from '$lib/data/channel.js';
-	import { graph, orgSchema, faqSchema, breadcrumbSchema } from '$lib/seo.js';
+	import { graph, orgSchema, faqSchema, breadcrumbSchema, itemListSchema } from '$lib/seo.js';
 	import { lead } from '$lib/lead.svelte.js';
 
-	const title = `Маркетинговое агентство в Санкт-Петербурге – продвижение сайтов, реклама, разработка | ${site.name}`;
+	const title = `Маркетинговое агентство в Санкт-Петербурге – интернет-маркетинг под ключ | ${site.name}`;
 	const description =
-		'Маркетинговое агентство полного цикла в Санкт-Петербурге: продвижение сайтов в Яндексе и Google, Директ, Telegram Ads, разработка. Ведём проекты под ключ. Начинаем с бесплатного теста.';
+		'Маркетинговое агентство полного цикла в СПб: продвижение сайтов, Яндекс Директ, Telegram Ads, разработка сайтов, CRM и рассылки. Ведение от 50 000 ₽ в месяц, бесплатный тест до договора.';
 
 	const schema = graph(
 		orgSchema(),
 		breadcrumbSchema([{ title: 'Главная', href: '/' }]),
 		faqSchema(generalFaq),
+		itemListSchema('Услуги маркетингового агентства', [
+			{ title: 'Комплексный интернет-маркетинг под ключ', href: '/uslugi/kompleksnyj-internet-marketing/' },
+			...directions.map((d) => ({ title: d.title, href: d.href }))
+		]),
 		{
 			'@type': 'WebSite',
-			name: site.name,
-			url: site.url,
+			'@id': site.url + '/#website',
+			name: `Маркетинговое агентство «${site.name}»`,
+			alternateName: site.name,
+			url: site.url + '/',
 			inLanguage: 'ru-RU',
 			publisher: { '@id': site.url + '/#organization' }
 		}
@@ -41,6 +51,7 @@
 	const menu = [
 		{ t: 'Услуги', h: '/uslugi/' },
 		{ t: 'Кейсы', h: '/keysy/' },
+		{ t: 'Блог', h: '/blog/' },
 		{ t: 'Агентство', h: '/o-nas/' },
 		{ t: 'Контакты', h: '/kontakty/' }
 	];
@@ -48,10 +59,25 @@
 	/* Три основных направления – большие кнопки блока «Услуги». */
 	const bigServices = [
 		{ t: 'SEO', d: 'Поиск, структура, тексты, ссылки. Ведём до позиций и заявок.', h: '/uslugi/seo/' },
-		{ t: 'Разработка', d: 'Сайты и магазины, которые сразу собраны под продвижение.', h: '/kontakty/' },
 		{ t: 'Директ', d: 'Один платёж на старте, дальше – процент от прибыли. Без абонентки.', h: '/uslugi/direkt/' },
-		{ t: 'Telegram Ads', d: 'Закупка, посевы и контент. 7 клиентских каналов на ведении.', h: '/uslugi/telegram-ads/' }
+		{ t: 'Telegram Ads', d: 'Закупка, посевы и контент. 7 клиентских каналов на ведении.', h: '/uslugi/telegram-ads/' },
+		{ t: 'Разработка', d: 'Сайты и магазины, сразу собранные под рекламу и поиск.', h: '/uslugi/razrabotka-sajtov/' },
+		{ t: 'CRM', d: 'Все заявки в одной системе, у каждой сделки виден источник.', h: '/uslugi/vnedrenie-crm/' },
+		{ t: 'Email', d: 'Рассылки по своей базе: дожимаем заявки и возвращаем клиентов.', h: '/uslugi/email-marketing/' }
 	];
+
+	/* Короткий список каналов под вводным абзацем. */
+	const channelLinks = [
+		{ t: 'Маркетинг под ключ', h: '/uslugi/kompleksnyj-internet-marketing/' },
+		{ t: 'Продвижение сайтов', h: '/uslugi/seo/' },
+		{ t: 'Яндекс Директ', h: '/uslugi/direkt/' },
+		{ t: 'Telegram Ads', h: '/uslugi/telegram-ads/' },
+		{ t: 'Разработка сайтов', h: '/uslugi/razrabotka-sajtov/' },
+		{ t: 'Внедрение CRM', h: '/uslugi/vnedrenie-crm/' },
+		{ t: 'Email-маркетинг', h: '/uslugi/email-marketing/' }
+	];
+	const blogPosts = posts.slice(0, 4);
+	const homeReviews = reviewsVerified ? reviews.slice(0, 3) : [];
 
 	let menuOpen = $state(false);
 	let scrolled = $state(false);
@@ -151,7 +177,9 @@
 	<!-- СЛУЖЕБНАЯ СТРОКА -->
 	<div class="fk-utilbar">
 		<div class="fk-util">
-			<span>{geo.city}</span>
+			<span>
+				<span class="fk-util__city">{geo.city} · </span><a href="tel:{site.phoneHref}">{site.phone}</a>
+			</span>
 			<a class="fk-util__mid" href={site.telegramChannel} target="_blank" rel="noopener">
 				Канал агентства {site.telegramLabel}
 			</a>
@@ -328,6 +356,27 @@
 		</div>
 	</section>
 
+	<!-- КТО МЫ: короткий ответ на запрос -->
+	<section class="fk-sec fk-sec--tight" id="ob-agentstve">
+		<h2>Агентство интернет-маркетинга полного цикла</h2>
+		<p class="fk-sec__lead">
+			«{site.name}» – маркетинговое агентство {geo.cityIn}. Приводим малому и среднему бизнесу
+			обращения из поиска, Яндекс Директа и Telegram, делаем сайты, настраиваем CRM и рассылки.
+			Работаем как digital-агентство полного цикла: можно взять один канал, можно отдать весь
+			маркетинг под ключ и получать один отчёт со стоимостью заявки по каждому каналу.
+		</p>
+		<p class="fk-sec__lead">
+			Начинаем с бесплатного теста и показываем рост на вашем сайте до договора. Ведение проекта
+			стоит от 50 000 ₽ в месяц, Директ ведём за процент от прибыли. Офис на {site.address.street}:
+			встречаемся лично и показываем проекты с экрана.
+		</p>
+		<div class="fk-chips fk-chips--lead">
+			{#each channelLinks as c}
+				<a class="fk-chip" href={c.h}>{c.t}</a>
+			{/each}
+		</div>
+	</section>
+
 	<!-- ВЕДЕНИЕ ПОД КЛЮЧ -->
 	<section class="fk-sec" id="pod-klyuch">
 		<div class="fk-sec__head">
@@ -409,9 +458,9 @@
 	<!-- УСЛУГИ: три больших направления -->
 	<section class="fk-sec" id="uslugi">
 		<div class="fk-sec__head">
-			<h2>Услуги</h2>
+			<h2>Услуги маркетингового агентства</h2>
 			<p class="fk-note">
-				Четыре направления, которыми закрываем маркетинг. Можно взять одно, можно отдать всё целиком.
+				Шесть направлений, которыми закрываем маркетинг. Можно взять одно, можно отдать всё целиком.
 			</p>
 		</div>
 		<div class="fk-big">
@@ -425,7 +474,8 @@
 			{/each}
 		</div>
 		<div class="fk-big__cta" use:reveal>
-			<a class="fk-pill fk-pill--solid" href="/keysy/">Смотреть условия и кейсы</a>
+			<a class="fk-pill fk-pill--solid" href="/uslugi/">Все услуги и цены</a>
+			<a class="fk-pill" href="/keysy/">Смотреть кейсы</a>
 		</div>
 	</section>
 
@@ -602,7 +652,7 @@
 
 		<h3 class="fk-subh">Направления поискового продвижения</h3>
 		<div class="fk-chips">
-			{#each categories as c}
+			{#each seoCategories as c}
 				<a class="fk-chip" href="/uslugi/#{c.slug}">{c.title}</a>
 			{/each}
 			<a class="fk-chip fk-chip--all" href="/uslugi/">Все {services.length} услуг →</a>
@@ -637,7 +687,7 @@
 			<a class="fk-more" href="/uslugi/">Все услуги →</a>
 		</div>
 		<div class="fk-dirs">
-			{#each categories as c, i}
+			{#each seoCategories as c, i}
 				<a href="/uslugi/#{c.slug}" use:reveal={{ delay: i * 50 }}>
 					<span>{c.title}</span>
 					<i>{c.lead}</i>
@@ -680,7 +730,6 @@
 
 	<!-- ЧТО ДЕЛАЕТ АГЕНТСТВО -->
 	<section class="fk-sec fk-sec--tight" id="chto-delaem">
-		<span class="fk-eyebrow">Полный цикл</span>
 		<h2>Что делает маркетинговое агентство полного цикла</h2>
 		<p class="fk-sec__lead">
 			Полный цикл означает, что канал ведём целиком: от сбора спроса и настройки рекламы до
@@ -700,7 +749,6 @@
 
 	<!-- СРОКИ -->
 	<section class="fk-sec fk-sec--tight" id="sroki">
-		<span class="fk-eyebrow">Сроки</span>
 		<h2>Когда ждать результат</h2>
 		<p class="fk-sec__lead">
 			Сроки зависят от канала. Контекст даёт заявки сразу, поиск разгоняется месяцами. Вот
@@ -719,7 +767,6 @@
 
 	<!-- ГАРАНТИИ -->
 	<section class="fk-sec fk-sec--tight" id="garantii">
-		<span class="fk-eyebrow">Обязательства</span>
 		<h2>Что фиксируем в договоре</h2>
 		<div class="fk-guar">
 			{#each guarantees as g}
@@ -733,7 +780,6 @@
 
 	<!-- ПЕТЕРБУРГ -->
 	<section class="fk-sec fk-sec--tight" id="spb">
-		<span class="fk-eyebrow">Петербург</span>
 		<h2>Что учитываем в продвижении по Санкт-Петербургу</h2>
 		<div class="fk-guar">
 			{#each spb as g}
@@ -747,7 +793,6 @@
 
 	<!-- СРАВНЕНИЕ -->
 	<section class="fk-sec fk-sec--tight" id="sravnenie">
-		<span class="fk-eyebrow">Выбор</span>
 		<h2>Агентство, фрилансер или штатный специалист</h2>
 		<div class="fk-cmp">
 			<table>
@@ -771,7 +816,6 @@
 
 	<!-- СКОЛЬКО СТОИТ -->
 	<section class="fk-sec fk-sec--tight" id="ceny">
-		<span class="fk-eyebrow">Деньги</span>
 		<h2>Сколько стоит работа с нами</h2>
 		<div class="fk-price">
 			<div class="fk-price__main">
@@ -805,9 +849,57 @@
 		</div>
 	</section>
 
+	<!-- ЦЕНЫ ПО НАПРАВЛЕНИЯМ -->
+	<section class="fk-sec fk-sec--tight" id="ceny-po-napravleniyam">
+		<h2>Цены по направлениям</h2>
+		<div class="fk-guar">
+			{#each prices as pr}
+				<a class="fk-guar__i fk-pr" href={pr.href} use:reveal>
+					<span class="fk-pr__t">{pr.t}</span>
+					<b>{pr.v}</b>
+					<p>{pr.p}</p>
+				</a>
+			{/each}
+		</div>
+	</section>
+
+	{#if homeReviews.length}
+		<!-- ОТЗЫВЫ -->
+		<section class="fk-sec fk-sec--tight" id="otzyvy">
+			<div class="fk-sec__head">
+				<h2>Отзывы клиентов</h2>
+				<a class="fk-more" href="/otzyvy/">Все отзывы →</a>
+			</div>
+			<div class="fk-guar">
+				{#each homeReviews as r}
+					<figure class="fk-guar__i fk-rev" use:reveal>
+						<blockquote>{r.text}</blockquote>
+						<figcaption><b>{r.name}</b><span>{r.role}</span></figcaption>
+					</figure>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
+	<!-- БЛОГ -->
+	<section class="fk-sec fk-sec--tight" id="blog">
+		<div class="fk-sec__head">
+			<h2>Разборы в блоге</h2>
+			<a class="fk-more" href="/blog/">Все статьи →</a>
+		</div>
+		<div class="fk-guar">
+			{#each blogPosts as bp}
+				<a class="fk-guar__i fk-pr" href="/blog/{bp.slug}/" use:reveal>
+					<span class="fk-pr__t">{bp.tag} · {bp.readTime}</span>
+					<h3>{bp.title}</h3>
+					<p>{bp.lead}</p>
+				</a>
+			{/each}
+		</div>
+	</section>
+
 	<!-- ЧАСТЫЕ ВОПРОСЫ -->
 	<section class="fk-sec fk-sec--tight" id="voprosy">
-		<span class="fk-eyebrow">Вопросы</span>
 		<h2>Частые вопросы о работе агентства</h2>
 		<div class="fk-faq">
 			{#each generalFaq as item}
@@ -819,13 +911,21 @@
 		</div>
 	</section>
 
+	<!-- ФОРМА ЗАЯВКИ -->
+	<div class="fk-form" id="zayavka">
+		<CtaBlock source="Главная" title="Разберём ваш сайт и рекламу бесплатно" />
+	</div>
+
 	<!-- ПОДВАЛ -->
 	<footer class="fk-foot">
 		<div class="fk-foot__cols">
 			<div>
 				<span class="fk-foot__h">Услуги</span>
-				{#each featuredServices.slice(0, 6) as s}
-					<a href="/uslugi/{s.slug}/">{s.h1}</a>
+				<a href="/uslugi/seo/">Продвижение сайтов</a>
+				<a href="/uslugi/direkt/">Яндекс Директ</a>
+				<a href="/uslugi/telegram-ads/">Telegram Ads</a>
+				{#each featuredServices.slice(0, 4) as s}
+					<a href="/uslugi/{s.slug}/">{s.nav ?? s.h1}</a>
 				{/each}
 				<a href="/uslugi/">Все {services.length} услуг</a>
 			</div>
@@ -840,6 +940,7 @@
 				<a href="/o-nas/">О нас</a>
 				<a href="/keysy/">Кейсы</a>
 				<a href="/blog/">Блог</a>
+				<a href="/otzyvy/">Отзывы</a>
 				<a href="/kontakty/">Контакты</a>
 			</div>
 			<div>
@@ -1017,6 +1118,9 @@
 	}
 	.fk-util > :last-child {
 		justify-self: end;
+	}
+	.fk-util > span a {
+		color: var(--ink);
 	}
 	.fk-util__mid {
 		text-decoration: underline !important;
@@ -1199,8 +1303,18 @@
 	/* блок «Услуги» – три большие кнопки */
 	.fk-big {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: clamp(12px, 1.4vw, 20px);
+	}
+	@media (max-width: 900px) {
+		.fk-big {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+	@media (max-width: 560px) {
+		.fk-big {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 	.fk-big__i {
 		position: relative;
@@ -1278,6 +1392,8 @@
 	.fk-big__cta {
 		margin-top: clamp(18px, 2vw, 28px);
 		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
 		justify-content: center;
 	}
 	.fk-pill--sm {
@@ -2745,6 +2861,67 @@
 			grid-template-columns: 1fr;
 		}
 	}
+	/* карточки-ссылки: цены по направлениям и статьи блога */
+	.fk-chips--lead {
+		margin-top: 20px;
+	}
+	.fk-pr {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		transition: border-color 0.25s;
+	}
+	.fk-pr__t {
+		font-size: 10.5px;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--ink-3);
+	}
+	.fk-pr b {
+		font-size: clamp(19px, 1.9vw, 24px);
+		font-weight: 400;
+		line-height: 1.15;
+	}
+	.fk-pr h3 {
+		margin: 0;
+		font-size: 17px;
+		font-weight: 500;
+		line-height: 1.3;
+	}
+	.fk-pr p {
+		margin: 0;
+		font-size: 14px;
+		line-height: 1.55;
+		color: var(--ink-2);
+	}
+	@media (hover: hover) and (pointer: fine) {
+		.fk-pr:hover {
+			border-color: var(--ink);
+		}
+	}
+	.fk-rev {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+	}
+	.fk-rev blockquote {
+		margin: 0;
+		font-size: 14.5px;
+		line-height: 1.6;
+		color: var(--ink-2);
+	}
+	.fk-rev figcaption {
+		display: grid;
+		gap: 2px;
+		font-size: 13px;
+	}
+	.fk-rev figcaption span {
+		color: var(--ink-3);
+	}
+	.fk-form {
+		margin-top: clamp(24px, 3vw, 40px);
+	}
 	.fk-faq {
 		display: grid;
 		gap: 10px;
@@ -2987,7 +3164,8 @@
 			grid-template-columns: auto auto;
 			font-size: 9.5px;
 		}
-		.fk-util__mid {
+		.fk-util__mid,
+		.fk-util__city {
 			display: none;
 		}
 		.fk-logo {

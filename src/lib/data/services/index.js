@@ -1,11 +1,12 @@
+import { marketing } from './marketing.js';
 import { osnovnye } from './osnovnye.js';
 import { tipySajtov } from './tipy-sajtov.js';
 import { cms } from './cms.js';
 import { nishi } from './nishi.js';
 import { raboty } from './raboty.js';
 
-/** Все 50 посадочных страниц услуг. */
-export const services = [...osnovnye, ...tipySajtov, ...cms, ...nishi, ...raboty];
+/** Все посадочные страницы услуг. Маркетинговые идут первыми: это верхний уровень предложения. */
+export const services = [...marketing, ...osnovnye, ...tipySajtov, ...cms, ...nishi, ...raboty];
 
 export const serviceBySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
 

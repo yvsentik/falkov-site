@@ -5,6 +5,7 @@
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import ServiceCard from '$lib/components/ServiceCard.svelte';
 	import Arrow from '$lib/components/Arrow.svelte';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
 	import { reveal } from '$lib/actions.js';
 	import { serviceBySlug } from '$lib/data/services/index.js';
 	import { graph, orgSchema, breadcrumbSchema, faqSchema, serviceSchema } from '$lib/seo.js';
@@ -37,7 +38,11 @@
 					<p class="lead shead__lead">{s.lead}</p>
 					<div class="shead__actions">
 						<a class="btn" href="/kontakty/">Обсудить проект <Arrow /></a>
-						<a class="btn btn--ghost" href="/uslugi/seo-audit-sajta/">Начать с аудита</a>
+						{#if s.cat === 'marketing'}
+							<a class="btn btn--ghost" href="/keysy/">Смотреть кейсы</a>
+						{:else if s.slug !== 'seo-audit-sajta'}
+							<a class="btn btn--ghost" href="/uslugi/seo-audit-sajta/">Начать с аудита</a>
+						{/if}
 					</div>
 				</div>
 				<aside class="shead__card">
@@ -110,7 +115,7 @@
 				</div>
 				<div>
 					<p class="lead">
-						Конкретный набор под ваш проект утверждается после аудита – здесь базовый состав,
+						Конкретный набор под ваш проект утверждается после разбора. Здесь базовый состав,
 						который входит в услугу по умолчанию.
 					</p>
 				</div>
@@ -197,6 +202,7 @@
 			</div>
 		</section>
 	{/if}
+	<SeeAlso cases={data.cases} posts={data.posts} title="Кейсы и статьи по теме" />
 </article>
 
 <CtaBlock source={s.h1} title="Обсудим ваш проект" />

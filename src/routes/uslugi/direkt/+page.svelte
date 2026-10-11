@@ -4,6 +4,8 @@
 	import CtaBlock from '$lib/components/CtaBlock.svelte';
 	import Faq from '$lib/components/Faq.svelte';
 	import Arrow from '$lib/components/Arrow.svelte';
+	import SeeAlso from '$lib/components/SeeAlso.svelte';
+	import { casesForService, postsForService, serviceLink } from '$lib/data/links.js';
 	import { reveal } from '$lib/actions.js';
 	import { site, geo } from '$lib/config/site.js';
 	import { graph, orgSchema, breadcrumbSchema, faqSchema } from '$lib/seo.js';
@@ -87,7 +89,7 @@
 </script>
 
 <Seo
-	title="Яндекс Директ с оплатой из прибыли – контекстная реклама в СПб | Фальков"
+	title="Настройка Яндекс Директа в СПб – ведение с оплатой из прибыли | Фальков"
 	description="Настройка и ведение Яндекс Директа без абонентской платы: один платёж на старте, дальше процент от прибыли, которую принесла наша настройка. Скриншоты расходов и выручки – в Telegram-канале агентства."
 	{path}
 	{schema}
@@ -100,7 +102,7 @@
 			<div class="shead__grid">
 				<div>
 					<span class="eyebrow">Направление 02</span>
-					<h1>Яндекс Директ с оплатой из прибыли</h1>
+					<h1>Настройка и ведение Яндекс Директа с оплатой из прибыли</h1>
 					<p class="lead">
 						Мы не работаем на абонентке. Клиент платит один раз на старте, дальше – только
 						процент от прибыли, которую принесла наша настройка. Никакого «заплатили, а мы
@@ -233,6 +235,12 @@
 			</p>
 		</div>
 	</section>
+
+	<SeeAlso
+		services={['/uslugi/kontekstnaya-reklama/', '/uslugi/seo/', '/uslugi/kompleksnyj-internet-marketing/', '/uslugi/vnedrenie-crm/'].map(serviceLink)}
+		cases={casesForService('/uslugi/direkt/')}
+		posts={postsForService('/uslugi/direkt/')}
+	/>
 
 	<CtaBlock
 		title="Посчитаем, сходится ли экономика"
