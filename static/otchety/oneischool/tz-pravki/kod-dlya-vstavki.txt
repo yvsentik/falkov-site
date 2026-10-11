@@ -1,0 +1,142 @@
+oneischool.com. Готовый код для пунктов ТЗ, где макет не нужен
+================================================================
+
+1. Старый поддомен (пункт 4 ТЗ). Конфигурация nginx
+----------------------------------------------------
+server {
+    listen 443 ssl;
+    server_name old.oneischool.com;
+    # сертификаты оставить прежние
+    return 301 https://oneischool.com$request_uri;
+}
+server {
+    listen 80;
+    server_name old.oneischool.com;
+    return 301 https://oneischool.com$request_uri;
+}
+Проверка: https://old.oneischool.com/chastnye-shkoly/ должен отдавать код 301 и адрес https://oneischool.com/chastnye-shkoly/
+
+2. Карточки педагогов и событий (пункт 5 ТЗ). functions.php темы
+-----------------------------------------------------------------
+// убрать педагогов, события и пользователей из карты сайта
+add_filter('wp_sitemaps_post_types', function ($types) {
+    unset($types['pedagog'], $types['event']);
+    return $types;
+});
+add_filter('wp_sitemaps_add_provider', function ($provider, $name) {
+    return $name === 'users' ? false : $provider;
+}, 10, 2);
+
+// noindex, follow вместо noindex, nofollow
+add_filter('wp_robots', function ($robots) {
+    if (is_singular(['pedagog', 'event'])) {
+        $robots['noindex'] = true;
+        $robots['follow']  = true;
+        unset($robots['nofollow'], $robots['index']);
+    }
+    return $robots;
+});
+Проверка: в https://oneischool.com/wp-sitemap.xml не должно остаться строк posts-pedagog, posts-event и users.
+
+3. Canonical (пункт 8 ТЗ). functions.php темы
+----------------------------------------------
+// страницы пагинации блога ссылаются сами на себя
+add_filter('get_canonical_url', function ($url) {
+    if (is_paged()) {
+        return get_pagenum_link(get_query_var('paged'));
+    }
+    return $url;
+});
+// фильтр ?category= закрыть от индексации
+add_filter('wp_robots', function ($robots) {
+    if (isset($_GET['category'])) {
+        $robots['noindex'] = true;
+        $robots['follow']  = true;
+    }
+    return $robots;
+});
+Если canonical выводится в шаблоне темы вручную, поправить там же: на /blog/page/N/ ставить адрес самой страницы.
+Добавить canonical на: /dopolnitelnoe-obrazovanie/, /teachers/, /blog/category/stati/,
+/blog/category/novosti-horoshevskiy/, /blog/category/novosti-mosfilmovskiy/
+
+4. Микроразметка (пункт 10 ТЗ). Вставить в <head>
+--------------------------------------------------
+4.1. На все страницы
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"EducationalOrganization",
+ "name":"ONE! International School","url":"https://oneischool.com/",
+ "logo":"https://oneischool.com/wp-content/themes/one-school/assets/img/logo-navy.png",
+ "telephone":"+7-495-152-22-21","email":"admissions@oneischool.com",
+ "sameAs":["https://t.me/oneschoolnews"]}
+</script>
+
+4.2. На страницу каждого кампуса (пять страниц). Пример для школы в ЖК «Хорошёвский»
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"School",
+ "name":"Частная школа ONE! в ЖК «Хорошёвский»",
+ "url":"https://oneischool.com/chastnye-shkoly/horoshyovskaya/",
+ "telephone":"+7-495-152-22-21",
+ "address":{"@type":"PostalAddress","addressLocality":"Москва","streetAddress":"ул. 3-я Хорошёвская, 27А","addressCountry":"RU"},
+ "geo":{"@type":"GeoCoordinates","latitude":"ШИРОТА","longitude":"ДОЛГОТА"},
+ "openingHours":"Mo-Su 09:00-21:00",
+ "parentOrganization":{"@type":"EducationalOrganization","name":"ONE! International School","url":"https://oneischool.com/"}}
+</script>
+Остальные кампусы по тому же образцу:
+- /chastnye-shkoly/mosfilmovskaya/          School     ул. Мосфильмовская, 88к3
+- /chastnye-detskie-sady/horoshyovskaya/    Preschool  ул. 3-я Хорошёвская, 23с3
+- /chastnye-detskie-sady/mayakovskaya/      Preschool  ул. Гашека, 6
+- /chastnye-detskie-sady/ramenki/           Preschool  ул. Мосфильмовская, 88с1
+Координаты взять с карты на странице контактов кампуса.
+
+4.3. Хлебные крошки на вложенных страницах. Пример для кампуса
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+ {"@type":"ListItem","position":1,"name":"Главная","item":"https://oneischool.com/"},
+ {"@type":"ListItem","position":2,"name":"Частные школы","item":"https://oneischool.com/chastnye-shkoly/"},
+ {"@type":"ListItem","position":3,"name":"Школа в ЖК «Хорошёвский»","item":"https://oneischool.com/chastnye-shkoly/horoshyovskaya/"}]}
+</script>
+
+4.4. Цены на странице /stoimost-obucheniya/
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Обучение в частной школе ONE!",
+ "provider":{"@type":"EducationalOrganization","name":"ONE! International School"},
+ "offers":[
+  {"@type":"Offer","name":"Начальная школа, 1–4 классы","price":"146000","priceCurrency":"RUB"},
+  {"@type":"Offer","name":"Средняя школа, 5–9 классы","price":"149000","priceCurrency":"RUB"},
+  {"@type":"Offer","name":"Старшая школа, 10–11 классы","price":"157000","priceCurrency":"RUB"},
+  {"@type":"Offer","name":"Детский сад, билингвальная группа","price":"154000","priceCurrency":"RUB"},
+  {"@type":"Offer","name":"Детский сад, международная группа","price":"174000","priceCurrency":"RUB"}]}
+</script>
+
+4.5. Вопросы и ответы на хабах: разметка FAQPage уже есть в коде макетов блога, взять по образцу
+из файла blog/<любая статья>/index.html, блок <script type="application/ld+json"> с "@type":"FAQPage".
+
+Проверка разметки: https://validator.schema.org/
+
+5. Битые ссылки и ссылки на редиректы (пункт 7 ТЗ)
+---------------------------------------------------
+Убрать или заменить:
+/shkolnaya-forma-one/      ссылка на странице /chastnye-shkoly/horoshyovskaya/
+/dokumenty-shkol-one/      ссылка на странице /chastnye-shkoly/
+/otdyh-s-one-v-istre/      ссылка в статье /blog/chem-zanyat-rebenka-letom/
+
+Переписать на конечные адреса:
+/shkola-horoshevskiy-kontakty/   ->  /chastnye-shkoly/horoshyovskaya/kontakty-v-zhk-horoshevskij/
+/shkola-mosfilmovskiy-kontakty/  ->  /chastnye-shkoly/mosfilmovskaya/kontakty-v-zhk-mosfilmovskij/
+/sad-horoshevskiy-kontakty/      ->  /chastnye-detskie-sady/horoshyovskaya/kontakty-na-horoshevskom-sad/
+/sad-mayakovskaya-kontakty/      ->  /chastnye-detskie-sady/mayakovskaya/kontakty-na-mayakovskoj/
+/sad-mosfilmovskiy-kontakty/     ->  /chastnye-detskie-sady/ramenki/kontakty-na-mosfilmovskoj/
+   (все пять: страница /contact/ и страницы кампусов)
+/smi/                            ->  /smi-o-nas/                        (главная и хаб школ)
+/shkola-horoshevskiy/            ->  /chastnye-shkoly/horoshyovskaya/    (страница педагогов кампуса)
+/shkola-mosfilmovskiy/           ->  /chastnye-shkoly/mosfilmovskaya/    (страница педагогов кампуса)
+/sad-horoshevskiy/               ->  /chastnye-detskie-sady/horoshyovskaya/
+/sad-mosfilmovskiy/              ->  /chastnye-detskie-sady/ramenki/
+/sad-mayakovskaya/               ->  /chastnye-detskie-sady/mayakovskaya/
+
+Заменить http на https:
+главная: ссылки на /chastnye-detskie-sady/, /chastnye-shkoly/, /blog/ (две)
+/podgotovka-k-shkole-s-one/: ссылки на /chastnye-shkoly/horoshyovskaya/ и /chastnye-shkoly/mosfilmovskaya/
+
+Убрать utm-метки из внутренней ссылки на /chastnye-shkoly/postuplenie/ в статье
+/blog/professii-budushhego-kakie-speczialnosti-budut-vostrebovany-i-kak-podgotovit-k-nim-rebyonka/

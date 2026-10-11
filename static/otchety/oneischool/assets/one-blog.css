@@ -402,3 +402,12 @@ html{scroll-behavior:smooth;scroll-padding-top:140px}
   .expert img{width:72px;height:72px}
   .expert b{font-size:19px}
 }
+/* меню с пунктом «Стоимость»: семь пунктов в одну строку */
+.mnav{gap:16px}
+.mnav__menu{gap:clamp(10px,1.25vw,20px)}
+.mnav__menu a{font-size:11.5px;letter-spacing:.05em}
+.hdr__tel{margin-left:0}
+.hdr__tel a{font-size:17px}
+.hdr__cta .btn{padding:0 18px}
+@media(max-width:1380px){.hdr__tel small{display:none}.hdr__tel a{font-size:15px}.hdr__cta .btn{font-size:10px;padding:0 14px}.mnav__menu{gap:12px}.mnav__menu a{font-size:11px}.mnav{gap:12px}.brand__logo{width:150px}}
+@media(max-width:1240px){.mnav__menu{display:none}.hdr__cta{display:none}.mnav{justify-content:space-between;height:56px;gap:16px}.mnav__mob{display:flex;align-items:center;gap:12px}.hdr__tel{margin-left:auto}.hdr__tel a{font-size:17px}}
