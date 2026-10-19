@@ -1936,3 +1936,6 @@ h3{font-size:20px;text-transform:uppercase;letter-spacing:.03em;font-weight:400;
 .mt-sub{font-size:24px;margin-top:48px;color:var(--navy)}
 @media (max-width:1100px){.mt-grid,.mt-grid--4{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:700px){.mt-grid,.mt-grid--4,.mt-cols{grid-template-columns:1fr}.mt-card,.mt-cols>.mt-text,.mt-progress{padding:24px 20px}}
+/* мобильная шапка: логотип уже, чтобы не вылезал за 375px */
+@media (max-width:480px){.brand__logo{width:120px!important;height:auto!important}.mnav{gap:10px}}
+@media (max-width:480px){.brand__logo{width:104px!important}.hdr .wrap{padding-left:14px;padding-right:14px}.hdr__tel a{font-size:14px}}
