@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Стажировки для студентов в компаниях-партнёрах - ONE! International School</title>
+<meta name="description" content="Профориентация в школе ONE!: маршрут на 11 лет, семь направлений и стажировки в компаниях-партнёрах. Первый партнёр SILA Union: лаборатория практического опыта для 5-11 классов.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../price/one.css">
+<style>
+  main{display:block}
+  .rep{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.04em}
+  .rep__in{display:flex;align-items:center;gap:18px;min-height:38px;flex-wrap:wrap}
+  .rep__in span{color:#9fb0cf;margin-right:auto}
+  .rep a{border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:1px;white-space:nowrap}
+  @media(max-width:768px){.rep__in span{display:none}.rep__in{padding:8px 0}}
+
+  .mh{padding-top:16px}
+  .mh__card{position:relative;overflow:hidden;background:var(--navy);color:#fff;border-radius:var(--r-xl);min-height:640px;display:grid;align-items:end}
+  .mh__media{position:absolute;inset:0}
+  .mh__media img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;transform:scale(1.06);animation:heroZoom 9s ease-out forwards}
+  @keyframes heroZoom{to{transform:scale(1)}}
+  .mh__media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,18,40,.25) 0%,rgba(10,18,40,.55) 45%,rgba(10,18,40,.9) 100%)}
+  .mh__in{position:relative;z-index:1;padding:56px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;align-items:end}
+  .mh .eyebrow{color:rgba(255,255,255,.75)}
+  .mh h1{font-size:clamp(34px,4.2vw,58px);font-weight:300;line-height:1.06;color:#fff;max-width:16ch}
+  .mh h1 b{font-weight:500}
+  .mh__lead{font-size:17px;line-height:1.6;color:rgba(255,255,255,.85);max-width:50ch;margin-top:20px}
+  .mh__acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+  .mh__acts .btn--ghost{color:#fff;border-color:rgba(255,255,255,.75)}
+  .mh__acts .btn--ghost:hover{background:#fff;color:var(--black);border-color:#fff}
+  .mh__stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .mh__stats div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);border-radius:var(--r-lg);padding:22px 24px}
+  .mh__stats b{display:block;font-size:34px;font-weight:300;line-height:1}
+  .mh__stats span{display:block;font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:8px;line-height:1.4}
+  @media(max-width:1024px){.mh__in{grid-template-columns:1fr;padding:40px 30px}.mh__card{min-height:0}}
+  @media(max-width:768px){.mh__in{padding:26px 18px}.mh h1{font-size:30px;max-width:none}.mh__acts .btn{width:100%}.mh__media img{animation:none;transform:none}.mh__stats b{font-size:26px}}
+
+  .g2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:stretch}
+  .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+  .g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .white{background:var(--white);border-radius:var(--r-xl);padding:44px 40px}
+  .white h3{font-size:20px;margin:0 0 14px;color:var(--navy)}
+  .white p{font-size:15.5px;line-height:1.7;color:#4a4a4a;margin-bottom:14px}
+  .white p:last-child{margin-bottom:0}
+  .photo{border-radius:var(--r-xl);overflow:hidden;background:var(--card-2);min-height:340px}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* маршрут 1-11 класс */
+  .route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;position:relative}
+  .rt{background:var(--white);border-radius:var(--r-lg);padding:32px 30px;position:relative;overflow:hidden;min-height:300px;display:flex;flex-direction:column}
+  .rt::after{content:attr(data-g);position:absolute;right:16px;bottom:-22px;font-size:120px;font-weight:700;color:var(--navy);opacity:.05;line-height:1}
+  .rt .k{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange);font-weight:500;margin-bottom:14px}
+  .rt h3{font-size:22px;color:var(--navy);margin:0 0 12px;font-weight:500;text-transform:none;letter-spacing:0}
+  .rt p{font-size:15px;line-height:1.6;color:#4a4a4a;margin:0}
+  .rt--navy{background:var(--navy)}
+  .rt--navy h3{color:#fff}.rt--navy p{color:#c9d3e6}.rt--navy::after{color:#fff;opacity:.07}
+  .dirs{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+  .dir{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px;border-radius:var(--pill);background:var(--white);font-size:14px;color:var(--navy);border:1px solid var(--line)}
+  .dir i{width:9px;height:9px;border-radius:50%;background:var(--orange)}
+  .dir--on{background:var(--orange);color:#fff;border-color:var(--orange)}
+  .dir--on i{background:#fff}
+
+  /* партнёры */
+  .pt{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:30px 28px;min-height:270px;display:flex;flex-direction:column;transition:border-color .22s,transform .22s}
+  .pt:hover{border-color:var(--orange);transform:translateY(-4px)}
+  .pt__logo{height:56px;display:flex;align-items:center;margin-bottom:22px}
+  .pt__logo b{font-size:26px;font-weight:700;letter-spacing:-.01em;color:#0a5fd6}
+  .pt__logo b small{display:block;font-size:11px;letter-spacing:.3em;font-weight:500;color:#0a5fd6;margin-top:-2px}
+  .pt .tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--orange);margin-bottom:10px}
+  .pt .tag::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(232,160,107,.25)}
+  .pt h3{font-size:18px;color:var(--navy);margin:0 0 8px;font-weight:500;text-transform:none;letter-spacing:0}
+  .pt p{font-size:14px;line-height:1.55;color:#5a5a5a;margin:0}
+  .pt .link{margin-top:auto;padding-top:18px}
+  .pt--soon{background:var(--plane);border-style:dashed;border-color:#cfcfcf}
+  .pt--soon:hover{border-color:#cfcfcf;transform:none}
+  .pt--soon .pt__logo{opacity:.55}
+  .pt--soon .pt__logo span{width:120px;height:26px;border-radius:8px;background:repeating-linear-gradient(90deg,#d8d8d8 0 10px,#e6e6e6 10px 20px)}
+  .pt--soon .tag{color:var(--gray)}.pt--soon .tag::before{background:#c4c4c4;box-shadow:none}
+  .pt--soon h3{color:#6f6f6f}
+  .ptnote{margin-top:16px;background:var(--white);border-radius:var(--r-lg);padding:26px 30px;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+  .ptnote p{font-size:15px;color:#5a5a5a;max-width:70ch;margin:0}
+  .ptnote b{color:var(--navy);font-weight:500}
+
+  /* SILA */
+  .sila{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:20px}
+  .sila__card{background:var(--white);border-radius:var(--r-xl);padding:44px 40px}
+  .sila__logo{display:inline-flex;align-items:baseline;gap:8px;margin-bottom:22px}
+  .sila__logo b{font-size:30px;font-weight:700;color:#0a5fd6;letter-spacing:-.01em}
+  .sila__logo span{font-size:12px;letter-spacing:.3em;color:#0a5fd6;font-weight:500}
+  .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+  .nums div{background:var(--plane);border-radius:var(--r-sm);padding:18px}
+  .nums b{display:block;font-size:30px;font-weight:300;color:var(--navy);line-height:1}
+  .nums span{display:block;font-size:12px;color:var(--gray);margin-top:8px;line-height:1.4}
+  .clients{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .clients span{font-size:13px;padding:8px 14px;border-radius:var(--pill);background:var(--plane);color:var(--navy)}
+
+  /* шаги лаборатории */
+  .steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .st{background:var(--white);border-radius:var(--r-lg);padding:28px 26px;display:flex;flex-direction:column;gap:10px;position:relative}
+  .st .n{width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500}
+  .st h3{font-size:16px;color:var(--navy);font-weight:500;text-transform:none;letter-spacing:0;margin:6px 0 0}
+  .st p{font-size:14px;color:#5a5a5a;line-height:1.55;margin:0}
+  .st .t{margin-top:auto;padding-top:10px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--orange)}
+  .st--win{background:var(--orange)}
+  .st--win .n{background:#fff;color:var(--orange)}.st--win h3,.st--win p{color:#fff}.st--win .t{color:rgba(255,255,255,.8)}
+
+  /* новости */
+  .news{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
+  .nw{background:var(--white);border-radius:var(--r-xl);overflow:hidden;display:flex;flex-direction:column}
+  .nw .ph{aspect-ratio:16/9;overflow:hidden;background:var(--card-2)}
+  .nw .ph img{width:100%;height:100%;object-fit:cover;display:block}
+  .nw .b{padding:30px 32px 32px}
+  .nw .meta{display:flex;gap:10px;align-items:center;margin-bottom:12px;font-size:12px;color:var(--gray)}
+  .nw .meta .tag{background:var(--orange);color:#fff;border-radius:var(--pill);padding:5px 11px;font-size:10px;letter-spacing:.06em;text-transform:uppercase}
+  .nw h3{font-size:21px;color:var(--navy);margin:0 0 12px;font-weight:500;text-transform:none;letter-spacing:0;line-height:1.3}
+  .nw p{font-size:14.5px;line-height:1.65;color:#4a4a4a;margin:0 0 10px}
+  .nw p:last-child{margin-bottom:0}
+
+  /* галерея */
+  .gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;gap:12px}
+  .gal figure{margin:0;border-radius:var(--r-lg);overflow:hidden;background:var(--card-2)}
+  .gal figure img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+  .gal figure:hover img{transform:scale(1.04)}
+  .gal .w2{grid-column:span 2}.gal .h2{grid-row:span 2}
+
+  .faqc{background:var(--white);border-radius:var(--r-xl);padding:14px}
+  .faqc details{border-bottom:1px solid var(--line)}.faqc details:last-child{border-bottom:0}
+  .faqc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:22px 20px;font-size:16px;color:var(--navy)}
+  .faqc summary::-webkit-details-marker{display:none}
+  .faqc summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-weight:300;font-size:20px;transition:transform .3s}
+  .faqc details[open] summary::after{transform:rotate(45deg);background:var(--orange);color:#fff;border-color:var(--orange)}
+  .faqc .a{padding:0 20px 22px;font-size:15px;line-height:1.65;color:#5a5a5a;max-width:80ch}
+
+  .cta{background:var(--navy);color:#fff;border-radius:var(--r-xl);padding:64px;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+  .cta .eyebrow{color:rgba(255,255,255,.5)}.cta h2{color:#fff}.cta .lead{color:#c9d3e6;margin-top:14px}
+  .cta__act{display:grid;gap:12px;justify-items:start}
+  .cta__act .tel{font-size:26px;font-weight:300}
+  .cta__act small{color:rgba(255,255,255,.55);font-size:13px}
+
+  .rv{opacity:1}
+  @media(prefers-reduced-motion:no-preference){.rv{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}.rv.in{opacity:1;transform:none}}
+  @media(max-width:1100px){.g4,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}.gal{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:1024px){.g2,.g3,.route,.sila,.news,.cta{grid-template-columns:1fr}.white,.sila__card{padding:32px 26px}.cta{padding:40px 30px}.cta__act{justify-items:stretch}}
+  @media(max-width:768px){:root{--hdr:76px}.brand img{width:120px!important}.hdr__tel{margin-left:auto}.white,.sila__card{padding:26px 20px}.nums{grid-template-columns:1fr}.g4,.steps,.gal{grid-template-columns:1fr}.gal .w2,.gal .h2{grid-column:auto;grid-row:auto}.gal{grid-auto-rows:200px}.cta{padding:30px 20px}.nw .b{padding:22px 20px}.rt{min-height:0}}
+</style>
+</head>
+<body>
+<div class="rep"><div class="wrap rep__in"><span>Макет для отчёта · страница «Стажировки и компании-партнёры»</span><a href="/otchety/oneischool-com/">← Вернуться в отчёт</a></div></div>
+<header class="hdr">
+  <div class="wrap">
+    <div class="ubar util">
+      <span class="ubar__geo">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        Москва и область
+      </span>
+      <a href="#zapis" class="uline ubar__mid">Записаться на индивидуальную экскурсию</a>
+      <a href="#" class="ubar__lang">Eng</a>
+    </div>
+    <nav class="mnav" aria-label="Основная навигация">
+      <a href="#" class="brand" aria-label="ONE! International School, на главную">
+        <img src="../price/logo.png" alt="ONE! International School" style="width:172px;height:auto;display:block">
+      </a>
+      <ul class="mnav__menu">
+        <li><a href="#zapis">Поступление</a></li>
+        <li>
+          <a href="https://oneischool.com/chastnye-shkoly/">Школы <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub">
+            <li><a href="#">Школа в ЖК «Хорошёвский»</a></li>
+            <li><a href="#">Школа в ЖК «Мосфильмовский»</a></li>
+            <li><a href="#">Подготовительные классы Masters</a></li>
+            <li><a href="#">Диагностика уровня знаний</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="https://oneischool.com/chastnye-detskie-sady/">Детские сады <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub">
+            <li><a href="#">Детский сад в БЦ «Дукат»</a></li>
+            <li><a href="#">Детский сад в ЖК «Мосфильмовский»</a></li>
+            <li><a href="#">Детский сад в ЖК «Хорошёвский»</a></li>
+          </ul>
+        </li>
+        <li><a href="https://oneischool.com/chastnye-shkoly/">Стоимость</a></li>
+        <li><a href="#">Кружки и секции</a></li>
+        <li>
+          <a href="#">О компании <i class="caret" aria-hidden="true"></i></a>
+          <ul class="sub">
+            <li><a href="#">Отзывы</a></li>
+            <li><a href="#">СМИ о нас</a></li>
+            <li><a href="#">Блог</a></li>
+            <li><a href="#">Контакты</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="hdr__tel">
+        <a href="tel:+74951522221">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12.5 12.5 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg>
+          +7 (495) 152-22-21
+        </a>
+        <small>09:00–21:00, без выходных</small>
+      </div>
+      <div class="hdr__cta">
+        <a href="#zapis" class="btn btn--or">Получить консультацию</a>
+      </div>
+      <div class="mnav__mob">
+        <button class="burger" id="burger" aria-label="Открыть меню"><span></span></button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class="mobmenu" id="mobmenu" role="dialog" aria-label="Меню">
+  <div class="mobmenu__top">
+    <img src="../price/logo.png" alt="ONE! International School" style="width:150px;height:auto;display:block">
+    <button class="mobmenu__close" id="mobClose" aria-label="Закрыть меню">✕</button>
+  </div>
+  <ul>
+    <li><a href="#zapis">Поступление</a></li>
+    <li><a href="https://oneischool.com/chastnye-shkoly/">Школы</a></li>
+    <li><a href="https://oneischool.com/chastnye-detskie-sady/">Детские сады</a></li>
+    <li><a href="#discounts">Скидки</a></li>
+    <li><a href="#pay">Порядок оплаты</a></li>
+    <li><a href="#faq">Вопросы и ответы</a></li>
+  </ul>
+  <div class="mobmenu__foot">
+    <a class="btn btn--call" href="tel:+74951522221">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12.5 12.5 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg>
+      <span class="num">+7 (495) 152-22-21</span>
+    </a>
+    <a href="#zapis" class="btn btn--or">Получить консультацию</a>
+  </div>
+</div>
+
+
+<main>
+
+<section class="mh"><div class="wrap">
+  <div class="mh__card">
+    <div class="mh__media"><img src="img/hero.jpg" alt="Студенты ONE! в офисе SILA Union" fetchpriority="high"></div>
+    <div class="mh__in">
+      <div>
+        <span class="eyebrow">Профориентация · Компании-партнёры · 5-11 классы</span>
+        <h1>Стажировки для студентов ONE! <b>в компаниях-партнёрах</b></h1>
+        <p class="mh__lead">Школа ONE! заключает партнёрства с ведущими компаниями России. Студенты учатся у практиков, решают реальные задачи и получают стажировку ещё до поступления в вуз. Первый партнёр уже в работе, остальные в процессе подключения.</p>
+        <div class="mh__acts">
+          <a class="btn btn--or" href="#partnery">Компании-партнёры <span class="ar">→</span></a>
+          <a class="btn btn--ghost" href="#lab">Как проходит лаборатория</a>
+        </div>
+      </div>
+      <div class="mh__stats">
+        <div><b>7</b><span>направлений профориентации с 1 класса</span></div>
+        <div><b>11</b><span>лет: маршрут от знакомства до профессии</span></div>
+        <div><b>1</b><span>партнёр уже принимает студентов</span></div>
+        <div><b>5</b><span>мест на стажировку в первом наборе</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="koncepciya"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Концепция</span><h2>Профориентация в ONE!: маршрут на 11 лет</h2></div><p>Профориентация в школе ONE! это системный маршрут развития на все одиннадцать лет, с тестом в 9 классе он не сравним. Ребёнок знакомится, пробует, выбирает и к выпуску точно знает, куда идёт.</p></div>
+  <div class="route">
+    <div class="rt rv" data-g="1-6"><span class="k">1-6 классы · Знакомство</span><h3>Семь направлений без давления выбора</h3><p>Студент знакомится с семью направлениями: IT, Art/Design, Engineering, BioTech, Media, Diplomacy и Entrepreneurship. Пробует себя в разных сферах и формирует широкий кругозор. Никто не требует выбрать профессию в десять лет.</p></div>
+    <div class="rt rt--navy rv" data-g="7-9"><span class="k">7-9 классы · Проба</span><h3>Два профиля, проекты, первый практический опыт</h3><p>Студент выбирает два профиля, углубляет знания, реализует проекты и получает практический опыт. На этом этапе подключаются компании-партнёры: лаборатории, экскурсии в офисы, задачи от реальных заказчиков.</p></div>
+    <div class="rt rv" data-g="10-11"><span class="k">10-11 классы · Выбор</span><h3>Одно направление и стратегия поступления</h3><p>К 10 классу студент осознанно определяет одно направление и совмещает профильную подготовку с целенаправленной стратегией поступления в вуз. К выпуску у него сильная академическая база, портфолио проектов и чёткое понимание своего профессионального пути.</p></div>
+  </div>
+  <div class="dirs rv">
+    <span class="dir dir--on"><i></i>IT</span><span class="dir"><i></i>Art / Design</span><span class="dir"><i></i>Engineering</span><span class="dir"><i></i>BioTech</span><span class="dir"><i></i>Media</span><span class="dir"><i></i>Diplomacy</span><span class="dir"><i></i>Entrepreneurship</span>
+  </div>
+  <p class="cap">Оранжевым отмечено направление, по которому уже работает компания-партнёр. Остальные направления получат партнёров по мере подключения компаний.</p>
+</div></section>
+
+<section class="sec" id="partnery"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Компании-партнёры</span><h2>Кто даёт стажировки студентам ONE!</h2></div><p>По одному партнёру на каждое из семи направлений. Первая компания уже проводит лабораторию, с остальными идут переговоры.</p></div>
+  <div class="g4">
+    <div class="pt rv"><div class="pt__logo"><b>SILA<small>UNION</small></b></div><span class="tag">Активная стажировка</span><h3>SILA Union</h3><p>Одна из ведущих российских IT-компаний. Решения используют Газпром, Лукойл и Росэнергоатом. Направление: информационные технологии.</p><a class="link" href="#sila">О партнёре <span>→</span></a></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">В процессе добавления</span><h3>Engineering</h3><p>Инженерная компания. Переговоры о лаборатории для 7-9 классов идут.</p></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">В процессе добавления</span><h3>BioTech</h3><p>Биотехнологическая лаборатория. Формат: исследовательский проект с наставником.</p></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">В процессе добавления</span><h3>Media</h3><p>Медиакомпания. Формат: производство контента под задачу редакции.</p></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">В процессе добавления</span><h3>Art / Design</h3><p>Дизайн-студия. Формат: брендинг и продуктовый дизайн для реального заказчика.</p></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">В процессе добавления</span><h3>Diplomacy</h3><p>Международная организация. Формат: модель переговоров и стажировка в представительстве.</p></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">В процессе добавления</span><h3>Entrepreneurship</h3><p>Технологический бизнес. Формат: запуск продукта от идеи до первых продаж.</p></div>
+    <div class="pt pt--soon rv"><div class="pt__logo"><span></span></div><span class="tag">Открытая позиция</span><h3>Ваша компания</h3><p>Если вы готовы принять студентов ONE! на лабораторию или стажировку, напишите нам: admissions@oneischool.com.</p></div>
+  </div>
+  <div class="ptnote rv"><p><b>Как попадает компания в список.</b> Партнёр проводит лабораторию по своему направлению: обучение, работа над проектом с наставниками, защита перед экспертами. Лучшая команда получает стажировку в офисе. Список пополняется по мере подключения компаний, страница обновляется.</p><a class="btn btn--ghost" href="#zapis">Стать партнёром</a></div>
+</div></section>
+
+<section class="sec" id="sila"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Партнёр № 1 · Информационные технологии</span><h2>SILA Union</h2></div><p>Первая компания, с которой школа запустила «Лабораторию практического опыта».</p></div>
+  <div class="sila">
+    <div class="sila__card rv">
+      <div class="sila__logo"><b>SILA</b><span>UNION</span></div>
+      <p>SILA Union одна из ведущих российских IT-компаний. Разрабатывает платформу для проектирования процессов и ИТ-архитектуры: в одной системе компания управляет бизнес-процессами, стратегией, рисками, персоналом, проектами и документами. Решения SILA Union используют Газпром, Лукойл и Росэнергоатом.</p>
+      <div class="nums">
+        <div><b>100+</b><span>вузов обучают студентов на ПО SILA Union</span></div>
+        <div><b>100 000+</b><span>пользователей платформы</span></div>
+        <div><b>25 000+</b><span>обученных специалистов и экспертов</span></div>
+      </div>
+      <p>Программное обеспечение входит в реестр российского ПО и используется более чем в 20 ведущих вузах страны как учебный инструмент. Это значит, что навык работы с платформой, полученный в школе, пригодится студенту и в университете, и на первой работе.</p>
+      <div class="clients"><span>Газпром</span><span>Лукойл</span><span>Росэнергоатом</span><span>Реестр российского ПО</span><span>Офис в башне «Федерация»</span></div>
+    </div>
+    <figure class="photo rv"><img src="img/logo1.jpg" alt="Студенты ONE! с наставником в офисе SILA Union" loading="lazy"></figure>
+  </div>
+</div></section>
+
+<section class="sec" id="lab"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Лаборатория практического опыта</span><h2>Как проходит стажировка</h2></div><p>Формат для студентов 5-11 классов: четыре недели работы с реальной задачей и наставниками из компании, защита и практика для лучшей команды.</p></div>
+  <div class="steps">
+    <div class="st rv"><span class="n">1</span><h3>Визит в офис компании</h3><p>Студенты приезжают в офис партнёра, видят, как работает команда, знакомятся с наставниками и получают задачу.</p><span class="t">День 1</span></div>
+    <div class="st rv"><span class="n">2</span><h3>Обучение на ПО компании</h3><p>Ребята осваивают программное обеспечение партнёра под руководством специалистов. Для SILA Union это платформа моделирования процессов.</p><span class="t">Неделя 1-2</span></div>
+    <div class="st rv"><span class="n">3</span><h3>Проект в команде</h3><p>Команды с наставниками разрабатывают решения для реальных школьных задач. Роли: аналитика, дизайн, исследование, управление проектом.</p><span class="t">Неделя 2-4</span></div>
+    <div class="st st--win rv"><span class="n">4</span><h3>Защита и стажировка</h3><p>Команды защищают решения перед экспертами компании. Пять участников команды-победителя отправляются на практику в офис партнёра.</p><span class="t">Финал</span></div>
+  </div>
+  <div class="g2" style="margin-top:20px">
+    <figure class="photo rv"><img src="img/present.jpg" alt="Наставник SILA Union показывает платформу студентам ONE!" loading="lazy"></figure>
+    <div class="white rv">
+      <h3>Что получает студент</h3>
+      <p>Опыт работы в профессиональной команде до поступления в вуз: реальная задача, дедлайн, защита перед людьми, которые принимают решения. Навык работы с промышленным ПО, которым пользуются крупнейшие компании страны.</p>
+      <p>Строку в портфолио: завершённый проект с подтверждением от компании. Для международных и российских вузов это весомее сертификата о курсе.</p>
+      <p>Понимание, нравится ли направление на самом деле. Четыре недели внутри задачи дают больше, чем год тестов по профориентации. Если направление не подошло, это тоже результат: студент возвращается в маршрут и пробует следующее.</p>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="novosti"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Новости проекта</span><h2>Как идёт первая лаборатория</h2></div><div class="shead__r"><a class="link" href="https://oneischool.com/blog/">Все новости <span>→</span></a></div></div>
+  <div class="news">
+    <article class="nw rv">
+      <div class="ph"><img src="img/room.jpg" alt="Студенты ONE! на встрече в SILA Union" loading="lazy"></div>
+      <div class="b">
+        <div class="meta"><span class="tag">Запуск</span><span>Октябрь 2026</span></div>
+        <h3>Пройти практику в одной из ведущих IT-компаний России ещё в школе: такую возможность получают студенты ONE!</h3>
+        <p>Наша школа запускает «Лабораторию практического опыта» совместно с SILA Union, одной из ведущих российских IT-компаний, чьи решения используют Газпром, Лукойл и Росэнергоатом.</p>
+        <p>Ребята пройдут обучение, освоят программное обеспечение компании и в командах с наставниками разработают проекты для решения реальных школьных задач. После защиты пять участников с лучшим проектом отправятся на практику в офис SILA Union.</p>
+        <p>Это редкая возможность увидеть работу IT-компании изнутри и попробовать профессиональные задачи ещё до поступления в вуз. Подробнее о проекте в видео.</p>
+      </div>
+    </article>
+    <article class="nw rv">
+      <div class="ph"><img src="img/group.jpg" alt="Студенты ONE! в офисе SILA Union в башне Федерация" loading="lazy"></div>
+      <div class="b">
+        <div class="meta"><span class="tag">Первый шаг</span><span>20 октября 2026</span></div>
+        <h3>Студенты ONE! в офисе одной из ведущих IT-компаний России</h3>
+        <p>В нашей школе стартовала «Лаборатория практического опыта», совместный проект с российской IT-компанией SILA Union для студентов 5-11 классов. Ребята учатся у специалистов, разрабатывают решения для школьных задач и борются за возможность пройти практику в команде профессионалов.</p>
+        <p>Первый шаг уже сделан: студенты 5, 9 и 10 классов побывали в офисе SILA Union в башне «Федерация» в Москва-Сити. Увидели, как работает команда, чьи решения используют Газпром, Лукойл и Росэнергоатом, познакомились с наставниками и получили подарки.</p>
+        <p>Впереди четыре недели обучения и работы над собственными проектами. Ребята освоят программное обеспечение SILA Union, попробуют себя в аналитике, дизайне, исследовании или управлении проектом и защитят свои решения перед экспертами. Пять участников команды-победителя отправятся на практику в офис SILA Union. Будем рассказывать, как продвигается работа наших команд!</p>
+      </div>
+    </article>
+  </div>
+</div></section>
+
+<section class="sec" id="foto"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Фото</span><h2>Визит в башню «Федерация»</h2></div><p>20 октября 2026, офис SILA Union в Москва-Сити. Студенты 5, 9 и 10 классов.</p></div>
+  <div class="gal rv">
+    <figure class="w2 h2"><img src="img/overview.jpg" alt="" loading="lazy"></figure>
+    <figure><img src="img/window.jpg" alt="" loading="lazy"></figure>
+    <figure><img src="img/talk.jpg" alt="" loading="lazy"></figure>
+    <figure><img src="img/table.jpg" alt="" loading="lazy"></figure>
+    <figure><img src="img/phone.jpg" alt="" loading="lazy"></figure>
+    <figure class="w2"><img src="img/work.jpg" alt="" loading="lazy"></figure>
+    <figure><img src="img/logo2.jpg" alt="" loading="lazy"></figure>
+    <figure><img src="img/present.jpg" alt="" loading="lazy"></figure>
+  </div>
+</div></section>
+
+<section class="sec" id="faq"><div class="wrap">
+  <div class="shead"><div><span class="eyebrow">Вопросы</span><h2>Вопросы родителей о стажировках</h2></div></div>
+  <div class="faqc rv">
+    <details><summary>С какого класса можно участвовать?</summary><div class="a">Лаборатории компаний-партнёров открыты для студентов 5-11 классов. В первой лаборатории с SILA Union участвуют 5, 9 и 10 классы. Для 1-6 классов профориентация идёт в формате знакомства с направлениями внутри школы.</div></details>
+    <details><summary>Это обязательная часть программы?</summary><div class="a">Нет, участие по желанию. Студент подаёт заявку через куратора, команда формируется из желающих. Занятия проходят во второй половине дня и не заменяют основную программу.</div></details>
+    <details><summary>Что такое стажировка для школьника на практике?</summary><div class="a">Несколько дней в офисе компании с наставником: наблюдение за работой команды, участие в рабочих встречах, небольшие задачи по направлению. Это не трудоустройство, документы и оплата не оформляются, ответственность за ребёнка несут школа и компания по договору.</div></details>
+    <details><summary>Сколько это стоит для семьи?</summary><div class="a">Лаборатории и стажировки входят в программу профориентации ONE! и не оплачиваются отдельно.</div></details>
+    <details><summary>Что, если команда не победила?</summary><div class="a">Все участники получают сертификат компании о прохождении лаборатории и проект в портфолио. Стажировку получает команда-победитель, но следующая лаборатория с другим партнёром открыта для всех.</div></details>
+    <details><summary>Как компании попасть в партнёры?</summary><div class="a">Напишите на admissions@oneischool.com. Нужны готовность провести обучение на своём продукте, выделить наставников на четыре недели и принять лучшую команду на практику.</div></details>
+  </div>
+</div></section>
+
+<section class="sec" id="zapis"><div class="wrap">
+  <div class="cta rv">
+    <div>
+      <span class="eyebrow">Следующий шаг</span>
+      <h2>Посмотрите, как устроена профориентация в ONE!</h2>
+      <p class="lead">Приходите на экскурсию в учебный день: покажем школу, расскажем про маршрут 1-11 класс и лаборатории с партнёрами, ответим на вопросы по поступлению.</p>
+    </div>
+    <div class="cta__act">
+      <a class="btn btn--or" href="https://oneischool.com/chastnye-shkoly/postuplenie/">Записаться на экскурсию <span class="ar">→</span></a>
+      <a class="tel" href="tel:+74951522221">+7 (495) 152-22-21</a>
+      <small>09:00-21:00, без выходных · admissions@oneischool.com</small>
+    </div>
+  </div>
+</div></section>
+
+</main>
+<div class="callbar" role="complementary" aria-label="Быстрая связь">
+  <a class="btn btn--call" href="tel:+74951522221">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 3.5h3l1.5 4-2 1.5a12.5 12.5 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7 2 2 0 0 1 6.5 3.5z"/></svg>
+    <span class="num">Позвонить</span>
+  </a>
+  <a class="btn btn--or" href="#zapis">На экскурсию</a>
+</div>
+
+<!-- ============ ФУТЕР (как на главной) ============ -->
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr__card">
+      <div class="ftr__top">
+        <div>
+          <a href="#" class="brand ftr__brand"><img src="../price/crest.png" alt="ONE! International School" class="ftr__crest"><span class="ftr__wm"><b>One!</b><span>International School</span></span></a>
+          <a href="tel:+74951522221" class="ftr__tel">+7&nbsp;(495)&nbsp;152-22-21</a>
+          <a href="tel:88001003108" class="ftr__tel2">8&nbsp;(800)&nbsp;100-31-08</a>
+          <p class="ftr__hrs">Ежедневно 09:00–21:00, без выходных</p>
+          <a href="#zapis" class="btn btn--sm" style="margin-top:24px">Записаться на экскурсию <span class="ar">→</span></a>
+        </div>
+        <div><h4>Школа</h4><ul>
+          <li><a href="#">Результаты ЕГЭ и ОГЭ</a></li><li><a href="#">Английский язык</a></li><li><a href="#">Поступление в вузы</a></li><li><a href="#">12 компетентностей</a></li><li><a href="#schools">Стоимость обучения</a></li>
+        </ul></div>
+        <div><h4>Кампусы</h4><ul>
+          <li><a href="#">ЖК «Хорошевский»</a></li><li><a href="#">ЖК «Мосфильмовский»</a></li><li><a href="#">БЦ «Дукат» / Маяковская</a></li><li><a href="#">СМИ о нас</a></li>
+        </ul></div>
+        <div><h4>Родителям</h4><ul>
+          <li><a href="#zapis">Экскурсия по школе</a></li><li><a href="#">Диагностика знаний</a></li><li><a href="#">Блог для родителей</a></li><li><a href="#">Отзывы родителей</a></li><li><a href="https://t.me/oneschoolnews" target="_blank" rel="noopener">Telegram-канал</a></li>
+        </ul></div>
+      </div>
+      <div class="ftr__bot">
+        <p>ООО «Центр Образования Северо-Запад», ИНН&nbsp;7727426789. Сеть основана в 2014 году: 2 школы, 3 детских сада, 2 центра исследований и разработки. Образовательная деятельность ведётся на основании лицензии; школа имеет государственную аккредитацию. Цены действуют на 2026/2027 учебный год, НДС не облагается.</p>
+        <div class="ftr__docs chips">
+          <a href="#" class="chip">Лицензия</a><a href="#" class="chip">Аккредитация</a><a href="#" class="chip">Сведения об организации</a><a href="#" class="chip">Политика конфиденциальности</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.08});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  var b=document.getElementById('burger'),m=document.getElementById('mobmenu'),c=document.getElementById('mobClose');
+  if(b&&m)b.addEventListener('click',function(){m.classList.add('is-open');});
+  if(c&&m)c.addEventListener('click',function(){m.classList.remove('is-open');});
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){var t=document.querySelector(a.getAttribute('href'));if(!t)return;e.preventDefault();window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-120,behavior:'smooth'});if(m)m.classList.remove('is-open');});});
+})();
+</script>
+</body>
+</html>
