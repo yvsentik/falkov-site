@@ -47,7 +47,7 @@ export const site = {
 
 	// TODO: коды подтверждения прав в вебмастерах
 	verification: {
-		yandex: ['924a68f7156d909c', 'f19f9402917804f8'], // revomarketing; второй код от 26.10.2026 для marketingovoe-agentstvo-spb.ru
+		yandex: ['924a68f7156d909c', 'f19f9402917804f8', 'b19bd143e2a1f089'], // revomarketing; второй код от 26.10.2026 для marketingovoe-agentstvo-spb.ru
 		google: ''
 	},
 
