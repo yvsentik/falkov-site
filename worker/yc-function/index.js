@@ -4,7 +4,7 @@
       из Yandex Cloud api.telegram.org не открывается.
    Переменные окружения: SMARTCAPTCHA_SECRET, RELAY_URL, RELAY_KEY. Node.js 22, точка входа index.handler. */
 
-const ALLOWED = ['https://falkov-marketing.ru', 'https://www.falkov-marketing.ru', 'http://localhost:5177'];
+const ALLOWED = ['https://marketingovoe-agentstvo-spb.ru', 'https://www.marketingovoe-agentstvo-spb.ru', 'https://falkov-marketing.ru', 'https://www.falkov-marketing.ru', 'http://localhost:5177'];
 
 const cors = (origin) => ({
 	'Access-Control-Allow-Origin': ALLOWED.includes(origin) ? origin : ALLOWED[0],

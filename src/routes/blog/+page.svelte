@@ -19,7 +19,7 @@
 	const schema = graph(
 		orgSchema(),
 		breadcrumbSchema(crumbs),
-		{ '@type': 'Blog', name: 'Блог маркетингового агентства «Фальков»', url: 'https://falkov-marketing.ru/blog/' },
+		{ '@type': 'Blog', name: 'Блог маркетингового агентства «Фальков»', url: 'https://marketingovoe-agentstvo-spb.ru/blog/' },
 		itemListSchema('Статьи блога', sorted.map((p) => ({ title: p.title, href: `/blog/${p.slug}/` })))
 	);
 	const alsoServices = [

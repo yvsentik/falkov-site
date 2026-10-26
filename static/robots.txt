@@ -9,4 +9,4 @@ Disallow: /otchety/
 Disallow: /kommercheskie-predlozheniya/
 Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&from
 
-Sitemap: https://falkov-marketing.ru/sitemap.xml
+Sitemap: https://marketingovoe-agentstvo-spb.ru/sitemap.xml

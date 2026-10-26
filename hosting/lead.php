@@ -4,7 +4,7 @@
 
 $TO = 'korob338@mail.ru';
 $FROM = 'zayavki@falkov-marketing.ru';
-$ALLOWED = ['https://falkov-marketing.ru', 'https://www.falkov-marketing.ru'];
+$ALLOWED = ['https://marketingovoe-agentstvo-spb.ru', 'https://www.marketingovoe-agentstvo-spb.ru', 'https://falkov-marketing.ru', 'https://www.falkov-marketing.ru'];
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 header('Content-Type: application/json; charset=utf-8');

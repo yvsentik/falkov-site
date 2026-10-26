@@ -11,7 +11,7 @@ export const site = {
 	tagline: 'Маркетинговое агентство в Санкт-Петербурге',
 
 	// TODO: боевой домен без слэша на конце
-	url: 'https://falkov-marketing.ru',
+	url: 'https://marketingovoe-agentstvo-spb.ru',
 
 	phone: '+7 993 982-32-04',
 	phoneHref: '+79939823204',

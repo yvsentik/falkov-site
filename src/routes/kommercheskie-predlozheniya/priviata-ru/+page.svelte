@@ -701,7 +701,7 @@
 	</section>
 
 	<footer class="cp-foot">
-		<a href="/">На главную falkov-marketing.ru</a>
+		<a href="/">На главную marketingovoe-agentstvo-spb.ru</a>
 		<a href="tel:{site.phoneHref}">{site.phone}</a>
 	</footer>
 </div>
