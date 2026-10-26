@@ -37,9 +37,9 @@
 	<meta name="twitter:description" content={description} />
 	<meta name="twitter:image" content={abs(image)} />
 
-	{#if site.verification.yandex}
-		<meta name="yandex-verification" content={site.verification.yandex} />
-	{/if}
+	{#each [site.verification.yandex].flat().filter(Boolean) as code}
+		<meta name="yandex-verification" content={code} />
+	{/each}
 	{#if site.verification.google}
 		<meta name="google-site-verification" content={site.verification.google} />
 	{/if}
