@@ -41,33 +41,7 @@
 		}
 	});
 
-	/* ---------- листание слайдов ---------- */
-	let stage = $state();
-	let current = $state(0);
-
-	function go(n) {
-		if (!stage || !deck) return;
-		const i = Math.max(0, Math.min(deck.slides.length - 1, n));
-		stage.children[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-	}
-	function onScroll() {
-		if (!stage) return;
-		current = Math.round(stage.scrollTop / stage.clientHeight);
-	}
-	function onKey(e) {
-		if (!deck) return;
-		if (['ArrowDown', 'ArrowRight', 'PageDown', ' '].includes(e.key)) {
-			e.preventDefault();
-			go(current + 1);
-		}
-		if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) {
-			e.preventDefault();
-			go(current - 1);
-		}
-	}
 </script>
-
-<svelte:window onkeydown={onKey} />
 
 <Seo
 	title="Предложение для Genesis Hub | Фальков"
@@ -86,84 +60,7 @@
 		</form>
 	</div>
 {:else}
-	<header class="bar">
-		<span class="bar__brand">falkov <i>маркетинг</i></span>
-		<span class="bar__client">{deck.meta.client} · {deck.meta.site}</span>
-		<span class="bar__n">{current + 1} / {deck.slides.length}</span>
-	</header>
-
-	<main class="stage" bind:this={stage} onscroll={onScroll}>
-		{#each deck.slides as s, i}
-			<section class="slide slide--{s.kind}" class:dark={s.kind === 'cover'}>
-				<div class="slide__in">
-										<h2>{s.title}</h2>
-					{#if s.text}<p class="lead">{s.text}</p>{/if}
-
-					{#if s.points}
-						<ul class="points">
-							{#each s.points as p, k}
-								<li><b>{String(k + 1).padStart(2, '0')}</b><span>{p}</span></li>
-							{/each}
-						</ul>
-					{/if}
-
-					{#if s.chips}
-						<div class="chips">
-							{#each s.chips as c}<span>{c}</span>{/each}
-						</div>
-					{/if}
-
-					{#if s.steps}
-						<ol class="steps">
-							{#each s.steps as st, k}
-								<li><i>{k + 1}</i><b>{st[0]}</b><span>{st[1]}</span></li>
-							{/each}
-						</ol>
-					{/if}
-
-					{#if s.items}
-						<div class="price">
-							{#each s.items as it}
-								<div class="price__card">
-									<strong>{it[0]}</strong>
-									<em>{it[1]}</em>
-									<span>{it[2]}</span>
-								</div>
-							{/each}
-						</div>
-					{/if}
-					{#if s.stats}
-						<div class="stats">
-							{#each s.stats as st}
-								<div><strong>{st[0]}</strong><span>{st[1]}</span></div>
-							{/each}
-						</div>
-					{/if}
-
-					{#if s.rows}
-						<div class="tbl">
-							<table>
-								<thead><tr>{#each s.head as h, k}<th class:r={k > 0 && s.head.length - k <= (s.head.length > 3 ? 3 : 1)}>{h}</th>{/each}</tr></thead>
-								<tbody>
-									{#each s.rows as row}
-										<tr>{#each row as c, k}<td class:r={k > 0 && row.length - k <= (row.length > 3 ? 3 : 1)}>{c}</td>{/each}</tr>
-									{/each}
-									<tr class="sum">{#each s.total as c, k}<td class:r={k > 0 && s.total.length - k <= (s.total.length > 3 ? 3 : 1)}>{c}</td>{/each}</tr>
-								</tbody>
-							</table>
-						</div>
-					{/if}
-
-					{#if s.note}<p class="note">{s.note}</p>{/if}
-				</div>
-			</section>
-		{/each}
-	</main>
-
-	<nav class="nav">
-		<button type="button" onclick={() => go(current - 1)} disabled={current === 0} aria-label="Назад">↑</button>
-		<button type="button" onclick={() => go(current + 1)} disabled={current === deck.slides.length - 1} aria-label="Дальше">↓</button>
-	</nav>
+	<main class="kp">{@html deck.html}</main>
 {/if}
 
 <style>
@@ -214,344 +111,157 @@
 		font-size: 14px;
 	}
 
-	.bar {
-		position: fixed;
-		inset: 0 0 auto 0;
-		z-index: 5;
+	.kp {
+		background: #fff;
+		color: #141a2b;
+		font-family: Onest, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+		font-size: 17px;
+		line-height: 1.5;
+		min-height: 100vh;
+		padding: clamp(20px, 4vw, 48px) 16px 56px;
+	}
+	.kp :global(> *) {
+		max-width: 860px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.kp :global(.top) {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
-		gap: 16px;
-		padding: 16px clamp(16px, 4vw, 56px);
-		font-size: 13px;
-		color: #fff;
-		mix-blend-mode: difference;
-		pointer-events: none;
-	}
-	.bar__brand {
-		font-weight: 600;
-		font-size: 15px;
-	}
-	.bar__brand i {
-		font-style: normal;
-		font-weight: 400;
-		opacity: 0.6;
-	}
-	.bar__client {
-		opacity: 0.7;
-	}
-
-	.stage {
-		height: 100vh;
-		height: 100dvh;
-		overflow-y: auto;
-		scroll-snap-type: y mandatory;
-		background: #f5f5f5;
-		color: #111;
-	}
-	.slide {
-		min-height: 100vh;
-		min-height: 100dvh;
-		scroll-snap-align: start;
-		display: grid;
-		align-items: center;
-		padding: 88px clamp(20px, 6vw, 96px) 72px;
-	}
-	.slide.dark {
-		background: #0f0f0f;
-		color: #f4f4f4;
-	}
-	.slide__in {
-		width: min(1040px, 100%);
-		margin: 0 auto;
-	}
-	.kicker {
-		display: block;
-		font-size: 12px;
-		letter-spacing: 0.18em;
-		text-transform: uppercase;
-		opacity: 0.5;
-		margin-bottom: 20px;
-	}
-	h2 {
-		margin: 0;
-		font-size: clamp(32px, 5.4vw, 68px);
-		line-height: 1.04;
-		letter-spacing: -0.03em;
-		font-weight: 500;
-	}
-	.lead {
-		margin: 24px 0 0;
-		font-size: clamp(17px, 1.9vw, 24px);
-		line-height: 1.45;
-		max-width: 34ch;
-		color: rgba(17, 17, 17, 0.72);
-	}
-	.slide.dark .lead {
-		color: rgba(255, 255, 255, 0.78);
-	}
-	.slide.dark h2 {
-		color: #fff;
-	}
-
-	.points {
-		list-style: none;
-		margin: clamp(28px, 5vh, 56px) 0 0;
-		padding: 0;
-		display: grid;
-		gap: 0;
-	}
-	.points li {
-		display: grid;
-		grid-template-columns: 56px 1fr;
-		gap: 16px;
-		padding: clamp(14px, 2.2vh, 22px) 0;
-		border-top: 1px solid rgba(0, 0, 0, 0.12);
-		font-size: clamp(17px, 1.75vw, 23px);
-		line-height: 1.4;
-	}
-	.points b {
-		font-weight: 500;
-		opacity: 0.35;
-	}
-
-	.chips {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		margin-top: clamp(28px, 5vh, 56px);
-	}
-	.chips span {
-		padding: 14px 22px;
-		border-radius: 100px;
-		background: #fff;
-		border: 1px solid rgba(0, 0, 0, 0.1);
-		font-size: clamp(15px, 1.4vw, 19px);
-	}
-
-	.steps {
-		list-style: none;
-		margin: clamp(28px, 5vh, 56px) 0 0;
-		padding: 0;
-		display: grid;
-		grid-template-columns: repeat(5, minmax(0, 1fr));
+		align-items: baseline;
 		gap: 12px;
+		flex-wrap: wrap;
+		border-bottom: 3px solid #135ee4;
+		padding-bottom: 10px;
+		margin-bottom: 24px;
 	}
-	.steps li {
-		background: #fff;
-		border-radius: 22px;
-		padding: 22px;
-		display: grid;
-		gap: 10px;
-		align-content: start;
+	.kp :global(.top b) {
+		font-size: 19px;
+		color: #12298a;
 	}
-	.steps i {
-		font-style: normal;
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
-		background: #111;
-		color: #fff;
-		display: grid;
-		place-items: center;
+	.kp :global(.top span) {
+		color: #6b7385;
 		font-size: 14px;
 	}
-	.steps b {
-		font-weight: 600;
-		font-size: 17px;
+	.kp :global(h1) {
+		font-size: clamp(28px, 4.6vw, 40px);
+		line-height: 1.15;
+		margin-top: 0;
+		margin-bottom: 12px;
+		color: #12298a;
+		font-weight: 700;
 	}
-	.steps span {
-		font-size: 14.5px;
-		line-height: 1.45;
-		opacity: 0.7;
+	.kp :global(h2) {
+		font-size: clamp(20px, 2.6vw, 24px);
+		margin-top: 34px;
+		margin-bottom: 12px;
+		color: #12298a;
+		font-weight: 700;
 	}
-
-	.price {
+	.kp :global(p) {
+		margin-top: 0;
+		margin-bottom: 10px;
+	}
+	.kp :global(.lead) {
+		font-size: 19px;
+	}
+	.kp :global(.facts) {
 		display: grid;
-		grid-template-columns: 1.3fr 1fr;
-		gap: 14px;
-		margin-top: clamp(28px, 5vh, 56px);
-	}
-	.price__card {
-		border-radius: 28px;
-		padding: clamp(24px, 3.4vw, 44px);
-		background: #111;
-		color: #fff;
-		display: grid;
-		gap: 8px;
-		align-content: start;
-	}
-	.price__card:last-child {
-		background: #fff;
-		color: #111;
-	}
-	.price__card strong {
-		font-size: clamp(40px, 6vw, 84px);
-		font-weight: 500;
-		letter-spacing: -0.04em;
-		line-height: 1;
-	}
-	.price__card em {
-		font-style: normal;
-		font-size: clamp(15px, 1.5vw, 20px);
-		opacity: 0.6;
-	}
-	.price__card span {
-		margin-top: 14px;
-		font-size: clamp(15px, 1.4vw, 19px);
-		line-height: 1.45;
-	}
-
-	.stats {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 14px;
-		margin-top: clamp(28px, 5vh, 56px);
-	}
-	.stats div {
-		border-radius: 28px;
-		padding: clamp(22px, 3vw, 40px);
-		background: #fff;
-		display: grid;
+		grid-template-columns: repeat(3, 1fr);
 		gap: 12px;
-		align-content: start;
+		margin-top: 20px;
+		margin-bottom: 6px;
 	}
-	.stats div:first-child {
-		background: #111;
-		color: #fff;
+	.kp :global(.facts div) {
+		background: #eef4ff;
+		border-radius: 12px;
+		padding: 16px 18px;
 	}
-	.stats strong {
-		font-size: clamp(34px, 4.6vw, 64px);
-		font-weight: 500;
-		letter-spacing: -0.04em;
-		line-height: 1;
+	.kp :global(.facts b) {
+		display: block;
+		font-size: 28px;
+		color: #135ee4;
+		line-height: 1.2;
 		white-space: nowrap;
 	}
-	.stats span {
-		font-size: clamp(15px, 1.4vw, 19px);
-		line-height: 1.45;
-		opacity: 0.7;
+	.kp :global(.facts span) {
+		font-size: 14.5px;
+		color: #3c4560;
 	}
-	.tbl {
-		margin-top: clamp(24px, 4vh, 48px);
-		background: #fff;
-		border-radius: 24px;
-		padding: clamp(8px, 1.6vw, 20px);
+	.kp :global(.tw) {
 		overflow-x: auto;
+		margin-bottom: 8px;
 	}
-	table {
+	.kp :global(table) {
 		width: 100%;
 		border-collapse: collapse;
-		font-size: clamp(15px, 1.5vw, 20px);
-		line-height: 1.4;
+		font-size: 16px;
 	}
-	th {
+	.kp :global(th) {
+		background: #12298a;
+		color: #fff;
 		text-align: left;
-		font-weight: 500;
-		opacity: 0.45;
-		font-size: 0.8em;
-		padding: 10px 14px;
+		padding: 10px 12px;
+		font-weight: 600;
 	}
-	td {
-		padding: clamp(12px, 1.8vh, 18px) 14px;
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
+	.kp :global(td) {
+		border-bottom: 1px solid #d9e0ee;
+		padding: 10px 12px;
 		vertical-align: top;
 	}
-	.r {
+	.kp :global(.r) {
 		text-align: right;
 		white-space: nowrap;
 	}
-	tr.sum td {
-		font-weight: 600;
-		font-size: 1.15em;
+	.kp :global(tr.sum td) {
+		background: #eef4ff;
+		font-weight: 700;
+		border-bottom: none;
 	}
-	.note {
-		margin: 22px 0 0;
-		font-size: clamp(15px, 1.5vw, 19px);
-		line-height: 1.5;
-		max-width: 62ch;
-		opacity: 0.7;
+	.kp :global(ul) {
+		margin-top: 0;
+		margin-bottom: 8px;
+		padding-left: 22px;
 	}
-	.slide--steps .steps {
-		grid-template-columns: repeat(4, minmax(0, 1fr));
+	.kp :global(li) {
+		margin-bottom: 7px;
 	}
-	.slide--points .lead {
-		max-width: none;
-		color: #111;
-		font-weight: 500;
+	.kp :global(.box) {
+		border: 2px solid #135ee4;
+		border-radius: 12px;
+		padding: 16px 18px;
+		margin-top: 10px;
+		margin-bottom: 12px;
 	}
-
-	.nav {
-		position: fixed;
-		right: clamp(16px, 4vw, 56px);
-		bottom: 24px;
-		z-index: 5;
-		display: grid;
-		gap: 8px;
+	.kp :global(.box b) {
+		color: #12298a;
+		font-size: 18px;
 	}
-	.nav button {
-		width: 46px;
-		height: 46px;
-		border-radius: 50%;
-		border: 1px solid rgba(0, 0, 0, 0.14);
-		background: #fff;
-		color: #111;
-		font-size: 17px;
-		cursor: pointer;
+	.kp :global(.foot) {
+		margin-top: 30px;
+		padding-top: 14px;
+		border-top: 1px solid #d9e0ee;
+		font-size: 14.5px;
+		color: #3c4560;
 	}
-	.nav button:disabled {
-		opacity: 0.35;
-		cursor: default;
-	}
-
-	@media (max-width: 900px) {
-		.steps,
-		.slide--steps .steps,
-		.stats {
+	@media (max-width: 640px) {
+		.kp {
+			font-size: 16px;
+		}
+		.kp :global(.facts) {
 			grid-template-columns: 1fr;
 		}
-		th,
-		td {
-			padding-left: 8px;
-			padding-right: 8px;
+		.kp :global(table) {
+			font-size: 14.5px;
 		}
-		.steps li {
-			grid-template-columns: 36px 1fr;
-			column-gap: 14px;
-			padding: 16px;
-		}
-		.steps i {
-			grid-row: 1 / 3;
-		}
-		.price {
-			grid-template-columns: 1fr;
-		}
-		.bar__client {
-			display: none;
-		}
-		.points li {
-			grid-template-columns: 34px 1fr;
-		}
-		.slide {
-			padding: 76px 20px 88px;
+		.kp :global(th),
+		.kp :global(td) {
+			padding: 8px;
 		}
 	}
-
-	/* печать в PDF: каждый слайд на своей странице */
 	@media print {
-		.bar,
-		.nav {
-			display: none;
-		}
-		.stage {
-			height: auto;
-			overflow: visible;
-		}
-		.slide {
-			min-height: 100vh;
-			break-after: page;
-			-webkit-print-color-adjust: exact;
-			print-color-adjust: exact;
+		.kp {
+			padding: 0;
 		}
 	}
 </style>
