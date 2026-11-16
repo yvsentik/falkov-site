@@ -163,7 +163,18 @@
 		margin-bottom: 10px;
 	}
 	.kp :global(.lead) {
-		font-size: 19px;
+		margin-top: 18px;
+		margin-bottom: 6px;
+	}
+	.kp :global(.lead p) {
+		font-size: clamp(18px, 2.2vw, 21px);
+		line-height: 1.4;
+		margin-bottom: 10px;
+		padding-left: 16px;
+		border-left: 4px solid #135ee4;
+	}
+	.kp :global(.lead b) {
+		color: #12298a;
 	}
 	.kp :global(.facts) {
 		display: grid;
